@@ -1,13 +1,11 @@
+use crate::statement::{FixedCosts, FixedStatement, Statement};
 use std::result;
 
 pub type Result<T> = result::Result<T, Error>;
 
 #[derive(Debug)]
-pub enum Error {}
-
-#[derive(Default, Debug)]
-pub struct Statement<'a> {
-    tag: &'a str,
+pub enum Error {
+    NoSuchType,
 }
 
 pub struct Deserializer<'a> {
@@ -21,15 +19,25 @@ impl<'a> Deserializer<'a> {
 
     // TODO: refactor this ugly bodged mess, use Serde for this ASAP
     pub fn deserialize(&self) -> Result<Statement> {
-        let mut statement: Statement = Default::default();
+        let mut cols = self.input.split('|').map(|s| s.trim());
 
-        for (i, col) in self.input.split('|').map(|s| s.trim()).enumerate() {
-            match i {
-                1 => statement.tag = col,
-                _ => (),
-            }
+        match cols.next().unwrap().chars().nth(0).unwrap_or('#') {
+            'f' => Ok(Statement::Fixed(FixedStatement {
+                tag: cols.next().unwrap_or_default(),
+                description: cols.next().unwrap_or_default(),
+                costs: {
+                    let mut costs = Vec::new();
+                    let mut cols = cols.map(|c| c.parse().unwrap());
+
+                    for _ in 1..=12 {
+                        costs.push(cols.next());
+                    }
+
+                    FixedCosts::new(costs)
+                },
+            })),
+            '#' => Ok(Statement::None),
+            _ => Err(Error::NoSuchType),
         }
-
-        Ok(statement)
     }
 }
