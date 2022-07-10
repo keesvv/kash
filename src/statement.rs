@@ -22,3 +22,20 @@ impl FixedCosts {
         Self { costs }
     }
 }
+
+impl Debug for FixedCosts {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let mut dbg = f.debug_struct("FixedCosts");
+
+        for (i, month) in [
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+        ]
+        .iter()
+        .enumerate()
+        {
+            dbg.field(month, &self.costs.iter().nth(i).unwrap());
+        }
+
+        dbg.finish()
+    }
+}
