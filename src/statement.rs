@@ -21,6 +21,11 @@ impl FixedCosts {
     pub fn new(costs: Vec<Option<i32>>) -> Self {
         Self { costs }
     }
+
+    pub fn month_avg(&self) -> f32 {
+        let h: f32 = self.costs.iter().flatten().map(|c| *c as f32).sum();
+        h / 12.0
+    }
 }
 
 impl Debug for FixedCosts {
@@ -36,6 +41,7 @@ impl Debug for FixedCosts {
             dbg.field(month, &self.costs.iter().nth(i).unwrap());
         }
 
+        dbg.field("MonthlyAverage", &self.month_avg());
         dbg.finish()
     }
 }
