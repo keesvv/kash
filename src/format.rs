@@ -26,14 +26,8 @@ impl<'a> Deserializer<'a> {
                 tag: cols.next().unwrap_or_default(),
                 description: cols.next().unwrap_or_default(),
                 costs: {
-                    let mut costs = Vec::new();
                     let mut cols = cols.map(|c| c.parse().unwrap());
-
-                    for _ in 1..=12 {
-                        costs.push(cols.next());
-                    }
-
-                    FixedCosts::new(costs)
+                    FixedCosts::new((1..=12).map(|_| cols.next()).collect())
                 },
             })),
             '#' => Ok(Statement::None),
