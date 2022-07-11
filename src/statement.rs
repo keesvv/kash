@@ -14,17 +14,16 @@ pub struct FixedStatement<'a> {
 }
 
 pub struct FixedCosts {
-    costs: Vec<Option<i32>>,
+    costs: Vec<Option<f32>>,
 }
 
 impl FixedCosts {
-    pub fn new(costs: Vec<Option<i32>>) -> Self {
+    pub fn new(costs: Vec<Option<f32>>) -> Self {
         Self { costs }
     }
 
     pub fn month_avg(&self) -> f32 {
-        let h: f32 = self.costs.iter().flatten().map(|c| *c as f32).sum();
-        h / 12.0
+        self.costs.iter().flatten().sum::<f32>() / 12.0
     }
 }
 
