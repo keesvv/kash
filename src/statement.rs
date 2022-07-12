@@ -1,18 +1,19 @@
 use std::fmt::Debug;
 
-#[derive(Debug)]
-pub enum Statement<'a> {
+#[derive(Clone, Debug)]
+pub enum Statement {
     None,
-    Fixed(FixedStatement<'a>),
+    Fixed(FixedStatement),
 }
 
-#[derive(Debug)]
-pub struct FixedStatement<'a> {
-    pub tag: &'a str,
-    pub description: &'a str,
+#[derive(Clone, Debug)]
+pub struct FixedStatement {
+    pub tag: String,
+    pub description: String,
     pub costs: FixedCosts,
 }
 
+#[derive(Clone)]
 pub struct FixedCosts {
     costs: Vec<Option<f32>>,
 }

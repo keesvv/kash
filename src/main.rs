@@ -2,22 +2,30 @@ mod cli;
 
 use kash::{
     format::{self, Result},
-    statement::Statement,
+    statement::{FixedStatement, Statement},
 };
 use std::io;
 
 fn main() -> Result<()> {
-    for ln in io::stdin().lines() {
-        let ln = ln.unwrap();
-        let des = format::Deserializer::from_str(ln.as_str());
-        let statement = des.deserialize().unwrap();
+    let statements = io::stdin()
+        .lines()
+        .map(|ln| {
+            format::Deserializer::from_str(ln.unwrap().as_str())
+                .deserialize()
+                .unwrap()
+        })
+        .collect::<Vec<Statement>>();
 
-        if let Some(table) = match &statement {
-            Statement::Fixed(s) => Some(cli::format_fixed(&s)),
+    // TODO: refactor
+    let fixed = statements
+        .iter()
+        .flat_map(|statement| match statement {
+            Statement::Fixed(s) => Some(s.to_owned()),
             _ => None,
-        } {
-            print!("{}", table);
-        }
-    }
+        })
+        .collect::<Vec<FixedStatement>>();
+
+    print!("{}", cli::format_fixed(fixed));
+
     Ok(())
 }
