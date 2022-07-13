@@ -6,6 +6,18 @@ pub fn format_heading(heading: &str) -> String {
     String::from(heading).bold().to_string()
 }
 
+pub fn format_totals_row(table: &Table, values: Vec<f32>) -> Row {
+    let mut cells: Vec<String> = vec!["total".to_string()];
+
+    for _ in 2..table.column_count() {
+        cells.push("".to_string());
+    }
+
+    cells.push(values.iter().sum::<f32>().to_string());
+
+    Row::from_cells(cells)
+}
+
 pub fn format_fixed(statements: Vec<FixedStatement>) -> Table {
     let mut table = Table::new("{:<} {:<} {:>}")
         .with_heading(format_heading("Fixed costs"))
