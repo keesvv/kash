@@ -4,11 +4,18 @@ use std::fmt::Debug;
 pub enum Statement {
     None,
     Fixed(FixedStatement),
+    Income(IncomeStatement),
 }
 
 #[derive(Clone, Debug)]
 pub struct FixedStatement {
     pub tag: String,
+    pub description: String,
+    pub costs: FixedCosts,
+}
+
+#[derive(Clone, Debug)]
+pub struct IncomeStatement {
     pub description: String,
     pub costs: FixedCosts,
 }

@@ -1,5 +1,5 @@
 use colored::*;
-use kash::statement::FixedStatement;
+use kash::statement::{FixedStatement, IncomeStatement};
 use tabular::{Row, Table};
 
 pub fn format_heading(heading: &str) -> String {
@@ -31,16 +31,31 @@ pub fn format_fixed(statements: Vec<FixedStatement>) -> Table {
         ]));
     }
 
-    table.add_row(Row::from_cells([
-        "total",
-        "",
-        &statements
-            .iter()
-            .map(|s| s.costs.month_avg())
-            .sum::<f32>()
-            .to_string()
-            .as_str(),
-    ]));
+    table.add_row(format_totals_row(
+        &table,
+        statements.iter().map(|s| s.costs.month_avg()).collect(),
+    ));
+
+    table
+}
+
+pub fn format_income(statements: Vec<IncomeStatement>) -> Table {
+    let mut table = Table::new("{:<} {:>} {:>}")
+        .with_heading(format_heading("Income"))
+        .with_row(Row::from_cells(["description", "avg/mo", "year"]));
+
+    for statement in &statements {
+        table.add_row(Row::from_cells([
+            statement.description.clone(),
+            statement.costs.month_avg().to_string(),
+            statement.costs.year().to_string(),
+        ]));
+    }
+
+    table.add_row(format_totals_row(
+        &table,
+        statements.iter().map(|s| s.costs.year()).collect(),
+    ));
 
     table
 }

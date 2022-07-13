@@ -1,4 +1,4 @@
-use crate::statement::{FixedCosts, FixedStatement, Statement};
+use crate::statement::{FixedCosts, FixedStatement, IncomeStatement, Statement};
 use std::result;
 
 pub type Result<T> = result::Result<T, Error>;
@@ -24,6 +24,13 @@ impl<'a> Deserializer<'a> {
         match cols.next().unwrap().chars().nth(0).unwrap_or('#') {
             'f' => Ok(Statement::Fixed(FixedStatement {
                 tag: cols.next().unwrap_or_default().to_string(),
+                description: cols.next().unwrap_or_default().to_string(),
+                costs: {
+                    let mut cols = cols.map(|c| c.parse().unwrap());
+                    FixedCosts::new((1..=12).map(|_| cols.next()).collect())
+                },
+            })),
+            'i' => Ok(Statement::Income(IncomeStatement {
                 description: cols.next().unwrap_or_default().to_string(),
                 costs: {
                     let mut cols = cols.map(|c| c.parse().unwrap());

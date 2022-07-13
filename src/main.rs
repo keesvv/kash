@@ -2,7 +2,7 @@ mod cli;
 
 use kash::{
     format::{self, Result},
-    statement::{FixedStatement, Statement},
+    statement::{FixedStatement, IncomeStatement, Statement},
 };
 use std::io;
 
@@ -25,7 +25,19 @@ fn main() -> Result<()> {
         })
         .collect::<Vec<FixedStatement>>();
 
-    print!("{}", cli::format_fixed(fixed));
+    let income = statements
+        .iter()
+        .flat_map(|statement| match statement {
+            Statement::Income(s) => Some(s.to_owned()),
+            _ => None,
+        })
+        .collect::<Vec<IncomeStatement>>();
+
+    print!(
+        "{}\n{}",
+        cli::format_fixed(fixed),
+        cli::format_income(income)
+    );
 
     Ok(())
 }
