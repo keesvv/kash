@@ -23,8 +23,12 @@ impl FixedCosts {
         Self { costs }
     }
 
+    pub fn year(&self) -> f32 {
+        self.costs.iter().flatten().sum::<f32>()
+    }
+
     pub fn month_avg(&self) -> f32 {
-        self.costs.iter().flatten().sum::<f32>() / 12.0
+        self.year() / 12.0
     }
 }
 
