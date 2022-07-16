@@ -2,6 +2,7 @@ use colored::*;
 use std::fmt::{self, Display};
 use tabular::{Row, Table};
 
+#[derive(Clone)]
 pub struct ValueTable {
     table: Table,
 }
@@ -37,6 +38,23 @@ impl ValueTable {
 
         self.table.add_row(table_row);
     }
+
+    pub fn with_total(&self, offset: usize, values: &[&[f32]]) -> Self {
+        let mut cells: Vec<Cell> = vec![Cell::Text("total".into())];
+        let mut table = self.clone();
+
+        for _ in 1..offset {
+            cells.push(Cell::Text("".into()));
+        }
+
+        for v in values {
+            cells.push(Cell::Value(v.iter().sum()));
+        }
+
+        table.add_row(&cells);
+
+        table
+    }
 }
 
 impl Display for ValueTable {
@@ -45,10 +63,10 @@ impl Display for ValueTable {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Col(pub String, pub Cell);
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Cell {
     Text(String),
     Value(f32),
