@@ -10,7 +10,7 @@ fn main() -> Result<()> {
     let statements = io::stdin()
         .lines()
         .map(|ln| {
-            format::Deserializer::from_str(ln.unwrap().as_str())
+            format::Deserializer::from_str(&ln.unwrap())
                 .deserialize()
                 .unwrap()
         })
@@ -35,8 +35,8 @@ fn main() -> Result<()> {
 
     print!(
         "{}\n{}",
-        cli::format_fixed(fixed),
-        cli::format_income(income)
+        cli::format_fixed(&fixed),
+        cli::format_income(&income)
     );
 
     Ok(())
