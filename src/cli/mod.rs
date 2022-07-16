@@ -11,6 +11,7 @@ pub fn format_fixed(statements: &[FixedStatement]) -> ValueTable {
             Col("tag".into(), Cell::Text(Default::default())),
             Col("description".into(), Cell::Text(Default::default())),
             Col("avg/mo".into(), Cell::Value(Default::default())),
+            Col("year".into(), Cell::Value(Default::default())),
         ],
     );
 
@@ -19,10 +20,23 @@ pub fn format_fixed(statements: &[FixedStatement]) -> ValueTable {
             Cell::Text(statement.tag.to_owned()),
             Cell::Text(statement.description.to_owned()),
             Cell::Value(statement.costs.month_avg() * -1.0),
+            Cell::Value(statement.costs.year() * -1.0),
         ]);
     }
 
-    table
+    table.with_total(
+        2,
+        &[
+            &statements
+                .iter()
+                .map(|statement| statement.costs.month_avg() * -1.0)
+                .collect::<Vec<f32>>(),
+            &statements
+                .iter()
+                .map(|statement| statement.costs.year() * -1.0)
+                .collect::<Vec<f32>>(),
+        ],
+    )
 }
 
 pub fn format_income(statements: &[IncomeStatement]) -> ValueTable {
@@ -43,5 +57,17 @@ pub fn format_income(statements: &[IncomeStatement]) -> ValueTable {
         ]);
     }
 
-    table
+    table.with_total(
+        1,
+        &[
+            &statements
+                .iter()
+                .map(|statement| statement.costs.month_avg())
+                .collect::<Vec<f32>>(),
+            &statements
+                .iter()
+                .map(|statement| statement.costs.year())
+                .collect::<Vec<f32>>(),
+        ],
+    )
 }
