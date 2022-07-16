@@ -18,7 +18,7 @@ pub fn format_fixed(statements: &[FixedStatement]) -> ValueTable {
         table.add_row(&[
             Cell::Text(statement.tag.to_owned()),
             Cell::Text(statement.description.to_owned()),
-            Cell::Value(statement.costs.month_avg()),
+            Cell::Value(statement.costs.month_avg() * -1.0),
         ]);
     }
 

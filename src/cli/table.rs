@@ -55,18 +55,31 @@ pub enum Cell {
 }
 
 impl Cell {
+    fn format_mutation(value: f32) -> String {
+        if value >= 0.0 { "+" } else { "-" }.to_owned()
+            + &format_args!("{:.2}", value.abs()).to_string()
+    }
+
     pub fn content(&self) -> String {
         match self {
             Cell::Text(t) => t.to_owned(),
-            Cell::Value(v) => fmt::format(format_args!("{:.2}", v)),
+            Cell::Value(v) => Self::format_mutation(*v),
         }
     }
 }
 
 impl Display for Cell {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        // TODO: add color to cells
-        f.write_str(&self.content())
+        f.write_str(&match self {
+            &Cell::Value(v) => {
+                if v < 0.0 {
+                    self.content().bright_red().to_string()
+                } else {
+                    self.content().bright_green().to_string()
+                }
+            }
+            _ => self.content(),
+        })
     }
 }
 
