@@ -1,8 +1,8 @@
+pub mod format;
 pub mod table;
 
 use kash::statement::{FixedStatement, IncomeStatement};
-use table::ValueTable;
-use table::{Cell, Col};
+use table::{Cell, Col, ValueTable};
 
 pub fn format_fixed(statements: &[FixedStatement]) -> ValueTable {
     let mut table = ValueTable::new(

@@ -1,13 +1,6 @@
 use std::fmt::Debug;
 
 #[derive(Clone, Debug)]
-pub enum Statement {
-    None,
-    Fixed(FixedStatement),
-    Income(IncomeStatement),
-}
-
-#[derive(Clone, Debug)]
 pub struct FixedStatement {
     pub tag: String,
     pub description: String,

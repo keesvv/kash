@@ -1,9 +1,7 @@
 mod cli;
 
-use kash::{
-    format::{self, Result},
-    statement::{FixedStatement, IncomeStatement, Statement},
-};
+use cli::format::{self, Result, Statement};
+use kash::statement::{FixedStatement, IncomeStatement};
 use std::io;
 
 fn main() -> Result<()> {

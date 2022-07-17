@@ -1,7 +1,14 @@
-use crate::statement::{FixedStatement, IncomeStatement, MonthValues, Statement};
+use kash::statement::{FixedStatement, IncomeStatement, MonthValues};
 use std::result;
 
 pub type Result<T> = result::Result<T, Error>;
+
+#[derive(Clone, Debug)]
+pub enum Statement {
+    None,
+    Fixed(FixedStatement),
+    Income(IncomeStatement),
+}
 
 #[derive(Debug)]
 pub enum Error {
