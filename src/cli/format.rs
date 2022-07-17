@@ -32,17 +32,11 @@ impl<'a> Deserializer<'a> {
             'f' => Ok(Statement::Fixed(FixedStatement {
                 tag: cols.next().unwrap_or_default().to_string(),
                 description: cols.next().unwrap_or_default().to_string(),
-                expenses: {
-                    let mut cols = cols.map(|c| c.parse().unwrap());
-                    MonthValues::new((1..=12).map(|_| cols.next()).collect())
-                },
+                expenses: MonthValues::from_iter(cols.map(|c| c.parse().unwrap())),
             })),
             'i' => Ok(Statement::Income(IncomeStatement {
                 description: cols.next().unwrap_or_default().to_string(),
-                income: {
-                    let mut cols = cols.map(|c| c.parse().unwrap());
-                    MonthValues::new((1..=12).map(|_| cols.next()).collect())
-                },
+                income: MonthValues::from_iter(cols.map(|c| c.parse().unwrap())),
             })),
             '#' => Ok(Statement::None),
             _ => Err(Error::NoSuchType),

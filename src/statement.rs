@@ -1,4 +1,5 @@
 use std::fmt::Debug;
+use std::iter;
 
 #[derive(Clone, Debug)]
 pub struct FixedStatement {
@@ -15,16 +16,29 @@ pub struct IncomeStatement {
 
 #[derive(Clone)]
 pub struct MonthValues {
-    values: Vec<Option<f32>>,
+    values: [f32; 12],
 }
 
 impl MonthValues {
-    pub fn new(values: Vec<Option<f32>>) -> Self {
+    pub fn new(values: [f32; 12]) -> Self {
         Self { values }
     }
 
+    pub fn from_iter<I>(iter: I) -> Self
+    where
+        I: Iterator<Item = f32>,
+    {
+        Self::new(
+            iter.chain(iter::repeat(0.0))
+                .take(12)
+                .collect::<Vec<f32>>()
+                .try_into()
+                .unwrap(),
+        )
+    }
+
     pub fn year(&self) -> f32 {
-        self.values.iter().flatten().sum()
+        self.values.iter().sum()
     }
 
     pub fn month_avg(&self) -> f32 {
@@ -42,10 +56,11 @@ impl Debug for MonthValues {
         .iter()
         .enumerate()
         {
-            dbg.field(month, &self.values.iter().nth(i).unwrap());
+            dbg.field(month, &self.values[i]);
         }
 
         dbg.field("MonthlyAverage", &self.month_avg());
+        dbg.field("Year", &self.year());
         dbg.finish()
     }
 }
