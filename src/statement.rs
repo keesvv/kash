@@ -11,27 +11,27 @@ pub enum Statement {
 pub struct FixedStatement {
     pub tag: String,
     pub description: String,
-    pub costs: FixedCosts,
+    pub expenses: MonthValues,
 }
 
 #[derive(Clone, Debug)]
 pub struct IncomeStatement {
     pub description: String,
-    pub costs: FixedCosts,
+    pub income: MonthValues,
 }
 
 #[derive(Clone)]
-pub struct FixedCosts {
-    costs: Vec<Option<f32>>,
+pub struct MonthValues {
+    values: Vec<Option<f32>>,
 }
 
-impl FixedCosts {
-    pub fn new(costs: Vec<Option<f32>>) -> Self {
-        Self { costs }
+impl MonthValues {
+    pub fn new(values: Vec<Option<f32>>) -> Self {
+        Self { values }
     }
 
     pub fn year(&self) -> f32 {
-        self.costs.iter().flatten().sum::<f32>()
+        self.values.iter().flatten().sum()
     }
 
     pub fn month_avg(&self) -> f32 {
@@ -39,9 +39,9 @@ impl FixedCosts {
     }
 }
 
-impl Debug for FixedCosts {
+impl Debug for MonthValues {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let mut dbg = f.debug_struct("FixedCosts");
+        let mut dbg = f.debug_struct("MonthValues");
 
         for (i, month) in [
             "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
@@ -49,7 +49,7 @@ impl Debug for FixedCosts {
         .iter()
         .enumerate()
         {
-            dbg.field(month, &self.costs.iter().nth(i).unwrap());
+            dbg.field(month, &self.values.iter().nth(i).unwrap());
         }
 
         dbg.field("MonthlyAverage", &self.month_avg());
