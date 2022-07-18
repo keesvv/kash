@@ -1,22 +1,23 @@
+use serde::Serialize;
 use std::fmt::Debug;
 use std::iter;
 
-#[derive(Clone, Debug)]
+#[derive(Serialize, Clone, Debug)]
 pub struct FixedStatement {
     pub tag: String,
     pub description: String,
     pub expenses: MonthValues,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Serialize, Clone, Debug)]
 pub struct IncomeStatement {
     pub description: String,
     pub income: MonthValues,
 }
 
-#[derive(Clone)]
+#[derive(Serialize, Clone)]
 pub struct MonthValues {
-    values: [f32; 12],
+    pub values: [f32; 12],
 }
 
 impl MonthValues {

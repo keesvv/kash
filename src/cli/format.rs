@@ -1,9 +1,11 @@
 use kash::statement::{FixedStatement, IncomeStatement, MonthValues};
+use serde::Serialize;
 use std::result;
 
 pub type Result<T> = result::Result<T, Error>;
 
-#[derive(Clone, Debug)]
+#[derive(Serialize, Clone, Debug)]
+#[serde(rename_all = "camelCase", tag = "type")]
 pub enum Statement {
     None,
     Fixed(FixedStatement),
