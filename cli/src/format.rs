@@ -1,4 +1,5 @@
-use kash::statement::{FixedStatement, IncomeStatement, MonthValues};
+use kash::statement::{FixedStatement, IncomeStatement};
+use kash::value::MonthValues;
 use serde::Serialize;
 use std::result;
 
