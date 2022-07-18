@@ -1,6 +1,5 @@
+use crate::format::Statement;
 use std::fmt::{self, Display};
-
-use crate::cli::format::Statement;
 
 pub struct StatementsJson {
     statements: Vec<Statement>,

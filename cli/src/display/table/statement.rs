@@ -1,8 +1,7 @@
-use std::fmt::{self, Display};
-
 use super::value::{Cell, Col, ValueTable};
-use crate::cli::format::Statement;
+use crate::format::Statement;
 use kash::statement::{FixedStatement, IncomeStatement};
+use std::fmt::{self, Display};
 
 pub struct StatementsTable {
     statements: Vec<Statement>,

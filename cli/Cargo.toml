@@ -1,0 +1,15 @@
+[package]
+name = "kash_cli"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "kash"
+path = "src/main.rs"
+
+[dependencies]
+serde = { version = "1.0.139", features = ["derive"] }
+serde_json = "1.0.82"
+tabular = "0.2.0"
+colored = "2"
+kash = { path = "../lib" }

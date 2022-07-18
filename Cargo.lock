@@ -43,7 +43,15 @@ checksum = "112c678d4050afce233f4f2852bb2eb519230b3cf12f33585275537d7e41578d"
 name = "kash"
 version = "0.1.0"
 dependencies = [
+ "serde",
+]
+
+[[package]]
+name = "kash_cli"
+version = "0.1.0"
+dependencies = [
  "colored",
+ "kash",
  "serde",
  "serde_json",
  "tabular",
