@@ -108,7 +108,7 @@ impl Display for StatementsTable {
 
         write!(
             f,
-            "{}\n{}",
+            "{}\n\n{}",
             self.format_fixed(&fixed),
             self.format_income(&income)
         )

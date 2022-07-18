@@ -59,7 +59,7 @@ impl ValueTable {
 
 impl Display for ValueTable {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        self.table.fmt(f)
+        write!(f, "{}", self.table.to_string().trim_end())
     }
 }
 
