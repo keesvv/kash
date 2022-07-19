@@ -1,5 +1,5 @@
 use super::value::{Cell, Col, ValueTable};
-use crate::format::Statement;
+use crate::input::ktf::Statement;
 use kash::statement::{FixedStatement, IncomeStatement};
 use std::fmt::{self, Display};
 

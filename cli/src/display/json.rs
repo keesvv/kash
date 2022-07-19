@@ -1,4 +1,4 @@
-use crate::format::Statement;
+use crate::input::ktf::Statement;
 use std::fmt::{self, Display};
 
 pub struct StatementsJson {

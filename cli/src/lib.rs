@@ -1,2 +1,2 @@
 pub mod display;
-pub mod format;
+pub mod input;
