@@ -1,13 +1,11 @@
 use kash_cli::display::{StatementsJson, StatementsTable};
-use kash_cli::input::ktf::{Deserializer, Statement};
+use kash_cli::input::{csv::CsvInput, Input};
 use std::env;
 use std::io;
 
 fn main() {
-    let statements = io::stdin()
-        .lines()
-        .map(|ln| Deserializer::from_str(&ln.unwrap()).deserialize().unwrap());
-    let collect_st = || statements.collect::<Vec<Statement>>();
+    let input = CsvInput::new();
+    let collect_st = || input.from_read(io::stdin()).unwrap();
 
     // TODO: use clap
     match env::args().nth(1) {
