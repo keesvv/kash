@@ -1,5 +1,6 @@
+use kash::statement::Statement;
 use kash_cli::display::{StatementsJson, StatementsTable};
-use kash_cli::input::ktf::{Deserializer, Statement};
+use kash_cli::input::ktf::Deserializer;
 use std::env;
 use std::io;
 

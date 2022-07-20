@@ -1,8 +1,9 @@
+- [x] statement: move to lib
+- [ ] ktf: preprocess newlines and comments
+- [ ] ktf: simplify MonthValues parsing
 - [ ] cli: Output and Input traits
-- [ ] cli: CSV input
 - [ ] cli: move common input and output formats to lib
 - [ ] statement: remove None variant
-- [ ] statement: move to lib
 - [ ] cli: use clap.rs for argp
 
 - [ ] statement: Budget variant
@@ -14,7 +15,6 @@
 - [ ] convert: CAMT.053 parser lib
 - [ ] convert: input stitching
 
-- [ ] ktf: preprocess newlines and comments
 - [ ] ktf: use serde.rs
 - [ ] http: use warp.rs
 - [ ] http: SVG chart generation

@@ -1,6 +1,5 @@
 use super::value::{Cell, Col, ValueTable};
-use crate::input::ktf::Statement;
-use kash::statement::{FixedStatement, IncomeStatement};
+use kash::statement::{FixedStatement, IncomeStatement, Statement};
 use std::fmt::{self, Display};
 
 pub struct StatementsTable {

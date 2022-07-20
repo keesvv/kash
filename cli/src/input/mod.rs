@@ -1,6 +1,6 @@
 pub mod ktf;
 
-use self::ktf::Statement;
+use kash::statement::Statement;
 use std::io::Read;
 
 #[derive(Debug)]
