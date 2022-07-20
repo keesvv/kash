@@ -38,15 +38,20 @@ impl<'a> Deserializer<'a> {
             'f' => Ok(Statement::Fixed(FixedStatement {
                 tag: cols.next().unwrap_or_default().to_string(),
                 description: cols.next().unwrap_or_default().to_string(),
-                expenses: MonthValues::from_iter(cols.map(|c| c.parse().unwrap())),
+                expenses: self.deserialize_mv(cols.next().unwrap_or_default()),
             })),
             'i' => Ok(Statement::Income(IncomeStatement {
                 description: cols.next().unwrap_or_default().to_string(),
-                income: MonthValues::from_iter(cols.map(|c| c.parse().unwrap())),
+                income: self.deserialize_mv(cols.next().unwrap_or_default()),
             })),
             '#' => Ok(Statement::None),
             _ => Err(ParseError::NoSuchType),
         }
+    }
+
+    // TODO: return Result
+    fn deserialize_mv(&self, col: &str) -> MonthValues {
+        MonthValues::from_iter(col.split_whitespace().map(|c| c.parse().unwrap()))
     }
 }
 
