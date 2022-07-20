@@ -4,7 +4,7 @@ use std::env;
 use std::io;
 
 fn main() {
-    let input = CsvInput::new();
+    let input = CsvInput::new(b',');
     let collect_st = || input.from_read(io::stdin()).unwrap();
 
     // TODO: use clap

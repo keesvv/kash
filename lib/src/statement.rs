@@ -1,14 +1,14 @@
 use super::value::MonthValues;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Clone, Debug)]
+#[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct FixedStatement {
     pub tag: String,
     pub description: String,
     pub expenses: MonthValues,
 }
 
-#[derive(Serialize, Clone, Debug)]
+#[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct IncomeStatement {
     pub description: String,
     pub income: MonthValues,

@@ -1,8 +1,8 @@
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use std::fmt::Debug;
 use std::iter;
 
-#[derive(Serialize, Clone)]
+#[derive(Deserialize, Serialize, Clone)]
 pub struct MonthValues {
     pub values: [f32; 12],
 }
