@@ -1,4 +1,5 @@
 - [x] statement: move to lib
+- [x] ktf: implement Input
 - [ ] ktf: preprocess newlines and comments
 - [ ] ktf: simplify MonthValues parsing
 - [ ] cli: Output and Input traits

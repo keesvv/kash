@@ -1,12 +1,24 @@
+use super::{Input, InputError};
 use kash::statement::{FixedStatement, IncomeStatement, Statement};
 use kash::value::MonthValues;
-use std::result;
-
-pub type Result<T> = result::Result<T, Error>;
+use std::fmt::{self, Display};
+use std::io::{BufRead, BufReader};
 
 #[derive(Debug)]
-pub enum Error {
+pub enum ParseError {
     NoSuchType,
+}
+
+impl Display for ParseError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                Self::NoSuchType => "no such type",
+            }
+        )
+    }
 }
 
 pub struct Deserializer<'a> {
@@ -19,7 +31,7 @@ impl<'a> Deserializer<'a> {
     }
 
     // TODO: refactor this ugly bodged mess, use Serde for this ASAP
-    pub fn deserialize(&self) -> Result<Statement> {
+    pub fn deserialize(&self) -> Result<Statement, ParseError> {
         let mut cols = self.input.split('|').map(|s| s.trim());
 
         match cols.next().unwrap().chars().nth(0).unwrap_or('#') {
@@ -33,7 +45,33 @@ impl<'a> Deserializer<'a> {
                 income: MonthValues::from_iter(cols.map(|c| c.parse().unwrap())),
             })),
             '#' => Ok(Statement::None),
-            _ => Err(Error::NoSuchType),
+            _ => Err(ParseError::NoSuchType),
         }
+    }
+}
+
+pub struct KtfInput;
+
+impl Input for KtfInput {
+    fn from_read<R>(&self, reader: R) -> Result<Vec<Statement>, InputError>
+    where
+        R: std::io::Read,
+    {
+        let mut statements = Vec::new();
+        let buf = BufReader::new(reader);
+
+        for ln in buf.lines() {
+            if let Err(_) = ln {
+                return Err(InputError::Read);
+            }
+
+            let statement = Deserializer::from_str(&ln.unwrap()).deserialize();
+            match statement {
+                Ok(s) => statements.push(s),
+                Err(e) => return Err(InputError::Invalid(e.to_string())),
+            }
+        }
+
+        Ok(statements)
     }
 }

@@ -5,6 +5,7 @@ use std::io::Read;
 
 #[derive(Debug)]
 pub enum InputError {
+    Read,
     Invalid(String),
 }
 
