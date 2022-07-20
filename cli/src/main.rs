@@ -1,10 +1,10 @@
 use kash_cli::display::{StatementsJson, StatementsTable};
-use kash_cli::input::{ktf::KtfInput, Input};
+use kash_convert::input::{ktf::KtfInput, Input};
 use std::env;
 use std::io;
 
 fn main() {
-    let input = KtfInput;
+    let input = KtfInput::new();
     let collect_st = || input.from_read(io::stdin()).unwrap();
 
     // TODO: use clap

@@ -57,6 +57,12 @@ impl<'a> Deserializer<'a> {
 
 pub struct KtfInput;
 
+impl KtfInput {
+    pub fn new() -> Self {
+        Self
+    }
+}
+
 impl Input for KtfInput {
     fn from_read<R>(&self, reader: R) -> Result<Vec<Statement>, InputError>
     where

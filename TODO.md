@@ -1,9 +1,9 @@
 - [x] statement: move to lib
 - [x] ktf: implement Input
 - [x] ktf: simplify MonthValues parsing
-- [ ] convert: lib
-- [ ] convert: Output and Input traits
-- [ ] cli: move common input and output formats to convert
+- [x] convert: lib, move ktf input here
+- [ ] convert: Output trait
+- [ ] cli: move JSON output to convert
 
 - [ ] cli: use clap.rs for argp
 
