@@ -1,8 +1,8 @@
-- [ ] cli: Display and Input traits
-- [ ] cli: CSV input with serde.rs
+- [ ] cli: Output and Input traits
+- [ ] cli: CSV input
+- [ ] cli: move common input and output formats to lib
 - [ ] statement: remove None variant
 - [ ] statement: move to lib
-
 - [ ] cli: use clap.rs for argp
 
 - [ ] statement: Budget variant
