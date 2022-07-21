@@ -32,7 +32,7 @@ fn main() {
 
     println!(
         "{}",
-        match args.output {
+        match args.output_format {
             OutputFormat::Table => TableOutput::new(&input).to_string(),
             OutputFormat::Json => JsonOutput::new(&input).to_string(),
         }

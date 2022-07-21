@@ -14,17 +14,17 @@ pub enum OutputFormat {
 
 /// command-line interface to kash
 #[derive(Parser, Debug)]
-#[clap(name = "kash-cli", author, version, about)]
+#[clap(name = "kash-cli", version, about)]
 pub struct Args {
-    /// Input format
-    #[clap(short = 'f', long, arg_enum, default_value = "ktf")]
+    /// Input format (may be repeated for each input)
+    #[clap(short = 'i', long = "input", arg_enum, default_value = "ktf")]
     pub input_format: Vec<InputFormat>,
 
-    /// Input file
-    #[clap(short, long, default_value = "-")]
+    /// Input file(s)
+    #[clap(default_value = "-")]
     pub input: Vec<String>,
 
     /// Output format
-    #[clap(short, long, arg_enum, default_value = "table")]
-    pub output: OutputFormat,
+    #[clap(short = 'o', long = "output", arg_enum, default_value = "table")]
+    pub output_format: OutputFormat,
 }
