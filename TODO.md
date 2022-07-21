@@ -10,20 +10,21 @@
 - [ ] convert: implement cargo features
 - [ ] cli: implement cargo features
 
-- [ ] statement: Budget variant
+- [ ] convert: better distinguish between input and output structs
+- [ ] lib: remove serde
+
 - [ ] statement: Transaction variant
-
-- [ ] lib: atomic edits for consumption in http, cli, etc
-
 - [ ] convert: CAMT.053 parser lib
-- [ ] convert: input stitching
+- [ ] statement: Budget variant
 
 - [ ] ktf: move to own package & use serde.rs
 - [ ] ktf: ignore newlines and comments
 - [ ] statement: remove None variant
 - [ ] http: use warp.rs
-- [ ] http: SVG chart generation
 - [ ] http: Determine input type based on `Content-Type` header
+
+- [ ] lib: atomic edits for consumption in http, cli, etc
 
 - [ ] lib: predictions
 - [ ] cli: ANSI pie charts
+- [ ] http: SVG chart generation
