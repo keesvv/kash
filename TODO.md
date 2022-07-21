@@ -7,7 +7,7 @@
 
 - [x] cli: use clap.rs for argp
 
-- [ ] convert: implement cargo features
+- [x] convert: implement cargo features
 - [ ] cli: implement cargo features
 
 - [ ] convert: better distinguish between input and output structs

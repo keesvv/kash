@@ -12,9 +12,12 @@ path = "src/main.rs"
 tabular = "0.2.0"
 colored = "2"
 kash = { path = "../lib" }
-kash_convert = { path = "../convert" }
 
 [dependencies.clap]
 version = "3.2.14"
 default-features = false
 features = ["std", "derive"]
+
+[dependencies.kash_convert]
+path = "../convert"
+features = ["input_ktf", "output_json"]

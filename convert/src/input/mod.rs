@@ -1,3 +1,4 @@
+#[cfg(feature = "input_ktf")]
 pub mod ktf;
 
 use kash::statement::Statement;
