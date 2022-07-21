@@ -5,7 +5,7 @@
 - [x] convert: Output trait
 - [x] cli: move JSON output to convert
 
-- [ ] cli: use clap.rs for argp-
+- [x] cli: use clap.rs for argp
 
 - [ ] convert: implement cargo features
 - [ ] cli: implement cargo features
