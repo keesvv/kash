@@ -1,12 +1,13 @@
 use super::value::{Cell, Col, ValueTable};
 use kash::statement::{FixedStatement, IncomeStatement, Statement};
-use std::fmt::{self, Display};
+use kash_convert::output::Output;
+use std::io;
 
-pub struct StatementsTable {
+pub struct TableOutput {
     statements: Vec<Statement>,
 }
 
-impl StatementsTable {
+impl TableOutput {
     pub fn new(statements: &[Statement]) -> Self {
         Self {
             statements: statements.to_owned(),
@@ -82,8 +83,11 @@ impl StatementsTable {
     }
 }
 
-impl Display for StatementsTable {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+impl Output for TableOutput {
+    fn to_write<W>(&self, writer: &mut W) -> io::Result<()>
+    where
+        W: io::Write,
+    {
         // TODO: refactor
         let fixed = self
             .statements
@@ -105,7 +109,7 @@ impl Display for StatementsTable {
             .collect::<Vec<IncomeStatement>>();
 
         write!(
-            f,
+            writer,
             "{}\n\n{}",
             self.format_fixed(&fixed),
             self.format_income(&income)

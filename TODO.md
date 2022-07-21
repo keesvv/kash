@@ -3,9 +3,12 @@
 - [x] ktf: simplify MonthValues parsing
 - [x] convert: lib, move ktf input here
 - [x] convert: Output trait
-- [ ] cli: move JSON output to convert
+- [x] cli: move JSON output to convert
 
-- [ ] cli: use clap.rs for argp
+- [ ] cli: use clap.rs for argp-
+
+- [ ] convert: implement cargo features
+- [ ] cli: implement cargo features
 
 - [ ] statement: Budget variant
 - [ ] statement: Transaction variant
@@ -15,9 +18,12 @@
 - [ ] convert: CAMT.053 parser lib
 - [ ] convert: input stitching
 
-- [ ] ktf: use serde.rs
+- [ ] ktf: move to own package & use serde.rs
 - [ ] ktf: ignore newlines and comments
 - [ ] statement: remove None variant
 - [ ] http: use warp.rs
 - [ ] http: SVG chart generation
 - [ ] http: Determine input type based on `Content-Type` header
+
+- [ ] lib: predictions
+- [ ] cli: ANSI pie charts

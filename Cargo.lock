@@ -53,8 +53,6 @@ dependencies = [
  "colored",
  "kash",
  "kash_convert",
- "serde",
- "serde_json",
  "tabular",
 ]
 
@@ -63,6 +61,8 @@ name = "kash_convert"
 version = "0.1.0"
 dependencies = [
  "kash",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
