@@ -11,6 +11,8 @@
 - [ ] ktf: use serde.rs
 - [ ] ktf: ignore newlines and comments
 
+- [ ] docs: add README to each package
+
 - [ ] convert: better distinguish between input and output structs
 - [ ] lib: remove serde
 - [ ] cli: implement cargo features
