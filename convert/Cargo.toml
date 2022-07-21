@@ -8,7 +8,8 @@ license = "MIT OR Apache-2.0"
 serde = { version = "1.0.139", features = ["derive"] }
 serde_json = { version = "1.0.82", optional = true }
 kash = { path = "../lib" }
+ktf = { path = "../ktf", optional = true }
 
 [features]
-input_ktf = []
+input_ktf = ["dep:ktf"]
 output_json = ["dep:serde_json"]

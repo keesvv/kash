@@ -132,12 +132,20 @@ name = "kash_convert"
 version = "0.1.0"
 dependencies = [
  "kash",
+ "ktf",
  "serde",
  "serde_json",
 ]
 
 [[package]]
 name = "kash_http"
+version = "0.1.0"
+dependencies = [
+ "kash",
+]
+
+[[package]]
+name = "ktf"
 version = "0.1.0"
 dependencies = [
  "kash",
