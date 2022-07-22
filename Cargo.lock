@@ -479,6 +479,7 @@ name = "ktf"
 version = "0.1.0"
 dependencies = [
  "kash",
+ "serde",
 ]
 
 [[package]]
