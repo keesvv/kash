@@ -1,7 +1,7 @@
 use super::{Input, InputError};
 use kash::statements::Statement;
-use ktf::Deserializer;
-use std::io::{BufRead, BufReader};
+use serde::Deserialize;
+use std::io::{BufRead, BufReader, Read};
 
 pub struct KtfInput;
 
@@ -11,12 +11,17 @@ impl KtfInput {
     }
 }
 
+#[derive(Debug, Deserialize)]
+pub struct KtfInputData {
+    pub test: f32,
+}
+
 impl Input for KtfInput {
     fn from_read<R>(&self, reader: R) -> Result<Vec<Statement>, InputError>
     where
-        R: std::io::Read,
+        R: Read,
     {
-        let mut statements = Vec::new();
+        let statements = Vec::new();
         let buf = BufReader::new(reader);
 
         for ln in buf.lines() {
@@ -24,11 +29,13 @@ impl Input for KtfInput {
                 return Err(InputError::Read);
             }
 
-            let statement = Deserializer::from_str(&ln.unwrap()).deserialize();
-            match statement {
-                Ok(s) => statements.push(s),
-                Err(e) => return Err(InputError::Invalid(e.to_string())),
-            }
+            let input_data = ktf::serde::from_str::<KtfInputData>(&ln.unwrap()).unwrap();
+            println!("{:#?}", input_data);
+
+            // match statement {
+            //     Ok(s) => statements.push(s),
+            //     Err(e) => return Err(InputError::Invalid(e.to_string())),
+            // }
         }
 
         Ok(statements)

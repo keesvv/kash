@@ -1,3 +1,5 @@
+pub mod serde;
+
 use kash::{
     statements::{fixed::FixedExpense, income::Income, Statement},
     value::MonthValues,
