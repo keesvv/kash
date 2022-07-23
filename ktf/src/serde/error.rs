@@ -9,6 +9,7 @@ pub enum Error {
     Message(String),
     ExpectedFloat,
     ExpectedMap,
+    ExpectedMapValue,
     Syntax,
     Eof,
 }
@@ -23,12 +24,13 @@ impl de::Error for Error {
 
 impl Display for Error {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Error::Message(m) => f.write_str(m),
-            Error::ExpectedFloat => f.write_str("expected float"),
-            Error::ExpectedMap => f.write_str("expected map"),
-            Error::Syntax => f.write_str("syntax error"),
-            Error::Eof => f.write_str("unexpected EOF"),
-        }
+        f.write_str(match self {
+            Error::Message(m) => m,
+            Error::ExpectedFloat => "expected float",
+            Error::ExpectedMap => "expected map",
+            Error::ExpectedMapValue => "expected map value",
+            Error::Syntax => "syntax error",
+            Error::Eof => "unexpected EOF",
+        })
     }
 }
