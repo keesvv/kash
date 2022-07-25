@@ -2,11 +2,15 @@ use super::error::{Error, Result};
 
 pub struct Deserializer<'a> {
     input: &'a str,
+    pub cur_header: Vec<String>,
 }
 
 impl<'a> Deserializer<'a> {
     pub fn from_str(input: &'a str) -> Self {
-        Deserializer { input }
+        Deserializer {
+            input,
+            cur_header: vec![],
+        }
     }
 
     pub fn advance(&mut self, n: usize) {
@@ -30,10 +34,13 @@ impl<'a> Deserializer<'a> {
     }
 
     pub fn parse_header(&mut self) -> Result<Vec<String>> {
-        match self.next_char()? {
+        let header: Vec<String> = match self.next_char()? {
             '>' => Ok(self.next_row()?.cols.iter().map(String::to_owned).collect()),
             _ => Err(Error::ExpectedHeader),
-        }
+        }?;
+
+        self.cur_header = header.clone();
+        Ok(header)
     }
 }
 

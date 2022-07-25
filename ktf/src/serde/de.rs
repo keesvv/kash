@@ -20,8 +20,12 @@ impl<'a, 'de> de::Deserializer<'de> for &'a mut Deserializer<'de> {
         V: Visitor<'de>,
     {
         match self.peek_char()? {
-            '0'..='9' => self.deserialize_f32(visitor),
-            '|' => self.deserialize_map(visitor),
+            '>' => {
+                self.parse_header()?;
+                self.deserialize_map(visitor)
+            }
+            // '0'..='9' => self.deserialize_f32(visitor),
+            // '|' => self.deserialize_map(visitor),
             _ => Err(Error::Syntax),
         }
     }
@@ -30,12 +34,7 @@ impl<'a, 'de> de::Deserializer<'de> for &'a mut Deserializer<'de> {
     where
         V: Visitor<'de>,
     {
-        if self.next_char()? == '|' {
-            let val = visitor.visit_map(StructMap::new(self));
-            Ok(val?)
-        } else {
-            Err(Error::ExpectedMap)
-        }
+        visitor.visit_map(RowMap::new(self))
     }
 
     forward_to_deserialize_any! {
@@ -45,34 +44,38 @@ impl<'a, 'de> de::Deserializer<'de> for &'a mut Deserializer<'de> {
     }
 }
 
-struct StructMap<'a, 'de> {
+struct RowMap<'a, 'de> {
     de: &'a mut Deserializer<'de>,
-    first: bool,
+    col_index: usize,
 }
 
-impl<'a, 'de> StructMap<'a, 'de> {
+impl<'a, 'de> RowMap<'a, 'de> {
     pub fn new(de: &'a mut Deserializer<'de>) -> Self {
-        Self { de, first: true }
+        Self { de, col_index: 0 }
+    }
+
+    pub fn next_col(&mut self) -> Option<String> {
+        self.de
+            .cur_header
+            .iter()
+            .nth(self.col_index)
+            .map(String::to_owned)
     }
 }
 
-impl<'a, 'de> MapAccess<'de> for StructMap<'a, 'de> {
+impl<'a, 'de> MapAccess<'de> for RowMap<'a, 'de> {
     type Error = Error;
 
     fn next_key_seed<K>(&mut self, seed: K) -> Result<Option<K::Value>>
     where
         K: de::DeserializeSeed<'de>,
     {
-        if let Err(Error::Eof) = self.de.peek_char() {
+        if let None = self.next_col() {
             return Ok(None);
         }
 
-        if !self.first && self.de.next_char()? != '|' {
-            return Err(Error::ExpectedMapValue);
-        }
-
-        self.first = false;
-
+        // this currently fails because
+        // there is no string deserializer implemented.
         seed.deserialize(&mut *self.de).map(Some)
     }
 
