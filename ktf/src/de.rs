@@ -23,28 +23,29 @@ impl<'a> Deserializer<'a> {
         Ok(c)
     }
 
+    pub fn next_row(&mut self) -> Result<Row> {
+        let row = self.input.lines().next().ok_or(Error::Eof)?;
+        self.advance(row.len());
+        Ok(Row::new(row))
+    }
+
     pub fn parse_header(&mut self) -> Result<Vec<String>> {
-        let mut header = Vec::new();
-
-        if self.next_char()? != '>' {
-            return Err(Error::ExpectedHeader);
+        match self.next_char()? {
+            '>' => Ok(self.next_row()?.cols.iter().map(String::to_owned).collect()),
+            _ => Err(Error::ExpectedHeader),
         }
-
-        header.push(self.parse_header_col()?);
-
-        Ok(header)
     }
+}
 
-    pub fn parse_header_col(&mut self) -> Result<String> {
-        let col = self.input;
-        self.advance(col.len());
-        Ok(col.to_owned())
-    }
+#[derive(Debug, Clone)]
+pub struct Row {
+    pub cols: Vec<String>,
+}
 
-    pub fn parse_f32(&self) -> Result<f32> {
-        match self.input.parse() {
-            Ok(val) => Ok(val),
-            Err(_) => Err(Error::ExpectedFloat),
+impl Row {
+    pub fn new(row: &str) -> Self {
+        Self {
+            cols: row.split('|').map(str::trim).map(str::to_owned).collect(),
         }
     }
 }
