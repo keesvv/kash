@@ -32,11 +32,6 @@ impl Input for KtfInput {
             let input_data = ktf::from_str::<KtfInputData>(&ln.unwrap())
                 .map_err(|e| InputError::Invalid(e.to_string()))?;
             println!("{:#?}", input_data);
-
-            // match statement {
-            //     Ok(s) => statements.push(s),
-            //     Err(e) => return Err(InputError::Invalid(e.to_string())),
-            // }
         }
 
         Ok(statements)
