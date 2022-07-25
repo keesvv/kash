@@ -29,7 +29,8 @@ impl Input for KtfInput {
                 return Err(InputError::Read);
             }
 
-            let input_data = ktf::serde::from_str::<KtfInputData>(&ln.unwrap()).unwrap();
+            let input_data = ktf::from_str::<KtfInputData>(&ln.unwrap())
+                .map_err(|e| InputError::Invalid(e.to_string()))?;
             println!("{:#?}", input_data);
 
             // match statement {

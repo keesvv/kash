@@ -1,4 +1,5 @@
-use super::{Error, Result};
+use crate::de::Deserializer;
+use crate::error::{Error, Result};
 use serde::de::{self, Deserialize, MapAccess, Visitor};
 use serde::forward_to_deserialize_any;
 
@@ -9,33 +10,6 @@ where
     let mut deserializer = Deserializer::from_str(s);
     let t = T::deserialize(&mut deserializer)?;
     Ok(t)
-}
-
-pub struct Deserializer<'de> {
-    input: &'de str,
-}
-
-impl<'de> Deserializer<'de> {
-    pub fn from_str(input: &'de str) -> Self {
-        Deserializer { input }
-    }
-
-    fn peek_char(&mut self) -> Result<char> {
-        self.input.chars().next().ok_or(Error::Eof)
-    }
-
-    fn next_char(&mut self) -> Result<char> {
-        let c = self.peek_char()?;
-        self.input = &self.input[c.len_utf8()..];
-        Ok(c)
-    }
-
-    pub fn parse_f32(&self) -> Result<f32> {
-        match self.input.parse() {
-            Ok(val) => Ok(val),
-            Err(_) => Err(Error::ExpectedFloat),
-        }
-    }
 }
 
 impl<'a, 'de> de::Deserializer<'de> for &'a mut Deserializer<'de> {
@@ -78,7 +52,7 @@ impl<'a, 'de> de::Deserializer<'de> for &'a mut Deserializer<'de> {
     }
 }
 
-pub struct StructMap<'a, 'de> {
+struct StructMap<'a, 'de> {
     de: &'a mut Deserializer<'de>,
     first: bool,
 }
