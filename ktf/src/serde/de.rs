@@ -44,18 +44,14 @@ impl<'a, 'de> de::Deserializer<'de> for &'a mut Deserializer<'de> {
     where
         V: Visitor<'de>,
     {
-        visitor.visit_f32(
-            self.peek_value()?
-                .parse()
-                .map_err(|_| Error::ExpectedFloat)?,
-        )
+        visitor.visit_f32(self.parse_f32()?)
     }
 
     fn deserialize_string<V>(self, visitor: V) -> Result<V::Value>
     where
         V: Visitor<'de>,
     {
-        visitor.visit_string(self.peek_value()?)
+        visitor.visit_string(self.parse_string()?)
     }
 
     forward_to_deserialize_any! {

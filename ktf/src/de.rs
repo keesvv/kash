@@ -73,6 +73,16 @@ impl<'a> Deserializer<'a> {
         self.header = header.clone();
         Ok(header)
     }
+
+    #[inline]
+    pub fn parse_f32(&self) -> Result<f32> {
+        self.peek_value()?.parse().map_err(|_| Error::ExpectedFloat)
+    }
+
+    #[inline]
+    pub fn parse_string(&self) -> Result<String> {
+        self.peek_value()
+    }
 }
 
 #[derive(Debug, Clone)]
