@@ -1,7 +1,7 @@
 use crate::de::Deserializer;
 use crate::error::{Error, Result};
 use serde::de::value::StrDeserializer;
-use serde::de::{self, Deserialize, MapAccess, Visitor};
+use serde::de::{self, Deserialize, MapAccess, SeqAccess, Visitor};
 use serde::forward_to_deserialize_any;
 
 pub fn from_str<'a, T>(s: &'a str) -> Result<T>
@@ -40,6 +40,13 @@ impl<'a, 'de> de::Deserializer<'de> for &'a mut Deserializer<'de> {
         visitor.visit_map(RowMap::new(self))
     }
 
+    fn deserialize_seq<V>(self, visitor: V) -> Result<V::Value>
+    where
+        V: Visitor<'de>,
+    {
+        visitor.visit_seq(LineSeq::new(self))
+    }
+
     fn deserialize_f32<V>(self, visitor: V) -> Result<V::Value>
     where
         V: Visitor<'de>,
@@ -56,7 +63,7 @@ impl<'a, 'de> de::Deserializer<'de> for &'a mut Deserializer<'de> {
 
     forward_to_deserialize_any! {
         bool i8 i16 i32 i64 i128 u8 u16 u32 u64 u128 f64 char str
-        bytes byte_buf option unit unit_struct newtype_struct seq tuple
+        bytes byte_buf option unit unit_struct newtype_struct tuple
         tuple_struct struct enum identifier ignored_any
     }
 }
@@ -92,5 +99,30 @@ impl<'a, 'de> MapAccess<'de> for RowMap<'a, 'de> {
         let des = seed.deserialize(&mut *self.de);
         self.de.next_key()?;
         des
+    }
+}
+
+struct LineSeq<'a, 'de> {
+    de: &'a mut Deserializer<'de>,
+}
+
+impl<'a, 'de> LineSeq<'a, 'de> {
+    pub fn new(de: &'a mut Deserializer<'de>) -> Self {
+        Self { de }
+    }
+}
+
+impl<'a, 'de> SeqAccess<'de> for LineSeq<'a, 'de> {
+    type Error = Error;
+
+    fn next_element_seed<T>(&mut self, seed: T) -> Result<Option<T::Value>>
+    where
+        T: de::DeserializeSeed<'de>,
+    {
+        match self.de.peek_row() {
+            Err(Error::Eof) => Ok(None),
+            Err(e) => Err(e),
+            _ => seed.deserialize(&mut *self.de).map(Some),
+        }
     }
 }

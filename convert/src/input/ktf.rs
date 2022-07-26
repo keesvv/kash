@@ -28,7 +28,7 @@ impl Input for KtfInput {
 
         // FIXME: actually implement from_read instead of this
         // memory-hogging garbage.
-        let input_data = ktf::from_str::<KtfInputData>(
+        let input_data = ktf::from_str::<Vec<KtfInputData>>(
             {
                 let mut input = String::new();
                 reader

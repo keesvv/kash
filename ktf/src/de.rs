@@ -14,7 +14,10 @@ impl<'a> Deserializer<'a> {
             input,
             col_index: 0,
             header: vec![],
-            row: Row { cols: vec![] },
+            row: Row {
+                cols: vec![],
+                len: 0,
+            },
         }
     }
 
@@ -33,12 +36,16 @@ impl<'a> Deserializer<'a> {
     }
 
     pub fn next_row(&mut self) -> Result<Row> {
-        let row = self.input.lines().next().ok_or(Error::Eof)?;
-        self.advance(row.len() + 1);
-
-        let row = Row::new(row);
+        let row = self.peek_row()?;
+        self.advance(row.len + 1);
         self.row = row.clone();
+        self.col_index = 0;
         Ok(row)
+    }
+
+    pub fn peek_row(&self) -> Result<Row> {
+        let row = self.input.lines().next().ok_or(Error::Eof)?;
+        Ok(Row::new(row))
     }
 
     pub fn peek_key(&self) -> Result<String> {
@@ -88,12 +95,14 @@ impl<'a> Deserializer<'a> {
 #[derive(Debug, Clone)]
 pub struct Row {
     pub cols: Vec<String>,
+    pub len: usize,
 }
 
 impl Row {
     pub fn new(row: &str) -> Self {
         Self {
             cols: row.split('|').map(str::trim).map(str::to_owned).collect(),
+            len: row.len(),
         }
     }
 }
