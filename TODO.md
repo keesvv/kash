@@ -1,3 +1,7 @@
+# TODO
+
+## Done
+
 - [x] statement: move to lib
 - [x] ktf: implement Input
 - [x] ktf: simplify MonthValues parsing
@@ -6,24 +10,30 @@
 - [x] cli: move JSON output to convert
 - [x] cli: use clap.rs for argp
 - [x] convert: implement cargo features
-
 - [x] ktf: move to own package
-- [ ] ktf: use serde.rs
-- [ ] ktf: ignore newlines and comments
+- [x] docs: add README to each package
 
-- [ ] docs: add README to each package
+## Currently working on
 
-- [ ] convert: better distinguish between input and output structs
-- [ ] lib: remove serde
 - [ ] cli: implement cargo features
 
-- [ ] statement: Transaction variant
-- [ ] convert: CAMT.053 parser lib
-- [ ] statement: Budget variant
+- [ ] convert: better distinguish between input and output structs
+- [ ] convert: JSON input
 
-- [ ] statement: remove None variant
+- [ ] statement: Transaction variant
+
 - [ ] http: use warp.rs
 - [ ] http: Determine input type based on `Content-Type` header
+
+## Stalled
+
+- [ ] ktf: use serde.rs
+- [ ] ktf: ignore newlines and comments
+- [ ] lib: remove serde
+- [ ] statement: remove None variant
+
+- [ ] statement: Budget variant
+- [ ] convert: CAMT.053 parser lib
 
 - [ ] lib: atomic edits for consumption in http, cli, etc
 
