@@ -2,6 +2,7 @@ use super::error::{Error, Result};
 
 pub struct Deserializer<'a> {
     input: &'a str,
+    col_index: usize,
     pub cur_header: Vec<String>,
 }
 
@@ -9,6 +10,7 @@ impl<'a> Deserializer<'a> {
     pub fn from_str(input: &'a str) -> Self {
         Deserializer {
             input,
+            col_index: 0,
             cur_header: vec![],
         }
     }
@@ -29,8 +31,19 @@ impl<'a> Deserializer<'a> {
 
     pub fn next_row(&mut self) -> Result<Row> {
         let row = self.input.lines().next().ok_or(Error::Eof)?;
-        self.advance(row.len());
+        self.advance(row.len() + 1);
         Ok(Row::new(row))
+    }
+
+    pub fn next_col(&mut self) -> Option<String> {
+        let col = self
+            .cur_header
+            .iter()
+            .nth(self.col_index)
+            .map(String::to_owned)?;
+
+        self.col_index += 1;
+        Some(col)
     }
 
     pub fn parse_header(&mut self) -> Result<Vec<String>> {
