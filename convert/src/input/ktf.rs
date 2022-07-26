@@ -16,6 +16,7 @@ pub struct KtfInputData {
     pub col1: f32,
     pub col2: f32,
     pub col3: f32,
+    pub col4: String,
 }
 
 impl Input for KtfInput {
