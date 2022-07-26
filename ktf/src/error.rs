@@ -10,6 +10,7 @@ pub enum Error {
     ExpectedFloat,
     ExpectedMap,
     ExpectedMapValue,
+    MapEnd,
     Syntax,
     Eof,
 }
@@ -24,6 +25,7 @@ impl Display for Error {
             Error::ExpectedFloat => "expected float",
             Error::ExpectedMap => "expected map",
             Error::ExpectedMapValue => "expected map value",
+            Error::MapEnd => "unexpected end of map",
             Error::Syntax => "syntax error",
             Error::Eof => "unexpected EOF",
         })

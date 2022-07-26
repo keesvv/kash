@@ -13,7 +13,9 @@ impl KtfInput {
 
 #[derive(Debug, Deserialize)]
 pub struct KtfInputData {
-    pub test: f32,
+    pub col1: f32,
+    pub col2: f32,
+    pub col3: f32,
 }
 
 impl Input for KtfInput {

@@ -32,11 +32,12 @@ impl<'a, 'de> de::Deserializer<'de> for &'a mut Deserializer<'de> {
     where
         V: Visitor<'de>,
     {
-        if self.next_char()? != '|' {
-            Err(Error::ExpectedMap)
-        } else {
-            visitor.visit_map(RowMap::new(self))
-        }
+        match self.next_char()? {
+            '|' => self.next_row().map(|_| ()),
+            _ => Err(Error::ExpectedMap),
+        }?;
+
+        visitor.visit_map(RowMap::new(self))
     }
 
     fn deserialize_f32<V>(self, visitor: V) -> Result<V::Value>
@@ -44,8 +45,7 @@ impl<'a, 'de> de::Deserializer<'de> for &'a mut Deserializer<'de> {
         V: Visitor<'de>,
     {
         visitor.visit_f32(
-            self.next_char()?
-                .to_string()
+            self.peek_value()?
                 .parse()
                 .map_err(|_| Error::ExpectedFloat)?,
         )
@@ -75,9 +75,10 @@ impl<'a, 'de> MapAccess<'de> for RowMap<'a, 'de> {
     where
         K: de::DeserializeSeed<'de>,
     {
-        match self.de.next_col() {
-            None => Ok(None),
-            Some(col) => seed.deserialize(StrDeserializer::new(&col)).map(Some),
+        match self.de.peek_key() {
+            Err(Error::MapEnd) => Ok(None),
+            Err(e) => Err(e),
+            Ok(key) => seed.deserialize(StrDeserializer::new(&key)).map(Some),
         }
     }
 
@@ -85,6 +86,8 @@ impl<'a, 'de> MapAccess<'de> for RowMap<'a, 'de> {
     where
         V: de::DeserializeSeed<'de>,
     {
-        seed.deserialize(&mut *self.de)
+        let des = seed.deserialize(&mut *self.de);
+        self.de.next_key()?;
+        des
     }
 }

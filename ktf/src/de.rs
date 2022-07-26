@@ -1,9 +1,11 @@
 use super::error::{Error, Result};
 
+#[derive(Debug)]
 pub struct Deserializer<'a> {
     input: &'a str,
-    col_index: usize,
-    pub cur_header: Vec<String>,
+    pub col_index: usize,
+    pub header: Vec<String>,
+    pub row: Row,
 }
 
 impl<'a> Deserializer<'a> {
@@ -11,7 +13,8 @@ impl<'a> Deserializer<'a> {
         Deserializer {
             input,
             col_index: 0,
-            cur_header: vec![],
+            header: vec![],
+            row: Row { cols: vec![] },
         }
     }
 
@@ -32,18 +35,33 @@ impl<'a> Deserializer<'a> {
     pub fn next_row(&mut self) -> Result<Row> {
         let row = self.input.lines().next().ok_or(Error::Eof)?;
         self.advance(row.len() + 1);
-        Ok(Row::new(row))
+
+        let row = Row::new(row);
+        self.row = row.clone();
+        Ok(row)
     }
 
-    pub fn next_col(&mut self) -> Option<String> {
-        let col = self
-            .cur_header
+    pub fn peek_key(&self) -> Result<String> {
+        self.header
             .iter()
             .nth(self.col_index)
-            .map(String::to_owned)?;
+            .map(String::to_owned)
+            .ok_or(Error::MapEnd)
+    }
 
+    pub fn peek_value(&self) -> Result<String> {
+        self.row
+            .cols
+            .iter()
+            .nth(self.col_index)
+            .map(String::to_owned)
+            .ok_or(Error::ExpectedMapValue)
+    }
+
+    pub fn next_key(&mut self) -> Result<String> {
+        let col = self.peek_key()?;
         self.col_index += 1;
-        Some(col)
+        Ok(col)
     }
 
     pub fn parse_header(&mut self) -> Result<Vec<String>> {
@@ -52,7 +70,7 @@ impl<'a> Deserializer<'a> {
             _ => Err(Error::ExpectedHeader),
         }?;
 
-        self.cur_header = header.clone();
+        self.header = header.clone();
         Ok(header)
     }
 }
