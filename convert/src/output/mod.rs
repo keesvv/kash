@@ -4,6 +4,8 @@ pub mod json;
 use std::io::{Result, Write};
 
 pub trait Output {
+    // TODO: custom Result and Error enums which differentiate
+    // between I/O and serialization errors.
     fn to_write<W>(&self, writer: &mut W) -> Result<()>
     where
         W: Write;

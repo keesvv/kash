@@ -15,9 +15,8 @@
 
 ## Currently working on
 
-- [ ] cli: implement cargo features
-
-- [ ] convert: better distinguish between input and output structs
+- [ ] lib: MonthValues deserializer
+- [ ] lib: custom serializer fields for MonthValues
 - [ ] convert: JSON input
 
 - [ ] statement: Transaction variant
@@ -29,11 +28,12 @@
 
 - [ ] ktf: use serde.rs
 - [ ] ktf: ignore newlines and comments
-- [ ] lib: remove serde
 - [ ] statement: remove None variant
 
 - [ ] statement: Budget variant
 - [ ] convert: CAMT.053 parser lib
+
+- [ ] lib: implement cargo features
 
 - [ ] lib: atomic edits for consumption in http, cli, etc
 
