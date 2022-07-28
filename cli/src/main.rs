@@ -1,7 +1,7 @@
 use clap::Parser;
 use kash_cli::args::{Args, InputFormat, OutputFormat};
 use kash_cli::output::TableOutput;
-use kash_convert::input::{ktf::KtfInput, Input};
+use kash_convert::input::{json::JsonInput, ktf::KtfInput, Input};
 use kash_convert::output::{json::JsonOutput, Output};
 use std::fs::File;
 use std::io::{self, Read};
@@ -25,6 +25,7 @@ fn main() {
         input.extend(
             match format {
                 InputFormat::Ktf => KtfInput::new().from_read(reader),
+                InputFormat::Json => JsonInput::new().from_read(reader),
             }
             .unwrap(),
         );

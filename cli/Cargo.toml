@@ -20,4 +20,4 @@ features = ["std", "derive"]
 
 [dependencies.kash_convert]
 path = "../convert"
-features = ["input_ktf", "output_json"]
+features = ["input_ktf", "input_json", "output_json"]

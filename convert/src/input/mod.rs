@@ -1,6 +1,9 @@
 #[cfg(feature = "input_ktf")]
 pub mod ktf;
 
+#[cfg(feature = "input_json")]
+pub mod json;
+
 use kash::statement::Statement;
 use std::io::Read;
 

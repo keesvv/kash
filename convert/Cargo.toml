@@ -12,4 +12,5 @@ ktf = { path = "../ktf", optional = true }
 
 [features]
 input_ktf = ["dep:ktf"]
+input_json = ["dep:serde_json"]
 output_json = ["dep:serde_json"]
