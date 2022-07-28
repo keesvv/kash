@@ -1,10 +1,23 @@
-use serde::Serialize;
+use serde::ser::{Serialize, SerializeMap};
 use std::fmt::Debug;
 use std::iter;
 
-#[derive(Serialize, Clone)]
+#[derive(Clone)]
 pub struct MonthValues {
     pub values: [f32; 12],
+}
+
+impl Serialize for MonthValues {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let mut map = serializer.serialize_map(None)?;
+        map.serialize_entry("values", &self.values)?;
+        map.serialize_entry("year", &self.year())?;
+        map.serialize_entry("month_avg", &self.month_avg())?;
+        map.end()
+    }
 }
 
 impl MonthValues {

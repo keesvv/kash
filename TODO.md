@@ -12,12 +12,12 @@
 - [x] convert: implement cargo features
 - [x] ktf: move to own package
 - [x] docs: add README to each package
+- [x] lib: custom serializer fields for MonthValues
 
 ## Currently working on
 
-- [ ] lib: MonthValues deserializer
-- [ ] lib: custom serializer fields for MonthValues
 - [ ] convert: JSON input
+- [ ] lib: MonthValues deserializer
 
 - [ ] statement: Transaction variant
 
