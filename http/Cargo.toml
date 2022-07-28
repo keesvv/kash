@@ -18,4 +18,4 @@ features = ["macros", "rt-multi-thread"]
 
 [dependencies.kash_convert]
 path = "../convert"
-features = ["input_json", "output_json"]
+features = ["input-json", "output-json"]

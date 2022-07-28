@@ -1,7 +1,7 @@
-#[cfg(feature = "input_ktf")]
+#[cfg(feature = "input-ktf")]
 pub mod ktf;
 
-#[cfg(feature = "input_json")]
+#[cfg(feature = "input-json")]
 pub mod json;
 
 use kash::statement::Statement;

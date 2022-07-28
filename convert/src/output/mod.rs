@@ -1,4 +1,4 @@
-#[cfg(feature = "output_json")]
+#[cfg(feature = "output-json")]
 pub mod json;
 
 use std::io::{Result, Write};
