@@ -16,20 +16,20 @@
 - [x] convert: JSON input
 - [x] lib: MonthValues deserializer
 - [x] http: implement warp.rs
+- [x] http: retrieve statements as JSON
 
 ## Currently working on
-
-- [ ] http: retrieve statements as JSON
-- [ ] http: Determine input type based on `Content-Type` header
-
-## Coming soon
 
 - [ ] ktf: use serde.rs
 - [ ] ktf: ignore newlines and comments
 - [ ] statement: remove None variant
 
+## Coming soon
+
 - [ ] statement: Transaction variant
 - [ ] convert: CAMT.053 parser lib
+
+- [ ] http: Determine input type based on `Content-Type` header
 
 - [ ] lib: implement cargo features
 - [ ] statement: Budget variant
