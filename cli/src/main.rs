@@ -19,7 +19,7 @@ fn main() {
 
         let reader: Box<dyn Read> = match input_file.to_string().as_str() {
             "-" => Box::new(io::stdin()),
-            _ => Box::new(File::open(input_file).unwrap()),
+            file => Box::new(File::open(file).unwrap()),
         };
 
         input.extend(
