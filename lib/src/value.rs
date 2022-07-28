@@ -1,3 +1,4 @@
+use serde::de::Deserialize;
 use serde::ser::{Serialize, SerializeMap};
 use std::fmt::Debug;
 use std::iter;
@@ -17,6 +18,16 @@ impl Serialize for MonthValues {
         map.serialize_entry("year", &self.year())?;
         map.serialize_entry("month_avg", &self.month_avg())?;
         map.end()
+    }
+}
+
+impl<'de> Deserialize<'de> for MonthValues {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let items: Vec<f32> = Deserialize::deserialize(deserializer)?;
+        Ok(Self::from_iter(items.iter().map(f32::to_owned)))
     }
 }
 

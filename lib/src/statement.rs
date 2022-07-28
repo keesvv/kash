@@ -1,7 +1,7 @@
 use super::value::MonthValues;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Clone, Debug)]
+#[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase", tag = "type")]
 pub enum Statement {
     None,
@@ -9,14 +9,14 @@ pub enum Statement {
     Income(IncomeStatement),
 }
 
-#[derive(Serialize, Clone, Debug)]
+#[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct FixedStatement {
     pub tag: String,
     pub description: String,
     pub expenses: MonthValues,
 }
 
-#[derive(Serialize, Clone, Debug)]
+#[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct IncomeStatement {
     pub description: String,
     pub income: MonthValues,
