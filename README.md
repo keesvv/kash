@@ -2,6 +2,8 @@
 
 Elegant and simple software for managing personal finance.
 
+> ⚠️ This project is still a work-in-progress.
+
 ## Author
 
 Kees van Voorthuizen
