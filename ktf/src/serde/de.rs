@@ -51,7 +51,7 @@ impl<'a, 'de> de::Deserializer<'de> for &'a mut Deserializer<'de> {
     where
         V: Visitor<'de>,
     {
-        visitor.visit_string(self.parse_string()?)
+        self.deserialize_str(visitor)
     }
 
     fn deserialize_f32<V>(self, visitor: V) -> Result<V::Value>
@@ -61,15 +61,22 @@ impl<'a, 'de> de::Deserializer<'de> for &'a mut Deserializer<'de> {
         visitor.visit_f32(self.parse_f32()?)
     }
 
+    fn deserialize_str<V>(self, visitor: V) -> Result<V::Value>
+    where
+        V: Visitor<'de>,
+    {
+        visitor.visit_str(&self.parse_string()?)
+    }
+
     fn deserialize_string<V>(self, visitor: V) -> Result<V::Value>
     where
         V: Visitor<'de>,
     {
-        visitor.visit_string(self.parse_string()?)
+        self.deserialize_str(visitor)
     }
 
     forward_to_deserialize_any! {
-        bool i8 i16 i32 i64 i128 u8 u16 u32 u64 u128 f64 char str
+        bool i8 i16 i32 i64 i128 u8 u16 u32 u64 u128 f64 char
         bytes byte_buf option unit unit_struct newtype_struct tuple
         tuple_struct struct enum ignored_any
     }
