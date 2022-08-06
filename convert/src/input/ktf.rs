@@ -12,11 +12,15 @@ impl KtfInput {
 }
 
 #[derive(Debug, Deserialize)]
-pub struct KtfInputData {
-    pub col1: f32,
-    pub col2: f32,
-    pub col3: f32,
-    pub col4: String,
+#[serde(tag = "type", rename_all = "camelCase")]
+pub enum KtfInputData {
+    Test(TestData),
+}
+
+#[derive(Debug, Deserialize)]
+pub struct TestData {
+    pub a: i32,
+    pub b: i32,
 }
 
 impl Input for KtfInput {
