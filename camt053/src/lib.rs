@@ -51,11 +51,15 @@ pub struct BalanceCodeValue {
 #[derive(Debug, Deserialize, PartialEq)]
 pub enum BalanceCode {
     #[serde(rename = "PRCD")]
-    PrevClosed,
+    PrevClosedBooked,
     #[serde(rename = "OPBD")]
-    Opening,
+    OpeningBooked,
     #[serde(rename = "CLBD")]
-    Closing,
+    ClosingBooked,
+    #[serde(rename = "CLAV")]
+    ClosingAvailable,
+    #[serde(rename = "FWAV")]
+    ForwardAvailable,
 }
 
 #[derive(Debug, Deserialize, PartialEq)]
