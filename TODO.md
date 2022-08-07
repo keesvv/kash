@@ -18,6 +18,7 @@
 - [x] http: implement warp.rs
 - [x] http: retrieve statements as JSON
 - [x] statement: remove None variant
+- [x] lib: implement cargo features
 
 ## Currently working on
 
@@ -32,7 +33,6 @@
 - [ ] ktf: use serde.rs
 - [ ] ktf: ignore newlines and comments
 
-- [ ] lib: implement cargo features
 - [ ] statement: Budget variant
 
 - [ ] lib: atomic edits for consumption in http, cli, etc
