@@ -1,5 +1,5 @@
 use super::{Input, InputError};
-use camt053::Document;
+use camt053::{Document, Entry};
 use chrono::{DateTime, FixedOffset};
 use kash::{
     date::Date,
@@ -14,6 +14,18 @@ impl Camt053Input {
     pub fn new() -> Self {
         Self
     }
+
+    pub fn parse_entry(entry: &Entry) -> Statement {
+        Statement::Transaction(Transaction {
+            date: Date(DateTime::from_local(
+                entry.value_date.date.and_hms(0, 0, 0),
+                FixedOffset::east(0),
+            )),
+            description: entry.additional_info.to_owned(),
+            mutation: entry.amount.value * -1.0,
+            tag: None,
+        })
+    }
 }
 
 impl Input for Camt053Input {
@@ -23,18 +35,11 @@ impl Input for Camt053Input {
     {
         let document: Document = de::from_reader(BufReader::new(reader))
             .map_err(|e| InputError::Invalid(e.to_string()))?;
-        let entry = &document.bank_to_customer.statements[0].entries[0];
 
-        let transaction = Statement::Transaction(Transaction {
-            date: Date(DateTime::from_local(
-                entry.value_date.date.and_hms(0, 0, 0),
-                FixedOffset::east(0),
-            )),
-            description: entry.additional_info.to_owned(),
-            mutation: entry.amount.value * -1.0,
-            tag: None,
-        });
-
-        Ok(vec![transaction])
+        Ok(document.bank_to_customer.statements[0]
+            .entries
+            .iter()
+            .map(Self::parse_entry)
+            .collect())
     }
 }
