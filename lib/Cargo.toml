@@ -18,10 +18,12 @@ optional = true
 
 [features]
 default = [
+    "account",
     "fixed",
     "income",
     "transaction"
 ]
+account = []
 fixed = []
 income = []
 transaction = ["dep:chrono"]

@@ -11,6 +11,8 @@ pub enum Statement {
     Income(Income),
     #[cfg(feature = "transaction")]
     Transaction(Transaction),
+    #[cfg(feature = "account")]
+    Account(Account),
 }
 
 #[cfg(feature = "fixed")]
@@ -36,3 +38,25 @@ pub struct Transaction {
     pub date: Date,
     pub mutation: f32,
 }
+
+#[cfg(feature = "account")]
+#[derive(Deserialize, Serialize, Clone, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct Account {
+    pub account_type: AccountType,
+    pub id: AccountId,
+    pub name: String,
+    pub bank: String,
+}
+
+#[cfg(feature = "account")]
+#[derive(Deserialize, Serialize, Clone, Debug)]
+#[serde(rename_all = "camelCase")]
+pub enum AccountType {
+    Payment,
+    Savings,
+}
+
+#[cfg(feature = "account")]
+#[derive(Deserialize, Serialize, Clone, Debug)]
+pub struct AccountId(String);

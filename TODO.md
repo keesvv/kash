@@ -23,8 +23,11 @@
 - [x] convert: CAMT.053 deserialization lib
 - [x] lib: rename statement structs
 - [x] convert: CAMT.053 input
+- [x] statement: Account variant
 
 ## Currently working on
+
+- [ ] account: link statements to accounts
 
 ## Coming soon
 
@@ -37,6 +40,7 @@
 - [ ] ktf: ignore newlines and comments
 
 - [ ] statement: Budget variant
+- [ ] statement: Goal variant
 
 - [ ] lib: atomic edits for consumption in http, cli, etc
 
