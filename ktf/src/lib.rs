@@ -1,5 +1,5 @@
 use kash::{
-    statement::{FixedStatement, IncomeStatement, Statement},
+    statement::{FixedExpense, Income, Statement},
     value::MonthValues,
 };
 use std::fmt::{self, Display};
@@ -35,12 +35,12 @@ impl<'a> Deserializer<'a> {
         let mut cols = self.input.split('|').map(|s| s.trim());
 
         match cols.next().unwrap().chars().nth(0).unwrap_or('#') {
-            'f' => Ok(Statement::Fixed(FixedStatement {
+            'f' => Ok(Statement::Fixed(FixedExpense {
                 tag: cols.next().unwrap_or_default().to_string(),
                 description: cols.next().unwrap_or_default().to_string(),
                 expenses: self.deserialize_mv(cols.next().unwrap_or_default()),
             })),
-            'i' => Ok(Statement::Income(IncomeStatement {
+            'i' => Ok(Statement::Income(Income {
                 description: cols.next().unwrap_or_default().to_string(),
                 income: self.deserialize_mv(cols.next().unwrap_or_default()),
             })),

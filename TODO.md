@@ -21,11 +21,11 @@
 - [x] lib: implement cargo features
 - [x] statement: Transaction variant
 - [x] convert: CAMT.053 deserialization lib
+- [x] lib: rename statement structs
 
 ## Currently working on
 
 - [ ] convert: CAMT.053 input
-- [ ] lib: rename statement structs
 
 ## Coming soon
 

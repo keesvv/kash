@@ -1,5 +1,5 @@
 use super::value::{Cell, Col, ValueTable};
-use kash::statement::{FixedStatement, IncomeStatement, Statement, Transaction};
+use kash::statement::{FixedExpense, Income, Statement, Transaction};
 use kash_convert::output::Output;
 use std::io;
 
@@ -14,7 +14,7 @@ impl TableOutput {
         }
     }
 
-    pub fn format_fixed(&self, statements: &[FixedStatement]) -> ValueTable {
+    pub fn format_fixed(&self, expenses: &[FixedExpense]) -> ValueTable {
         let mut table = ValueTable::new(
             "Fixed expenses",
             &[
@@ -25,31 +25,31 @@ impl TableOutput {
             ],
         );
 
-        for statement in statements {
+        for expense in expenses {
             table.add_row(&[
-                Cell::Text(statement.tag.to_owned()),
-                Cell::Text(statement.description.to_owned()),
-                Cell::Value(statement.expenses.month_avg() * -1.0),
-                Cell::Value(statement.expenses.year() * -1.0),
+                Cell::Text(expense.tag.to_owned()),
+                Cell::Text(expense.description.to_owned()),
+                Cell::Value(expense.expenses.month_avg() * -1.0),
+                Cell::Value(expense.expenses.year() * -1.0),
             ]);
         }
 
         table.with_total(
             2,
             &[
-                &statements
+                &expenses
                     .iter()
-                    .map(|statement| statement.expenses.month_avg() * -1.0)
+                    .map(|expense| expense.expenses.month_avg() * -1.0)
                     .collect::<Vec<f32>>(),
-                &statements
+                &expenses
                     .iter()
-                    .map(|statement| statement.expenses.year() * -1.0)
+                    .map(|expense| expense.expenses.year() * -1.0)
                     .collect::<Vec<f32>>(),
             ],
         )
     }
 
-    pub fn format_income(&self, statements: &[IncomeStatement]) -> ValueTable {
+    pub fn format_income(&self, income: &[Income]) -> ValueTable {
         let mut table = ValueTable::new(
             "Income",
             &[
@@ -59,7 +59,7 @@ impl TableOutput {
             ],
         );
 
-        for statement in statements {
+        for statement in income {
             table.add_row(&[
                 Cell::Text(statement.description.to_owned()),
                 Cell::Value(statement.income.month_avg()),
@@ -70,11 +70,11 @@ impl TableOutput {
         table.with_total(
             1,
             &[
-                &statements
+                &income
                     .iter()
                     .map(|statement| statement.income.month_avg())
                     .collect::<Vec<f32>>(),
-                &statements
+                &income
                     .iter()
                     .map(|statement| statement.income.year())
                     .collect::<Vec<f32>>(),
@@ -128,7 +128,7 @@ impl Output for TableOutput {
                 Statement::Fixed(s) => Some(s.to_owned()),
                 _ => None,
             })
-            .collect::<Vec<FixedStatement>>();
+            .collect::<Vec<FixedExpense>>();
 
         // TODO: refactor
         let income = self
@@ -138,7 +138,7 @@ impl Output for TableOutput {
                 Statement::Income(s) => Some(s.to_owned()),
                 _ => None,
             })
-            .collect::<Vec<IncomeStatement>>();
+            .collect::<Vec<Income>>();
 
         // TODO: refactor
         let transactions = self

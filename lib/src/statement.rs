@@ -6,16 +6,16 @@ use serde::{Deserialize, Serialize};
 #[serde(rename_all = "camelCase", tag = "type")]
 pub enum Statement {
     #[cfg(feature = "fixed")]
-    Fixed(FixedStatement),
+    Fixed(FixedExpense),
     #[cfg(feature = "income")]
-    Income(IncomeStatement),
+    Income(Income),
     #[cfg(feature = "transaction")]
     Transaction(Transaction),
 }
 
 #[cfg(feature = "fixed")]
 #[derive(Deserialize, Serialize, Clone, Debug)]
-pub struct FixedStatement {
+pub struct FixedExpense {
     pub tag: String,
     pub description: String,
     pub expenses: MonthValues,
@@ -23,7 +23,7 @@ pub struct FixedStatement {
 
 #[cfg(feature = "income")]
 #[derive(Deserialize, Serialize, Clone, Debug)]
-pub struct IncomeStatement {
+pub struct Income {
     pub description: String,
     pub income: MonthValues,
 }
