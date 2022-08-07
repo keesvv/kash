@@ -10,6 +10,12 @@ crate-type = ["lib", "cdylib"]
 [dependencies]
 serde = { version = "1.0.139", features = ["derive"] }
 
+[dependencies.chrono]
+version = "0.4.20"
+default-features = false
+features = ["alloc", "std"]
+optional = true
+
 [features]
 default = [
     "fixed",
@@ -18,4 +24,4 @@ default = [
 ]
 fixed = []
 income = []
-transaction = []
+transaction = ["dep:chrono"]
