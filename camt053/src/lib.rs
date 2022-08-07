@@ -50,6 +50,8 @@ pub struct BalanceCodeValue {
 
 #[derive(Debug, Deserialize, PartialEq)]
 pub enum BalanceCode {
+    #[serde(rename = "PRCD")]
+    PrevClosed,
     #[serde(rename = "OPBD")]
     Opening,
     #[serde(rename = "CLBD")]
@@ -85,7 +87,7 @@ pub struct Entry {
     #[serde(rename = "Chrgs")]
     pub charges: Option<Charges>,
     #[serde(rename = "NtryDtls")]
-    pub details: EntryDetails,
+    pub details: Option<EntryDetails>,
     #[serde(rename = "AddtlNtryInf")]
     pub additional_info: String,
 }
@@ -138,6 +140,8 @@ pub struct DomainSubFamilyCodeValue {
 
 #[derive(Debug, Deserialize, PartialEq, Eq)]
 pub enum DomainFamilyCode {
+    #[serde(rename = "CCRD")]
+    CardPayment,
     #[serde(rename = "ICDT")]
     IssuedCreditTransfers,
     #[serde(rename = "RCDT")]
@@ -148,6 +152,8 @@ pub enum DomainFamilyCode {
 
 #[derive(Debug, Deserialize, PartialEq, Eq)]
 pub enum DomainSubFamilyCode {
+    #[serde(rename = "POSD")]
+    PointOfSaleDebit,
     #[serde(rename = "AUTT")]
     AutomaticTransfer,
     #[serde(rename = "PMDD")]

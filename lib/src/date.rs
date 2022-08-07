@@ -2,7 +2,7 @@ use chrono::{DateTime, FixedOffset};
 use serde::{de, Deserialize, Serialize};
 
 #[derive(Clone, Debug)]
-pub struct Date(DateTime<FixedOffset>);
+pub struct Date(pub DateTime<FixedOffset>);
 
 impl<'de> Deserialize<'de> for Date {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>

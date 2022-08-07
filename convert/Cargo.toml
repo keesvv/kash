@@ -11,8 +11,19 @@ kash = { path = "../lib" }
 ktf = { path = "../ktf", optional = true }
 camt053 = { path = "../camt053", optional = true }
 
+[dependencies.quick-xml]
+version = "0.23.0"
+optional = true
+features = ["serialize"]
+
+[dependencies.chrono]
+version = "0.4.20"
+default-features = false
+features = ["alloc", "std", "serde"]
+optional = true
+
 [features]
 input-ktf = ["dep:ktf"]
 input-json = ["dep:serde_json"]
-input-camt053 = ["dep:camt053"]
+input-camt053 = ["dep:camt053", "dep:quick-xml", "dep:chrono"]
 output-json = ["dep:serde_json"]
