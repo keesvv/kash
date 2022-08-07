@@ -22,14 +22,14 @@
 - [x] statement: Transaction variant
 - [x] convert: CAMT.053 deserialization lib
 - [x] lib: rename statement structs
+- [x] convert: CAMT.053 input
 
 ## Currently working on
-
-- [ ] convert: CAMT.053 input
 
 ## Coming soon
 
 - [ ] http: Determine input type based on `Content-Type` header
+- [ ] convert: convert between inputs
 
 - [ ] ktf: use serde.rs
 - [ ] ktf: ignore newlines and comments

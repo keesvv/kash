@@ -1,17 +1,20 @@
-use chrono::{DateTime, FixedOffset};
-use serde::{de, Deserialize, Serialize};
+use chrono::{DateTime, NaiveDateTime, Utc};
+use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug)]
-pub struct Date(pub DateTime<FixedOffset>);
+pub struct Date(pub DateTime<Utc>);
 
 impl<'de> Deserialize<'de> for Date {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: serde::Deserializer<'de>,
     {
-        let raw_date = String::deserialize(deserializer)?;
-        let date = DateTime::parse_from_rfc3339(&raw_date).map_err(de::Error::custom)?;
-        Ok(Self(date))
+        let timestamp = i64::deserialize(deserializer)?;
+
+        Ok(Self(DateTime::from_utc(
+            NaiveDateTime::from_timestamp(timestamp, 0),
+            Utc,
+        )))
     }
 }
 

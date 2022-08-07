@@ -1,6 +1,6 @@
 use super::{Input, InputError};
 use camt053::{Document, Entry};
-use chrono::{DateTime, FixedOffset};
+use chrono::{DateTime, Utc};
 use kash::{
     date::Date,
     statement::{Statement, Transaction},
@@ -17,9 +17,9 @@ impl Camt053Input {
 
     pub fn parse_entry(entry: &Entry) -> Statement {
         Statement::Transaction(Transaction {
-            date: Date(DateTime::from_local(
+            date: Date(DateTime::from_utc(
                 entry.value_date.date.and_hms(0, 0, 0),
-                FixedOffset::east(0),
+                Utc,
             )),
             description: entry.additional_info.to_owned(),
             mutation: entry.amount.value * -1.0,
