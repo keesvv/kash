@@ -28,8 +28,10 @@
 
 ## Coming soon
 
-- [ ] http: Determine input type based on `Content-Type` header
+- [ ] lib: implement rust_decimal for fixed-precision calculations
 - [ ] convert: convert between inputs
+
+- [ ] http: Determine input type based on `Content-Type` header
 
 - [ ] ktf: use serde.rs
 - [ ] ktf: ignore newlines and comments
