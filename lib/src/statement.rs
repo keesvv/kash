@@ -31,7 +31,8 @@ pub struct IncomeStatement {
 #[cfg(feature = "transaction")]
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct Transaction {
-    pub tag: String,
+    pub tag: Option<String>,
     pub description: String,
     pub date: Date,
+    pub mutation: f32,
 }
