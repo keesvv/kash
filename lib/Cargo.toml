@@ -13,7 +13,9 @@ serde = { version = "1.0.139", features = ["derive"] }
 [features]
 default = [
     "fixed",
-    "income"
+    "income",
+    "transaction"
 ]
 fixed = []
 income = []
+transaction = []

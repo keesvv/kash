@@ -1,3 +1,4 @@
+use super::date::Date;
 use super::value::MonthValues;
 use serde::{Deserialize, Serialize};
 
@@ -8,6 +9,8 @@ pub enum Statement {
     Fixed(FixedStatement),
     #[cfg(feature = "income")]
     Income(IncomeStatement),
+    #[cfg(feature = "transaction")]
+    Transaction(Transaction),
 }
 
 #[cfg(feature = "fixed")]
@@ -23,4 +26,12 @@ pub struct FixedStatement {
 pub struct IncomeStatement {
     pub description: String,
     pub income: MonthValues,
+}
+
+#[cfg(feature = "transaction")]
+#[derive(Deserialize, Serialize, Clone, Debug)]
+pub struct Transaction {
+    pub tag: String,
+    pub description: String,
+    pub date: Date,
 }
