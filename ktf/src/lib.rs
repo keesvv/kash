@@ -44,7 +44,6 @@ impl<'a> Deserializer<'a> {
                 description: cols.next().unwrap_or_default().to_string(),
                 income: self.deserialize_mv(cols.next().unwrap_or_default()),
             })),
-            '#' => Ok(Statement::None),
             _ => Err(ParseError::NoSuchType),
         }
     }

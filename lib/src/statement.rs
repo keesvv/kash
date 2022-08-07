@@ -4,7 +4,6 @@ use serde::{Deserialize, Serialize};
 #[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase", tag = "type")]
 pub enum Statement {
-    None,
     Fixed(FixedStatement),
     Income(IncomeStatement),
 }
