@@ -19,14 +19,14 @@
 - [x] http: retrieve statements as JSON
 - [x] statement: remove None variant
 - [x] lib: implement cargo features
+- [x] statement: Transaction variant
 
 ## Currently working on
 
-- [ ] statement: Transaction variant
+- [ ] convert: CAMT.053 deserialization lib
+- [ ] convert: CAMT.053 input
 
 ## Coming soon
-
-- [ ] convert: CAMT.053 parser lib
 
 - [ ] http: Determine input type based on `Content-Type` header
 
