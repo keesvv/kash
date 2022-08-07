@@ -1,5 +1,5 @@
 use super::value::{Cell, Col, ValueTable};
-use kash::statement::{FixedStatement, IncomeStatement, Statement};
+use kash::statement::{FixedStatement, IncomeStatement, Statement, Transaction};
 use kash_convert::output::Output;
 use std::io;
 
@@ -81,6 +81,38 @@ impl TableOutput {
             ],
         )
     }
+
+    pub fn format_transactions(&self, transactions: &[Transaction]) -> ValueTable {
+        let mut table = ValueTable::new(
+            "Transactions",
+            &[
+                Col("date".into(), Cell::Text(Default::default())),
+                Col("description".into(), Cell::Text(Default::default())),
+                Col("mutation".into(), Cell::Text(Default::default())),
+                Col("tag".into(), Cell::Text(Default::default())),
+            ],
+        );
+
+        for transaction in transactions {
+            table.add_row(&[
+                Cell::Text(transaction.date.0.format("%Y/%m/%d").to_string()),
+                Cell::Text(
+                    transaction
+                        .description
+                        .chars()
+                        .take(60)
+                        .collect::<String>()
+                        .split_whitespace()
+                        .collect::<Vec<&str>>()
+                        .join(" "),
+                ),
+                Cell::Value(transaction.mutation),
+                Cell::Text(transaction.tag.to_owned().unwrap_or_default()),
+            ]);
+        }
+
+        table
+    }
 }
 
 impl Output for TableOutput {
@@ -108,11 +140,22 @@ impl Output for TableOutput {
             })
             .collect::<Vec<IncomeStatement>>();
 
+        // TODO: refactor
+        let transactions = self
+            .statements
+            .iter()
+            .filter_map(|statement| match statement {
+                Statement::Transaction(s) => Some(s.to_owned()),
+                _ => None,
+            })
+            .collect::<Vec<Transaction>>();
+
         write!(
             writer,
-            "{}\n\n{}",
+            "{}\n\n{}\n\n{}",
             self.format_fixed(&fixed),
-            self.format_income(&income)
+            self.format_income(&income),
+            self.format_transactions(&transactions)
         )
     }
 }

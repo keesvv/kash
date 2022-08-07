@@ -21,9 +21,8 @@ impl Input for Camt053Input {
     where
         R: std::io::Read,
     {
-        let buf = BufReader::new(reader);
-        let document: Document =
-            de::from_reader(buf).map_err(|e| InputError::Invalid(e.to_string()))?;
+        let document: Document = de::from_reader(BufReader::new(reader))
+            .map_err(|e| InputError::Invalid(e.to_string()))?;
         let entry = &document.bank_to_customer.statements[0].entries[0];
 
         let transaction = Statement::Transaction(Transaction {

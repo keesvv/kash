@@ -20,11 +20,12 @@
 - [x] statement: remove None variant
 - [x] lib: implement cargo features
 - [x] statement: Transaction variant
+- [x] convert: CAMT.053 deserialization lib
 
 ## Currently working on
 
-- [ ] convert: CAMT.053 deserialization lib
 - [ ] convert: CAMT.053 input
+- [ ] lib: rename statement structs
 
 ## Coming soon
 
