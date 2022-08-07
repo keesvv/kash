@@ -5,6 +5,7 @@ use clap::Parser;
 pub enum InputFormat {
     Ktf,
     Json,
+    Camt053,
 }
 
 #[derive(Debug, Clone, ArgEnum)]
