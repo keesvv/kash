@@ -4,6 +4,9 @@ pub mod ktf;
 #[cfg(feature = "input-json")]
 pub mod json;
 
+#[cfg(feature = "input-camt053")]
+pub mod camt053;
+
 use kash::statement::Statement;
 use std::io::Read;
 

@@ -393,6 +393,7 @@ dependencies = [
 name = "kash_convert"
 version = "0.1.0"
 dependencies = [
+ "camt053",
  "kash",
  "ktf",
  "serde",

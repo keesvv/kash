@@ -9,8 +9,10 @@ serde = { version = "1.0.139", features = ["derive"] }
 serde_json = { version = "1.0.82", optional = true }
 kash = { path = "../lib" }
 ktf = { path = "../ktf", optional = true }
+camt053 = { path = "../camt053", optional = true }
 
 [features]
 input-ktf = ["dep:ktf"]
 input-json = ["dep:serde_json"]
+input-camt053 = ["dep:camt053"]
 output-json = ["dep:serde_json"]
