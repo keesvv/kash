@@ -1,5 +1,5 @@
 use super::value::{Cell, Col, ValueTable};
-use kash::statement::{FixedExpense, Income, Statement, Transaction};
+use kash::statement::{Account, AccountType, FixedExpense, Income, Statement, Transaction};
 use kash_convert::output::Output;
 use std::io;
 
@@ -113,6 +113,35 @@ impl TableOutput {
 
         table
     }
+
+    pub fn format_accounts(&self, accounts: &[Account]) -> ValueTable {
+        let mut table = ValueTable::new(
+            "Accounts",
+            &[
+                Col("type".into(), Cell::Text(Default::default())),
+                Col("id".into(), Cell::Text(Default::default())),
+                Col("name".into(), Cell::Text(Default::default())),
+                Col("bank".into(), Cell::Text(Default::default())),
+            ],
+        );
+
+        for account in accounts {
+            table.add_row(&[
+                Cell::Text(
+                    match account.account_type {
+                        AccountType::Payment => "payment",
+                        AccountType::Savings => "savings",
+                    }
+                    .to_string(),
+                ),
+                Cell::Text(account.id.to_string()),
+                Cell::Text(account.name.to_owned()),
+                Cell::Text(account.bank.to_owned()),
+            ]);
+        }
+
+        table
+    }
 }
 
 impl Output for TableOutput {
@@ -123,13 +152,14 @@ impl Output for TableOutput {
         let mut fixed: Vec<FixedExpense> = Vec::new();
         let mut income: Vec<Income> = Vec::new();
         let mut transactions: Vec<Transaction> = Vec::new();
+        let mut accounts: Vec<Account> = Vec::new();
 
         for statement in &self.statements {
             match &statement {
                 Statement::Fixed(f) => fixed.push(f.to_owned()),
                 Statement::Income(i) => income.push(i.to_owned()),
                 Statement::Transaction(t) => transactions.push(t.to_owned()),
-                _ => (),
+                Statement::Account(a) => accounts.push(a.to_owned()),
             }
         }
 
@@ -137,9 +167,10 @@ impl Output for TableOutput {
             writer,
             "{}",
             [
+                self.format_accounts(&accounts),
                 self.format_fixed(&fixed),
                 self.format_income(&income),
-                self.format_transactions(&transactions)
+                self.format_transactions(&transactions),
             ]
             .iter()
             .map(ToString::to_string)

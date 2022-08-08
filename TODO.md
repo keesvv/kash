@@ -34,6 +34,8 @@
 - [ ] lib: implement rust_decimal for fixed-precision calculations
 - [ ] convert: convert between inputs
 
+- [ ] cli: sort table entries
+
 - [ ] http: Determine input type based on `Content-Type` header
 
 - [ ] ktf: use serde.rs

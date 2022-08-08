@@ -60,3 +60,10 @@ pub enum AccountType {
 #[cfg(feature = "account")]
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct AccountId(String);
+
+#[cfg(feature = "account")]
+impl ToString for AccountId {
+    fn to_string(&self) -> String {
+        self.0.to_owned()
+    }
+}
