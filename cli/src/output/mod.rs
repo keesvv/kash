@@ -1,3 +1,3 @@
-mod table;
-
-pub use table::TableOutput;
+#[cfg(feature = "output-pie")]
+pub mod pie;
+pub mod table;

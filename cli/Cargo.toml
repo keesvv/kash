@@ -11,6 +11,7 @@ path = "src/main.rs"
 [dependencies]
 tabular = "0.2.0"
 colored = "2"
+piechart = { version = "1.0.0", optional = true }
 kash = { path = "../lib" }
 
 [dependencies.clap]
@@ -26,3 +27,7 @@ features = [
     "input-camt053",
     "output-json"
 ]
+
+[features]
+default = ["output-pie"]
+output-pie = ["dep:piechart"]

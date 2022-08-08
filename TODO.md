@@ -27,6 +27,7 @@
 
 ## Currently working on
 
+- [ ] cli: ANSI pie charts
 - [ ] account: link statements to accounts
 
 ## Coming soon
@@ -47,5 +48,4 @@
 - [ ] lib: atomic edits for consumption in http, cli, etc
 
 - [ ] lib: predictions
-- [ ] cli: ANSI pie charts
 - [ ] http: SVG chart generation

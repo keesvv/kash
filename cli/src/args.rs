@@ -11,6 +11,8 @@ pub enum InputFormat {
 #[derive(Debug, Clone, ArgEnum)]
 pub enum OutputFormat {
     Table,
+    #[cfg(feature = "output-pie")]
+    Pie,
     Json,
 }
 
