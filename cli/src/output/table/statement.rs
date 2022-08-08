@@ -120,42 +120,31 @@ impl Output for TableOutput {
     where
         W: io::Write,
     {
-        // TODO: refactor
-        let fixed = self
-            .statements
-            .iter()
-            .filter_map(|statement| match statement {
-                Statement::Fixed(s) => Some(s.to_owned()),
-                _ => None,
-            })
-            .collect::<Vec<FixedExpense>>();
+        let mut fixed: Vec<FixedExpense> = Vec::new();
+        let mut income: Vec<Income> = Vec::new();
+        let mut transactions: Vec<Transaction> = Vec::new();
 
-        // TODO: refactor
-        let income = self
-            .statements
-            .iter()
-            .filter_map(|statement| match statement {
-                Statement::Income(s) => Some(s.to_owned()),
-                _ => None,
-            })
-            .collect::<Vec<Income>>();
-
-        // TODO: refactor
-        let transactions = self
-            .statements
-            .iter()
-            .filter_map(|statement| match statement {
-                Statement::Transaction(s) => Some(s.to_owned()),
-                _ => None,
-            })
-            .collect::<Vec<Transaction>>();
+        for statement in &self.statements {
+            match &statement {
+                Statement::Fixed(f) => fixed.push(f.to_owned()),
+                Statement::Income(i) => income.push(i.to_owned()),
+                Statement::Transaction(t) => transactions.push(t.to_owned()),
+                _ => (),
+            }
+        }
 
         write!(
             writer,
-            "{}\n\n{}\n\n{}",
-            self.format_fixed(&fixed),
-            self.format_income(&income),
-            self.format_transactions(&transactions)
+            "{}",
+            [
+                self.format_fixed(&fixed),
+                self.format_income(&income),
+                self.format_transactions(&transactions)
+            ]
+            .iter()
+            .map(ToString::to_string)
+            .collect::<Vec<String>>()
+            .join("\n\n")
         )
     }
 }
