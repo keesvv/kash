@@ -17,7 +17,7 @@ pub enum AccountType {
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
-pub struct AccountId(String);
+pub struct AccountId(pub String);
 
 impl ToString for AccountId {
     fn to_string(&self) -> String {

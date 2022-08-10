@@ -3,7 +3,7 @@ use camt053::{Document, Entry};
 use chrono::{DateTime, Utc};
 use kash::{
     date::Date,
-    statements::{transaction::Transaction, Statement},
+    statements::{account::AccountId, transaction::Transaction, Statement},
 };
 use quick_xml::de;
 use std::io::BufReader;
@@ -15,16 +15,23 @@ impl Camt053Input {
         Self
     }
 
-    pub fn parse_entry(entry: &Entry) -> Statement {
-        Statement::Transaction(Transaction {
-            date: Date(DateTime::from_utc(
-                entry.value_date.date.and_hms(0, 0, 0),
-                Utc,
-            )),
-            description: entry.additional_info.to_owned(),
-            mutation: entry.amount.value * -1.0,
-            tag: None,
-        })
+    pub fn parse_statement(statement: &camt053::Statement) -> Vec<Statement> {
+        statement
+            .entries
+            .iter()
+            .map(|entry: &Entry| {
+                Statement::Transaction(Transaction {
+                    date: Date(DateTime::from_utc(
+                        entry.value_date.date.and_hms(0, 0, 0),
+                        Utc,
+                    )),
+                    description: entry.additional_info.to_owned(),
+                    mutation: entry.amount.value * -1.0,
+                    tag: None,
+                    account_id: AccountId(statement.account.id.value.as_str_id().into()),
+                })
+            })
+            .collect()
     }
 }
 
@@ -36,10 +43,11 @@ impl Input for Camt053Input {
         let document: Document = de::from_reader(BufReader::new(reader))
             .map_err(|e| InputError::Invalid(e.to_string()))?;
 
-        Ok(document.bank_to_customer.statements[0]
-            .entries
+        Ok(document
+            .bank_to_customer
+            .statements
             .iter()
-            .map(Self::parse_entry)
+            .flat_map(Self::parse_statement)
             .collect())
     }
 }

@@ -16,6 +16,8 @@ pub struct BankToCustomerStatement {
 pub struct Statement {
     #[serde(rename = "Bal")]
     pub balance: Vec<Balance>,
+    #[serde(rename = "Acct")]
+    pub account: Account,
     #[serde(rename = "Ntry")]
     pub entries: Vec<Entry>,
 }

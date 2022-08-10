@@ -25,14 +25,14 @@
 - [x] convert: CAMT.053 input
 - [x] statement: Account variant
 - [x] cli: ANSI pie charts
+- [x] account: link transactions to accounts
 
 ## Currently working on
 
-- [ ] account: link statements to accounts
+- [ ] lib: implement rust_decimal for fixed-precision calculations
 
 ## Coming soon
 
-- [ ] lib: implement rust_decimal for fixed-precision calculations
 - [ ] convert: convert between inputs
 
 - [ ] cli: sort table entries
