@@ -1,4 +1,5 @@
 use colored::*;
+use std::cmp::Ordering;
 use std::fmt::{self, Display};
 use tabular::{Row, Table};
 
@@ -73,30 +74,36 @@ pub enum Cell {
 }
 
 impl Cell {
-    fn format_mutation(value: f32) -> String {
-        if value >= 0.0 { "+" } else { "-" }.to_owned()
-            + &format_args!("{:.2}", value.abs()).to_string()
+    fn get_mutation_style(value: f32) -> (char, Color) {
+        match value.partial_cmp(&0.0).unwrap() {
+            Ordering::Greater => ('+', Color::BrightGreen),
+            Ordering::Less => ('-', Color::BrightRed),
+            Ordering::Equal => ('=', Color::BrightBlack),
+        }
     }
 
     pub fn content(&self) -> String {
         match self {
             Cell::Text(t) => t.to_owned(),
-            Cell::Value(v) => Self::format_mutation(*v),
+            Cell::Value(v) => {
+                format_args!("{}{:.2}", Self::get_mutation_style(*v).0, v.abs()).to_string()
+            }
+        }
+    }
+
+    pub fn content_colored(&self) -> String {
+        match self {
+            Cell::Value(v) => self
+                .content()
+                .color(Self::get_mutation_style(*v).1)
+                .to_string(),
+            _ => self.content(),
         }
     }
 }
 
 impl Display for Cell {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.write_str(&match self {
-            &Cell::Value(v) => {
-                if v < 0.0 {
-                    self.content().bright_red().to_string()
-                } else {
-                    self.content().bright_green().to_string()
-                }
-            }
-            _ => self.content(),
-        })
+        f.write_str(&self.content_colored())
     }
 }
