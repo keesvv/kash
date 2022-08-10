@@ -24,10 +24,10 @@
 - [x] lib: rename statement structs
 - [x] convert: CAMT.053 input
 - [x] statement: Account variant
+- [x] cli: ANSI pie charts
 
 ## Currently working on
 
-- [ ] cli: ANSI pie charts
 - [ ] account: link statements to accounts
 
 ## Coming soon
