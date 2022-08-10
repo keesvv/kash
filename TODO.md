@@ -26,6 +26,7 @@
 - [x] statement: Account variant
 - [x] cli: ANSI pie charts
 - [x] account: link transactions to accounts
+- [x] cli: sort transactions
 
 ## Currently working on
 
@@ -34,8 +35,6 @@
 ## Coming soon
 
 - [ ] convert: convert between inputs
-
-- [ ] cli: sort table entries
 
 - [ ] http: Determine input type based on `Content-Type` header
 

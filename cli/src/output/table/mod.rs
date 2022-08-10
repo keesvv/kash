@@ -92,7 +92,7 @@ impl TableOutput {
 
     pub fn format_transactions(&self, transactions: &[Transaction]) -> ValueTable {
         let mut table = ValueTable::new(
-            "Transactions",
+            "Latest transactions",
             &[
                 Col("date".into(), Cell::Text(Default::default())),
                 Col("description".into(), Cell::Text(Default::default())),
@@ -101,7 +101,10 @@ impl TableOutput {
             ],
         );
 
-        for transaction in transactions {
+        let mut transactions = transactions.iter().collect::<Vec<&Transaction>>();
+        transactions.sort_by(|a, b| b.date.cmp(&a.date));
+
+        for transaction in transactions.iter().take(10) {
             table.add_row(&[
                 Cell::Text(transaction.date.0.format("%Y/%m/%d").to_string()),
                 Cell::Text(
