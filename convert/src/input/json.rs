@@ -1,5 +1,5 @@
 use super::{Input, InputError};
-use kash::statement::Statement;
+use kash::statements::Statement;
 
 pub struct JsonInput;
 

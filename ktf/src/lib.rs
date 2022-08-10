@@ -1,5 +1,5 @@
 use kash::{
-    statement::{FixedExpense, Income, Statement},
+    statements::{fixed::FixedExpense, income::Income, Statement},
     value::MonthValues,
 };
 use std::fmt::{self, Display};

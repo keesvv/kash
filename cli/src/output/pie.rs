@@ -1,5 +1,5 @@
 use colored::*;
-use kash::statement::{FixedExpense, Statement};
+use kash::statements::{fixed::FixedExpense, Statement};
 use kash_convert::output::Output;
 use piechart::{Chart, Color, Data};
 use std::collections::HashMap;

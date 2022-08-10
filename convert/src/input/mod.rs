@@ -7,7 +7,7 @@ pub mod json;
 #[cfg(feature = "input-camt053")]
 pub mod camt053;
 
-use kash::statement::Statement;
+use kash::statements::Statement;
 use std::io::Read;
 
 #[derive(Debug)]

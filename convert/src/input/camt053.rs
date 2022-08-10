@@ -3,7 +3,7 @@ use camt053::{Document, Entry};
 use chrono::{DateTime, Utc};
 use kash::{
     date::Date,
-    statement::{Statement, Transaction},
+    statements::{transaction::Transaction, Statement},
 };
 use quick_xml::de;
 use std::io::BufReader;

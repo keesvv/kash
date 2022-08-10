@@ -1,5 +1,7 @@
+mod args;
+
+use self::args::{Args, InputFormat, OutputFormat};
 use clap::Parser;
-use kash_cli::args::{Args, InputFormat, OutputFormat};
 #[cfg(feature = "output-pie")]
 use kash_cli::output::pie::PieOutput;
 use kash_cli::output::table::TableOutput;

@@ -1,5 +1,5 @@
 use super::Output;
-use kash::statement::Statement;
+use kash::statements::Statement;
 use std::io;
 
 pub struct JsonOutput {
