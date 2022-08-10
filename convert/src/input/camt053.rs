@@ -15,6 +15,21 @@ impl Camt053Input {
         Self
     }
 
+    pub fn get_description(entry: &camt053::Entry) -> Option<String> {
+        // FIXME: can we improve this?
+        match entry.additional_info.to_owned() {
+            Some(info) => Some(info),
+            None => Some(
+                entry.details.to_owned()?.transactions[0]
+                    .to_owned()
+                    .remittance_info
+                    .to_owned()?
+                    .unstructured?
+                    .to_owned(),
+            ),
+        }
+    }
+
     pub fn parse_statement(statement: &camt053::Statement) -> Vec<Statement> {
         statement
             .entries
@@ -25,7 +40,7 @@ impl Camt053Input {
                         entry.value_date.date.and_hms(0, 0, 0),
                         Utc,
                     )),
-                    description: entry.additional_info.to_owned(),
+                    description: Self::get_description(entry).unwrap_or_default(),
                     mutation: entry.amount.value * -1.0,
                     tag: None,
                     account_id: AccountId(statement.account.id.value.as_str_id().into()),

@@ -1,18 +1,18 @@
 use serde::Deserialize;
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct Document {
     #[serde(rename = "BkToCstmrStmt")]
     pub bank_to_customer: BankToCustomerStatement,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct BankToCustomerStatement {
     #[serde(rename = "Stmt")]
     pub statements: Vec<Statement>,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct Statement {
     #[serde(rename = "Bal")]
     pub balance: Vec<Balance>,
@@ -22,7 +22,7 @@ pub struct Statement {
     pub entries: Vec<Entry>,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct Balance {
     #[serde(rename = "Tp")]
     pub balance_type: BalanceType,
@@ -32,25 +32,25 @@ pub struct Balance {
     pub credit_or_debit: CreditDebitIndicator,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct BalanceType {
     #[serde(rename = "CdOrPrtry")]
     pub credit_or_property: CodeOrProperty,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct CodeOrProperty {
     #[serde(rename = "Cd")]
     pub code: BalanceCodeValue,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct BalanceCodeValue {
     #[serde(rename = "$value")]
     pub value: BalanceCode,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub enum BalanceCode {
     #[serde(rename = "PRCD")]
     PrevClosedBooked,
@@ -64,13 +64,13 @@ pub enum BalanceCode {
     ForwardAvailable,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct CreditDebitIndicator {
     #[serde(rename = "$value")]
     pub value: CreditOrDebit,
 }
 
-#[derive(Debug, Deserialize, PartialEq, Clone, Copy)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Copy)]
 pub enum CreditOrDebit {
     #[serde(rename = "CRDT")]
     Credit,
@@ -78,7 +78,7 @@ pub enum CreditOrDebit {
     Debit,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct Entry {
     #[serde(rename = "Amt")]
     pub amount: Amount,
@@ -95,16 +95,16 @@ pub struct Entry {
     #[serde(rename = "NtryDtls")]
     pub details: Option<EntryDetails>,
     #[serde(rename = "AddtlNtryInf")]
-    pub additional_info: String,
+    pub additional_info: Option<String>,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct BankTransactionCode {
     #[serde(rename = "Domn")]
-    pub domain: Domain,
+    pub domain: Option<Domain>,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct Domain {
     #[serde(rename = "Cd")]
     pub code: DomainCodeValue,
@@ -112,7 +112,7 @@ pub struct Domain {
     pub family: DomainFamily,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct DomainFamily {
     #[serde(rename = "Cd")]
     pub code: DomainFamilyCodeValue,
@@ -120,31 +120,31 @@ pub struct DomainFamily {
     pub sub_family_code: DomainSubFamilyCodeValue,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct DomainCodeValue {
     #[serde(rename = "$value")]
     pub value: DomainCode,
 }
 
-#[derive(Debug, Deserialize, PartialEq, Eq)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq)]
 pub enum DomainCode {
     #[serde(rename = "PMNT")]
     Payment,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct DomainFamilyCodeValue {
     #[serde(rename = "$value")]
     pub value: DomainFamilyCode,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct DomainSubFamilyCodeValue {
     #[serde(rename = "$value")]
     pub value: DomainSubFamilyCode,
 }
 
-#[derive(Debug, Deserialize, PartialEq, Eq)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq)]
 pub enum DomainFamilyCode {
     #[serde(rename = "CCRD")]
     CardPayment,
@@ -156,7 +156,7 @@ pub enum DomainFamilyCode {
     ReceivedDirectDebits,
 }
 
-#[derive(Debug, Deserialize, PartialEq, Eq)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq)]
 pub enum DomainSubFamilyCode {
     #[serde(rename = "POSD")]
     PointOfSaleDebit,
@@ -170,7 +170,7 @@ pub enum DomainSubFamilyCode {
     Other,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct EntryDetails {
     #[serde(rename = "Btch", default)]
     pub batch: Batch,
@@ -178,7 +178,7 @@ pub struct EntryDetails {
     pub transactions: Vec<TransactionDetails>,
 }
 
-#[derive(Debug, Deserialize, PartialEq, Default)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Default)]
 pub struct Batch {
     #[serde(rename = "NbOfTxs")]
     pub number_of_transactions: usize,
@@ -189,14 +189,14 @@ pub struct Batch {
     // pub credit_or_debit: CreditDebitIndicator,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct TransactionDetails {
     #[serde(rename = "Refs")]
     pub refs: References,
     #[serde(rename = "Amt")]
-    pub amount: Amount,
+    pub amount: Option<Amount>,
     #[serde(rename = "CdtDbtInd")]
-    pub credit_or_debit: CreditDebitIndicator,
+    pub credit_or_debit: Option<CreditDebitIndicator>,
     #[serde(rename = "AmtDtls")]
     pub amount_details: Option<AmountDetails>,
     #[serde(rename = "Chrgs")]
@@ -209,13 +209,13 @@ pub struct TransactionDetails {
     pub additional_info: Option<String>,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct RemittanceInfo {
     #[serde(rename = "Ustrd")]
     pub unstructured: Option<String>,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct References {
     #[serde(rename = "AcctSvcrRef")]
     pub account_servicer_reference: Option<String>,
@@ -229,7 +229,7 @@ pub struct References {
     // pub transaction_id: Option<String>,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct RelatedParties {
     #[serde(rename = "Dbtr")]
     pub debtor: Option<Party>,
@@ -245,25 +245,25 @@ pub struct RelatedParties {
     pub ultimate_creditor: Option<Party>,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct Party {
     #[serde(rename = "Nm")]
     pub name: String,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct Account {
     #[serde(rename = "Id")]
     pub id: AccountIdWrapper,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct AccountIdWrapper {
     #[serde(rename = "$value")]
     pub value: AccountId,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub enum AccountId {
     #[serde(rename = "IBAN")]
     Iban(String),
@@ -280,13 +280,13 @@ impl AccountId {
     }
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct OtherAccountId {
     #[serde(rename = "Id")]
     pub id: String,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct Amount {
     #[serde(rename = "Ccy")]
     pub currency: String,
@@ -294,7 +294,7 @@ pub struct Amount {
     pub value: f32,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct AmountWithExchange {
     #[serde(rename = "Amt")]
     pub amount: Amount,
@@ -302,7 +302,7 @@ pub struct AmountWithExchange {
     pub currency_exchange: Option<CurrencyExchange>,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct CurrencyExchange {
     #[serde(rename = "SrcCcy")]
     pub source_currency: String,
@@ -312,13 +312,13 @@ pub struct CurrencyExchange {
     pub exchange_rate: ExchangeRate,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct ExchangeRate {
     #[serde(rename = "$value")]
     pub value: f32,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct AmountDetails {
     // Actual passed amount.
     #[serde(rename = "InstdAmt")]
@@ -328,7 +328,7 @@ pub struct AmountDetails {
     pub transaction: AmountWithExchange,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct Charges {
     #[serde(rename = "TtlChrgsAndTaxAmt")]
     pub total: Option<Amount>,
@@ -336,7 +336,7 @@ pub struct Charges {
     pub records: Vec<ChargeRecord>,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct ChargeRecord {
     #[serde(rename = "Amt")]
     pub amount: Amount,
@@ -346,7 +346,7 @@ pub struct ChargeRecord {
     pub is_charge_included: bool,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct Date {
     #[serde(rename = "Dt")]
     pub date: chrono::NaiveDate,
