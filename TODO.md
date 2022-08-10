@@ -30,9 +30,13 @@
 
 ## Currently working on
 
-- [ ] lib: implement rust_decimal for fixed-precision calculations
+- [ ] manage: repo management, read inputs from repo
+- [ ] manage: config management
+- [ ] manage-cli: `show` subcmd
 
 ## Coming soon
+
+- [ ] lib: implement rust_decimal for fixed-precision calculations
 
 - [ ] convert: convert between inputs
 
@@ -44,7 +48,7 @@
 - [ ] statement: Budget variant
 - [ ] statement: Goal variant
 
-- [ ] lib: atomic edits for consumption in http, cli, etc
+- [ ] manage: atomic edits for consumption in http, cli, etc
 
 - [ ] lib: predictions
 - [ ] http: SVG chart generation

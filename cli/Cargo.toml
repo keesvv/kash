@@ -3,10 +3,16 @@ name = "kash_cli"
 version = "0.1.0"
 edition = "2021"
 license = "MIT OR Apache-2.0"
+default-run = "kash"
 
 [[bin]]
 name = "kash"
-path = "src/main.rs"
+path = "src/kash/main.rs"
+
+[[bin]]
+name = "kash-manage"
+path = "src/kash_manage/main.rs"
+required-features = ["manage"]
 
 [dependencies]
 tabular = "0.2.0"
@@ -29,5 +35,6 @@ features = [
 ]
 
 [features]
-default = ["output-pie"]
+default = ["output-pie", "manage"]
 output-pie = ["dep:piechart"]
+manage = []
