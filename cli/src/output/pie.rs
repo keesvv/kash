@@ -44,6 +44,13 @@ impl PieOutput {
         .flatten()
     }
 
+    pub fn get_empty_data(&self) -> Vec<Data> {
+        vec![Data {
+            label: "none".into(),
+            ..Default::default()
+        }]
+    }
+
     pub fn write_chart<W>(
         &self,
         writer: &mut W,
@@ -69,7 +76,14 @@ impl PieOutput {
             .legend(true)
             .radius(8)
             .aspect_ratio(4)
-            .draw_into(writer, &data)
+            .draw_into(
+                writer,
+                &if !data.is_empty() {
+                    data
+                } else {
+                    self.get_empty_data()
+                },
+            )
     }
 }
 
