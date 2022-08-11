@@ -10,5 +10,5 @@ fn main() {
 
     repo.reload_store().unwrap();
 
-    println!("{:#?}", repo.get_all().unwrap());
+    args.output_format.to_stdout(&repo.get_all().unwrap());
 }
