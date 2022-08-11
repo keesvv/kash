@@ -1,12 +1,8 @@
 mod args;
 
-use self::args::{Args, InputFormat, OutputFormat};
+use self::args::{Args, InputFormat};
 use clap::Parser;
-#[cfg(feature = "output-pie")]
-use kash_cli::output::pie::PieOutput;
-use kash_cli::output::table::TableOutput;
 use kash_convert::input::{camt053::Camt053Input, json::JsonInput, ktf::KtfInput, Input};
-use kash_convert::output::{json::JsonOutput, Output};
 use std::fs::File;
 use std::io::{self, Read};
 
@@ -36,13 +32,5 @@ fn main() {
         );
     }
 
-    println!(
-        "{}",
-        match args.output_format {
-            OutputFormat::Table => TableOutput::new(&input).to_string(),
-            #[cfg(feature = "output-pie")]
-            OutputFormat::Pie => PieOutput::new(&input).to_string(),
-            OutputFormat::Json => JsonOutput::new(&input).to_string(),
-        }
-    );
+    args.output_format.to_stdout(&input);
 }

@@ -1,19 +1,12 @@
 use clap::clap_derive::ArgEnum;
 use clap::Parser;
+use kash_cli::output::OutputFormat;
 
 #[derive(Debug, Clone, ArgEnum)]
 pub enum InputFormat {
     Ktf,
     Json,
     Camt053,
-}
-
-#[derive(Debug, Clone, ArgEnum)]
-pub enum OutputFormat {
-    Table,
-    #[cfg(feature = "output-pie")]
-    Pie,
-    Json,
 }
 
 /// command-line interface to kash
