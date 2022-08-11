@@ -23,6 +23,14 @@ features = ["alloc", "std", "serde"]
 optional = true
 
 [features]
+all = ["all-inputs", "all-outputs"]
+all-inputs = [
+    "input-ktf",
+    "input-json",
+    "input-camt053"
+]
+all-outputs = ["output-json"]
+
 input-ktf = ["dep:ktf"]
 input-json = ["dep:serde_json"]
 input-camt053 = ["dep:camt053", "dep:quick-xml", "dep:chrono"]

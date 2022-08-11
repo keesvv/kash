@@ -20,20 +20,12 @@ colored = "2"
 piechart = { version = "1.0.0", optional = true }
 kash = { path = "../lib" }
 kash_manage = { path = "../manage", optional = true }
+kash_convert = { path = "../convert", features = ["all"] }
 
 [dependencies.clap]
 version = "3.2.14"
 default-features = false
 features = ["std", "derive"]
-
-[dependencies.kash_convert]
-path = "../convert"
-features = [
-    "input-ktf",
-    "input-json",
-    "input-camt053",
-    "output-json"
-]
 
 [features]
 default = ["output-pie", "manage"]
