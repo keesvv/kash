@@ -1,3 +1,11 @@
 [workspace]
-members = ["lib", "ktf", "camt053", "convert", "cli", "http"]
+members = [
+    "lib",
+    "ktf",
+    "camt053",
+    "convert",
+    "manage",
+    "cli",
+    "http"
+]
 default-members = ["cli"]

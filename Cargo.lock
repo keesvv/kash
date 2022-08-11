@@ -395,6 +395,7 @@ dependencies = [
  "colored",
  "kash",
  "kash_convert",
+ "kash_manage",
  "piechart",
  "tabular",
 ]
@@ -420,6 +421,13 @@ dependencies = [
  "kash_convert",
  "tokio",
  "warp",
+]
+
+[[package]]
+name = "kash_manage"
+version = "0.1.0"
+dependencies = [
+ "kash",
 ]
 
 [[package]]

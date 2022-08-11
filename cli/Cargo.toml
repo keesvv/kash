@@ -19,6 +19,7 @@ tabular = "0.2.0"
 colored = "2"
 piechart = { version = "1.0.0", optional = true }
 kash = { path = "../lib" }
+kash_manage = { path = "../manage", optional = true }
 
 [dependencies.clap]
 version = "3.2.14"
@@ -37,4 +38,4 @@ features = [
 [features]
 default = ["output-pie", "manage"]
 output-pie = ["dep:piechart"]
-manage = []
+manage = ["dep:kash_manage"]
