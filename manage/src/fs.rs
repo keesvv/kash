@@ -2,7 +2,7 @@ use super::repo::{Error, RepoLike, Result};
 use kash::statements::Statement;
 use kash_convert::input::{json::JsonInput, Input};
 use std::{
-    fs::File,
+    fs::{self, File},
     path::{Path, PathBuf},
 };
 
@@ -25,7 +25,15 @@ impl FsRepo {
     }
 
     pub fn reload_store(&mut self) -> Result<()> {
-        self.statements = self.read_input(&self.path.join("statements").join("data.json"))?;
+        let mut statements = Vec::new();
+        let st_dir = fs::read_dir(&self.path.join("statements")).map_err(Error::IO)?;
+
+        for input in st_dir {
+            let input_path = input.map_err(Error::IO)?.path();
+            statements.extend(self.read_input(&input_path)?);
+        }
+
+        self.statements = statements;
         Ok(())
     }
 }
