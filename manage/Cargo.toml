@@ -5,3 +5,8 @@ edition = "2021"
 
 [dependencies]
 kash = { path = "../lib" }
+kash_convert = { path = "../convert" }
+
+[features]
+default = ["fs"]
+fs = ["kash_convert/input-json"]

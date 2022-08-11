@@ -428,6 +428,7 @@ name = "kash_manage"
 version = "0.1.0"
 dependencies = [
  "kash",
+ "kash_convert",
 ]
 
 [[package]]
