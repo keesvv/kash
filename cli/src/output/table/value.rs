@@ -1,3 +1,4 @@
+use super::OutputOptions;
 use colored::*;
 use std::cmp::Ordering;
 use std::fmt::{self, Display};
@@ -6,16 +7,17 @@ use tabular::{Row, Table};
 #[derive(Clone)]
 pub struct ValueTable {
     table: Table,
+    opts: OutputOptions,
 }
 
 impl ValueTable {
-    pub fn new(heading: &str, cols: &[Col]) -> Self {
+    pub fn new(heading: &str, cols: &[Col], opts: OutputOptions) -> Self {
         let table = Table::new(
             &cols
                 .iter()
                 .map(|col| match col.1 {
                     Cell::Text(_) => "{:<}",
-                    Cell::Value(_) => "{:>}",
+                    Cell::Value(_) | Cell::MaskedValue(_) => "{:>}",
                 })
                 .collect::<Vec<&str>>()
                 .join(" "),
@@ -27,13 +29,24 @@ impl ValueTable {
                 .collect::<Vec<String>>(),
         ));
 
-        Self { table }
+        Self { table, opts }
     }
 
     pub fn add_row(&mut self, row: &[Cell]) {
         let mut table_row = Row::new();
 
         for cell in row {
+            let cell = match cell.to_owned() {
+                Cell::Value(v) => {
+                    if self.opts.discrete {
+                        Cell::MaskedValue(v)
+                    } else {
+                        Cell::Value(v)
+                    }
+                }
+                other => other,
+            };
+
             table_row.add_custom_width_cell(cell.to_string(), cell.content().len());
         }
 
@@ -71,6 +84,7 @@ pub struct Col(pub String, pub Cell);
 pub enum Cell {
     Text(String),
     Value(f32),
+    MaskedValue(f32),
 }
 
 impl Cell {
@@ -86,14 +100,17 @@ impl Cell {
         match self {
             Cell::Text(t) => t.to_owned(),
             Cell::Value(v) => {
-                format_args!("{}{:.2}", Self::get_mutation_style(*v).0, v.abs()).to_string()
+                format!("{}{:.2}", Self::get_mutation_style(*v).0, v.abs())
+            }
+            Cell::MaskedValue(v) => {
+                format!("{}xxx", Self::get_mutation_style(*v).0)
             }
         }
     }
 
     pub fn content_colored(&self) -> String {
         match self {
-            Cell::Value(v) => self
+            Cell::Value(v) | Cell::MaskedValue(v) => self
                 .content()
                 .color(Self::get_mutation_style(*v).1)
                 .to_string(),

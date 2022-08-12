@@ -24,4 +24,8 @@ pub struct Args {
     /// Output format
     #[clap(short = 'o', long = "output", arg_enum, default_value = "table")]
     pub output_format: OutputFormat,
+
+    /// Hide sensitive information
+    #[clap(short = 'd', long = "discrete")]
+    pub discrete: bool,
 }

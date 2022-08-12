@@ -1,6 +1,7 @@
 pub mod value;
 
 use self::value::{Cell, Col, ValueTable};
+use super::OutputOptions;
 use kash::statements::{
     account::{Account, AccountType},
     fixed::FixedExpense,
@@ -13,12 +14,14 @@ use std::io;
 
 pub struct TableOutput {
     statements: Vec<Statement>,
+    opts: OutputOptions,
 }
 
 impl TableOutput {
-    pub fn new(statements: &[Statement]) -> Self {
+    pub fn new(statements: &[Statement], opts: OutputOptions) -> Self {
         Self {
             statements: statements.to_owned(),
+            opts,
         }
     }
 
@@ -31,6 +34,7 @@ impl TableOutput {
                 Col("avg/mo".into(), Cell::Value(Default::default())),
                 Col("year".into(), Cell::Value(Default::default())),
             ],
+            self.opts,
         );
 
         for expense in expenses {
@@ -65,6 +69,7 @@ impl TableOutput {
                 Col("avg/mo".into(), Cell::Value(Default::default())),
                 Col("year".into(), Cell::Value(Default::default())),
             ],
+            self.opts,
         );
 
         for statement in income {
@@ -99,6 +104,7 @@ impl TableOutput {
                 Col("mutation".into(), Cell::Text(Default::default())),
                 Col("tag".into(), Cell::Text(Default::default())),
             ],
+            self.opts,
         );
 
         let mut transactions = transactions.iter().collect::<Vec<&Transaction>>();
@@ -134,6 +140,7 @@ impl TableOutput {
                 Col("name".into(), Cell::Text(Default::default())),
                 Col("bank".into(), Cell::Text(Default::default())),
             ],
+            self.opts,
         );
 
         for account in accounts {

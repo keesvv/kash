@@ -2,6 +2,7 @@ mod args;
 
 use self::args::{Args, InputFormat};
 use clap::Parser;
+use kash_cli::output::OutputOptions;
 use kash_convert::input::{camt053::Camt053Input, json::JsonInput, ktf::KtfInput, Input};
 use std::fs::File;
 use std::io::{self, Read};
@@ -32,5 +33,6 @@ fn main() {
         );
     }
 
-    args.output_format.to_stdout(&input);
+    args.output_format
+        .to_stdout(&input, OutputOptions { discrete: args.discrete });
 }
