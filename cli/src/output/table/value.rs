@@ -2,6 +2,7 @@ use super::OutputOptions;
 use colored::*;
 use std::cmp::Ordering;
 use std::fmt::{self, Display};
+use std::iter;
 use tabular::{Row, Table};
 
 #[derive(Clone)]
@@ -16,7 +17,7 @@ impl ValueTable {
             &cols
                 .iter()
                 .map(|col| match col.1 {
-                    Cell::Text(_) => "{:<}",
+                    Cell::Text(_) | Cell::MaskedText(_) => "{:<}",
                     Cell::Value(_) | Cell::MaskedValue(_) => "{:>}",
                 })
                 .collect::<Vec<&str>>()
@@ -83,6 +84,7 @@ pub struct Col(pub String, pub Cell);
 #[derive(Debug, Clone)]
 pub enum Cell {
     Text(String),
+    MaskedText(String),
     Value(f32),
     MaskedValue(f32),
 }
@@ -99,6 +101,7 @@ impl Cell {
     pub fn content(&self) -> String {
         match self {
             Cell::Text(t) => t.to_owned(),
+            Cell::MaskedText(t) => iter::repeat('x').take(t.len()).collect::<String>().into(),
             Cell::Value(v) => {
                 format!("{}{:.2}", Self::get_mutation_style(*v).0, v.abs())
             }
