@@ -27,12 +27,12 @@
 - [x] cli: ANSI pie charts
 - [x] account: link transactions to accounts
 - [x] cli: sort transactions
+- [x] manage: repo management, read inputs from repo
 
 ## Currently working on
 
-- [ ] manage: repo management, read inputs from repo
-- [ ] manage: config management
 - [ ] manage-cli: `show` subcmd
+- [ ] manage: config management
 
 ## Coming soon
 
