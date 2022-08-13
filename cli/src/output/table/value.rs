@@ -1,8 +1,8 @@
 use super::OutputOptions;
+use crate::output;
 use colored::*;
 use std::cmp::Ordering;
 use std::fmt::{self, Display};
-use std::iter;
 use tabular::{Row, Table};
 
 #[derive(Clone)]
@@ -101,12 +101,16 @@ impl Cell {
     pub fn content(&self) -> String {
         match self {
             Cell::Text(t) => t.to_owned(),
-            Cell::MaskedText(t) => iter::repeat('x').take(t.len()).collect::<String>().into(),
+            Cell::MaskedText(t) => output::generate_mask(t.len()),
             Cell::Value(v) => {
                 format!("{}{:.2}", Self::get_mutation_style(*v).0, v.abs())
             }
             Cell::MaskedValue(v) => {
-                format!("{}xxx", Self::get_mutation_style(*v).0)
+                format!(
+                    "{}{}",
+                    Self::get_mutation_style(*v).0,
+                    output::generate_mask(3)
+                )
             }
         }
     }

@@ -8,6 +8,7 @@ use self::table::TableOutput;
 use clap::{clap_derive::ArgEnum, Parser};
 use kash::statements::Statement;
 use kash_convert::output::{json::JsonOutput, Output};
+use std::iter;
 
 #[derive(Debug, Clone, ArgEnum)]
 pub enum OutputFormat {
@@ -51,4 +52,10 @@ pub struct OutputArgs {
     /// Hide sensitive information
     #[clap(short = 'd', long = "discrete")]
     pub discrete: bool,
+}
+
+pub const MASK_CHAR: char = 'x';
+
+pub fn generate_mask(len: usize) -> String {
+    iter::repeat(MASK_CHAR).take(len).collect()
 }
