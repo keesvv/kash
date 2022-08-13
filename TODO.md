@@ -28,10 +28,10 @@
 - [x] account: link transactions to accounts
 - [x] cli: sort transactions
 - [x] manage: repo management, read inputs from repo
+- [x] manage-cli: `show` subcmd
 
 ## Currently working on
 
-- [ ] manage-cli: `show` subcmd
 - [ ] manage: config management
 
 ## Coming soon

@@ -5,7 +5,7 @@ pub mod table;
 #[cfg(feature = "output-pie")]
 use self::pie::PieOutput;
 use self::table::TableOutput;
-use clap::clap_derive::ArgEnum;
+use clap::{clap_derive::ArgEnum, Parser};
 use kash::statements::Statement;
 use kash_convert::output::{json::JsonOutput, Output};
 
@@ -40,4 +40,15 @@ impl OutputFormat {
             }
         )
     }
+}
+
+#[derive(Parser, Debug)]
+pub struct OutputArgs {
+    /// Output format
+    #[clap(short = 'o', long = "output", arg_enum, default_value = "table")]
+    pub output_format: OutputFormat,
+
+    /// Hide sensitive information
+    #[clap(short = 'd', long = "discrete")]
+    pub discrete: bool,
 }

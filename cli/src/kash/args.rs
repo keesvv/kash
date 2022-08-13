@@ -1,6 +1,6 @@
 use clap::clap_derive::ArgEnum;
 use clap::Parser;
-use kash_cli::output::OutputFormat;
+use kash_cli::output::OutputArgs;
 
 #[derive(Debug, Clone, ArgEnum)]
 pub enum InputFormat {
@@ -21,11 +21,6 @@ pub struct Args {
     #[clap(default_value = "-")]
     pub input: Vec<String>,
 
-    /// Output format
-    #[clap(short = 'o', long = "output", arg_enum, default_value = "table")]
-    pub output_format: OutputFormat,
-
-    /// Hide sensitive information
-    #[clap(short = 'd', long = "discrete")]
-    pub discrete: bool,
+    #[clap(flatten)]
+    pub output: OutputArgs,
 }

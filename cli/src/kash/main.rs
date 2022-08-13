@@ -33,6 +33,10 @@ fn main() {
         );
     }
 
-    args.output_format
-        .to_stdout(&input, OutputOptions { discrete: args.discrete });
+    args.output.output_format.to_stdout(
+        &input,
+        OutputOptions {
+            discrete: args.output.discrete,
+        },
+    );
 }
