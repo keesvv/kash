@@ -29,21 +29,20 @@
 - [x] cli: sort transactions
 - [x] repo: repo management, read inputs from repo
 - [x] manage-cli: `show` subcmd
+- [x] manage-cli: config management
 
 ## Currently working on
 
-- [ ] manage-cli: config management
+- [ ] http: implement kash_repo
+- [ ] lib: implement rust_decimal for fixed-precision calculations
 
 ## Coming soon
-
-- [ ] lib: implement rust_decimal for fixed-precision calculations
 
 - [ ] convert: convert between inputs
 
 - [ ] http: Determine input type based on `Content-Type` header
-
-- [ ] ktf: use serde.rs
-- [ ] ktf: ignore newlines and comments
+- [ ] web: add bindings with wasm_bindgen
+- [ ] web: wasm/http repository abstractions with TypeScript
 
 - [ ] statement: Budget variant
 - [ ] statement: Goal variant
@@ -52,3 +51,5 @@
 
 - [ ] lib: predictions
 - [ ] http: SVG chart generation
+
+- [ ] ktf: finalize
