@@ -1,6 +1,6 @@
 use super::repo::{Error, RepoLike, Result};
 use kash::statements::Statement;
-use kash_convert::input::{json::JsonInput, Input};
+use kash_convert::input::{camt053::Camt053Input, json::JsonInput, toml::TomlInput, Input};
 use std::{
     fs::{self, File},
     path::{Path, PathBuf},
@@ -21,7 +21,14 @@ impl FsRepo {
 
     fn read_input(&self, path: &Path) -> Result<Vec<Statement>> {
         let input_file = File::open(path).map_err(Error::IO)?;
-        JsonInput::new().from_read(input_file).map_err(Error::Input)
+        match path.extension().unwrap_or_default().to_str() {
+            Some("json") => Ok(JsonInput::new().from_read(input_file)),
+            Some("toml") => Ok(TomlInput::new().from_read(input_file)),
+            Some("camt") => Ok(Camt053Input::new().from_read(input_file)),
+            Some(ext) => Err(Error::Message(format!("unknown format '{ext}'"))),
+            None => Err(Error::Message("extension parse error".into())),
+        }?
+        .map_err(Error::Input)
     }
 
     pub fn reload_store(&mut self) -> Result<()> {
