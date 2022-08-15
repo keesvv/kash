@@ -3,7 +3,7 @@ mod args;
 use self::args::{Args, Operation};
 use clap::Parser;
 use kash_cli::output::OutputOptions;
-use kash_manage::{fs::FsRepo, repo::RepoLike};
+use kash_repo::{fs::FsRepo, repo::RepoLike};
 
 fn main() {
     let args: Args = Args::parse();

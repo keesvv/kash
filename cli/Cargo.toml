@@ -19,7 +19,7 @@ tabular = "0.2.0"
 colored = "2"
 piechart = { version = "1.0.0", optional = true }
 kash = { path = "../lib" }
-kash_manage = { path = "../manage", optional = true }
+kash_repo = { path = "../repo", optional = true }
 kash_convert = { path = "../convert", features = ["all"] }
 
 [dependencies.clap]
@@ -30,4 +30,4 @@ features = ["std", "derive"]
 [features]
 default = ["output-pie", "manage"]
 output-pie = ["dep:piechart"]
-manage = ["dep:kash_manage"]
+manage = ["dep:kash_repo"]

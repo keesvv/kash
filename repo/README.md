@@ -1,3 +1,3 @@
-# kash_manage
+# kash_repo
 
 Repo management and persistency features of kash.

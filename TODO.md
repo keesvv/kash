@@ -27,12 +27,12 @@
 - [x] cli: ANSI pie charts
 - [x] account: link transactions to accounts
 - [x] cli: sort transactions
-- [x] manage: repo management, read inputs from repo
+- [x] repo: repo management, read inputs from repo
 - [x] manage-cli: `show` subcmd
 
 ## Currently working on
 
-- [ ] manage: config management
+- [ ] manage-cli: config management
 
 ## Coming soon
 
@@ -48,7 +48,7 @@
 - [ ] statement: Budget variant
 - [ ] statement: Goal variant
 
-- [ ] manage: atomic edits for consumption in http, cli, etc
+- [ ] repo: atomic edits for consumption in http, cli, etc
 
 - [ ] lib: predictions
 - [ ] http: SVG chart generation

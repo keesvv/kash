@@ -395,7 +395,7 @@ dependencies = [
  "colored",
  "kash",
  "kash_convert",
- "kash_manage",
+ "kash_repo",
  "piechart",
  "tabular",
 ]
@@ -424,7 +424,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "kash_manage"
+name = "kash_repo"
 version = "0.1.0"
 dependencies = [
  "kash",

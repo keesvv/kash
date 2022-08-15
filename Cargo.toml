@@ -4,7 +4,7 @@ members = [
     "ktf",
     "camt053",
     "convert",
-    "manage",
+    "repo",
     "cli",
     "http"
 ]
