@@ -1,11 +1,11 @@
-#[cfg(feature = "input-ktf")]
-pub mod ktf;
-
-#[cfg(feature = "input-json")]
-pub mod json;
-
 #[cfg(feature = "input-camt053")]
 pub mod camt053;
+#[cfg(feature = "input-json")]
+pub mod json;
+#[cfg(feature = "input-ktf")]
+pub mod ktf;
+#[cfg(feature = "input-toml")]
+pub mod toml;
 
 use kash::statements::Statement;
 use std::io::Read;

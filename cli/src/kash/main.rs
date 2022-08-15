@@ -3,6 +3,7 @@ mod args;
 use self::args::{Args, InputFormat};
 use clap::Parser;
 use kash_cli::output::OutputOptions;
+use kash_convert::input::toml::TomlInput;
 use kash_convert::input::{camt053::Camt053Input, json::JsonInput, ktf::KtfInput, Input};
 use std::fs::File;
 use std::io::{self, Read};
@@ -27,6 +28,7 @@ fn main() {
             match format {
                 InputFormat::Ktf => KtfInput::new().from_read(reader),
                 InputFormat::Json => JsonInput::new().from_read(reader),
+                InputFormat::Toml => TomlInput::new().from_read(reader),
                 InputFormat::Camt053 => Camt053Input::new().from_read(reader),
             }
             .unwrap(),

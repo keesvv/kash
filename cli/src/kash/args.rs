@@ -4,8 +4,9 @@ use kash_cli::output::OutputArgs;
 
 #[derive(Debug, Clone, ArgEnum)]
 pub enum InputFormat {
-    Ktf,
+    Toml,
     Json,
+    Ktf,
     Camt053,
 }
 
@@ -14,7 +15,7 @@ pub enum InputFormat {
 #[clap(name = "kash-cli", version, about)]
 pub struct Args {
     /// Input format (may be repeated for each input)
-    #[clap(short = 'i', long = "input", arg_enum, default_value = "ktf")]
+    #[clap(short = 'i', long = "input", arg_enum, default_value = "toml")]
     pub input_format: Vec<InputFormat>,
 
     /// Input file(s)
