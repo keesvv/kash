@@ -21,18 +21,25 @@ pub enum OutputFormat {
 #[derive(Clone, Copy)]
 pub struct OutputOptions {
     pub discrete: bool,
-}
-
-impl Default for OutputOptions {
-    fn default() -> Self {
-        Self { discrete: false }
-    }
+    pub currency_symbol: char,
 }
 
 impl From<OutputArgs> for OutputOptions {
     fn from(args: OutputArgs) -> Self {
         Self {
             discrete: args.discrete,
+            currency_symbol: args
+                .currency_symbol
+                .unwrap_or(Self::default().currency_symbol),
+        }
+    }
+}
+
+impl Default for OutputOptions {
+    fn default() -> Self {
+        Self {
+            discrete: false,
+            currency_symbol: CUR_SYM,
         }
     }
 }
@@ -57,11 +64,16 @@ pub struct OutputArgs {
     #[clap(short = 'o', long = "output", arg_enum, default_value = "table")]
     pub output_format: OutputFormat,
 
+    /// Currency symbol
+    #[clap(short = 'c', long = "currency-symbol")]
+    pub currency_symbol: Option<char>,
+
     /// Hide sensitive information
     #[clap(short = 'd', long = "discrete")]
     pub discrete: bool,
 }
 
+pub const CUR_SYM: char = '¤';
 pub const MASK_CHAR: char = 'x';
 
 pub fn generate_mask(len: usize) -> String {

@@ -6,12 +6,18 @@ use std::path::PathBuf;
 
 #[derive(Deserialize, Debug, Default)]
 pub struct Config {
-    pub repo: RepoConfig,
+    pub repo: Option<RepoConfig>,
+    pub output: Option<OutputConfig>,
 }
 
 #[derive(Deserialize, Debug, Default)]
 pub struct RepoConfig {
     pub path: Option<PathBuf>,
+}
+
+#[derive(Deserialize, Debug, Default)]
+pub struct OutputConfig {
+    pub currency: Option<char>,
 }
 
 impl Config {

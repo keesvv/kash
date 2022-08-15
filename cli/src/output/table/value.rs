@@ -26,7 +26,10 @@ impl ValueTable {
         .with_heading(heading.bold().to_string())
         .with_row(Row::from_cells(
             cols.iter()
-                .map(|col| col.0.to_owned())
+                .map(|col| match col.1 {
+                    Cell::Value(_) => format!("{} ({})", col.0, opts.currency_symbol),
+                    _ => col.0.to_owned(),
+                })
                 .collect::<Vec<String>>(),
         ));
 
