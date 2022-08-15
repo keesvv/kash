@@ -17,8 +17,8 @@ impl ValueTable {
             &cols
                 .iter()
                 .map(|col| match col.1 {
-                    Cell::Text(_) | Cell::MaskedText(_) | Cell::Quota(..) => "{:<}",
                     Cell::Value(_) | Cell::MaskedValue(_) => "{:>}",
+                    _ => "{:<}",
                 })
                 .collect::<Vec<&str>>()
                 .join(" "),
@@ -37,15 +37,14 @@ impl ValueTable {
         let mut table_row = Row::new();
 
         for cell in row {
-            let cell = match cell.to_owned() {
-                Cell::Value(v) => {
-                    if self.opts.discrete {
-                        Cell::MaskedValue(v)
-                    } else {
-                        Cell::Value(v)
-                    }
+            let cell = if !self.opts.discrete {
+                cell.to_owned()
+            } else {
+                match cell.to_owned() {
+                    Cell::Value(v) => Cell::MaskedValue(v),
+                    Cell::Quota(a, b) => Cell::MaskedQuota(a, b),
+                    other => other,
                 }
-                other => other,
             };
 
             table_row.add_custom_width_cell(cell.to_string(), cell.content().len());
@@ -88,6 +87,7 @@ pub enum Cell {
     Value(f32),
     MaskedValue(f32),
     Quota(f32, f32),
+    MaskedQuota(f32, f32),
 }
 
 impl Cell {
@@ -118,6 +118,14 @@ impl Cell {
                     "{:.2}/{:.2} ({:.1}%)",
                     spent,
                     quota,
+                    (spent / quota) * 100.0
+                )
+            }
+            Cell::MaskedQuota(spent, quota) => {
+                format!(
+                    "{}/{} ({:.1}%)",
+                    output::generate_mask(3),
+                    output::generate_mask(3),
                     (spent / quota) * 100.0
                 )
             }
