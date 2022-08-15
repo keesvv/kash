@@ -1,3 +1,4 @@
+use rust_decimal::prelude::*;
 use serde::de::Deserialize;
 use serde::ser::{Serialize, SerializeMap};
 use std::fmt::Debug;
@@ -5,7 +6,7 @@ use std::iter;
 
 #[derive(Clone)]
 pub struct MonthValues {
-    pub values: [f32; 12],
+    pub values: [Decimal; 12],
 }
 
 impl Serialize for MonthValues {
@@ -26,35 +27,35 @@ impl<'de> Deserialize<'de> for MonthValues {
     where
         D: serde::Deserializer<'de>,
     {
-        let items: Vec<f32> = Deserialize::deserialize(deserializer)?;
-        Ok(Self::from_iter(items.iter().map(f32::to_owned)))
+        let items: Vec<Decimal> = Deserialize::deserialize(deserializer)?;
+        Ok(Self::from_iter(items.iter().map(Decimal::to_owned)))
     }
 }
 
 impl MonthValues {
-    pub fn new(values: [f32; 12]) -> Self {
+    pub fn new(values: [Decimal; 12]) -> Self {
         Self { values }
     }
 
     pub fn from_iter<I>(iter: I) -> Self
     where
-        I: Iterator<Item = f32>,
+        I: Iterator<Item = Decimal>,
     {
         Self::new(
-            iter.chain(iter::repeat(0.0))
+            iter.chain(iter::repeat(Decimal::ZERO))
                 .take(12)
-                .collect::<Vec<f32>>()
+                .collect::<Vec<Decimal>>()
                 .try_into()
                 .unwrap(),
         )
     }
 
-    pub fn year(&self) -> f32 {
+    pub fn year(&self) -> Decimal {
         self.values.iter().sum()
     }
 
-    pub fn month_avg(&self) -> f32 {
-        self.year() / 12.0
+    pub fn month_avg(&self) -> Decimal {
+        self.year() / Decimal::from(12)
     }
 }
 

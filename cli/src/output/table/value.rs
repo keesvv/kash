@@ -1,6 +1,7 @@
 use super::OutputOptions;
 use crate::output;
 use colored::*;
+use rust_decimal::prelude::*;
 use std::cmp::Ordering;
 use std::fmt::{self, Display};
 use tabular::{Row, Table};
@@ -54,7 +55,7 @@ impl ValueTable {
         self.table.add_row(table_row);
     }
 
-    pub fn with_total(&self, offset: usize, values: &[&[f32]]) -> Self {
+    pub fn with_total(&self, offset: usize, values: &[&[Decimal]]) -> Self {
         let mut cells: Vec<Cell> = vec![Cell::Text("total".into())];
         let mut table = self.clone();
 
@@ -85,13 +86,13 @@ pub struct Col(pub String, pub Cell);
 pub enum Cell {
     Text(String),
     MaskedText(String),
-    Value(f32),
-    MaskedValue(f32),
+    Value(Decimal),
+    MaskedValue(Decimal),
 }
 
 impl Cell {
-    fn get_mutation_style(value: f32) -> (char, Color) {
-        match value.partial_cmp(&0.0).unwrap() {
+    fn get_mutation_style(value: Decimal) -> (char, Color) {
+        match value.cmp(&Decimal::ZERO) {
             Ordering::Greater => ('+', Color::BrightGreen),
             Ordering::Less => ('-', Color::BrightRed),
             Ordering::Equal => ('=', Color::BrightBlack),

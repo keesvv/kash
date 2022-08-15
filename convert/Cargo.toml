@@ -11,6 +11,7 @@ toml = { version = "0.5.9", optional = true }
 kash = { path = "../lib" }
 ktf = { path = "../ktf", optional = true }
 camt053 = { path = "../camt053", optional = true }
+rust_decimal = "1.26"
 
 [dependencies.quick-xml]
 version = "0.23.0"

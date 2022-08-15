@@ -6,6 +6,7 @@ use kash::{
     statements::{account::AccountId, transaction::Transaction, Statement},
 };
 use quick_xml::de;
+use rust_decimal::prelude::*;
 use std::io::BufReader;
 
 pub struct Camt053Input;
@@ -41,7 +42,7 @@ impl Camt053Input {
                         Utc,
                     )),
                     description: Self::get_description(entry).unwrap_or_default(),
-                    mutation: entry.amount.value * -1.0,
+                    mutation: entry.amount.value * Decimal::NEGATIVE_ONE,
                     tag: None,
                     account_id: AccountId(statement.account.id.value.as_str_id().into()),
                 })

@@ -1,3 +1,4 @@
+use rust_decimal::prelude::*;
 use serde::Deserialize;
 
 #[derive(Clone, Debug, Deserialize, PartialEq)]
@@ -291,7 +292,7 @@ pub struct Amount {
     #[serde(rename = "Ccy")]
     pub currency: String,
     #[serde(rename = "$value")]
-    pub value: f32,
+    pub value: Decimal,
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq)]
@@ -315,7 +316,7 @@ pub struct CurrencyExchange {
 #[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct ExchangeRate {
     #[serde(rename = "$value")]
-    pub value: f32,
+    pub value: Decimal,
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq)]

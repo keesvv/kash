@@ -10,6 +10,7 @@ use kash::statements::{
     Statement,
 };
 use kash_convert::output::Output;
+use rust_decimal::prelude::*;
 use std::io;
 
 pub struct TableOutput {
@@ -41,8 +42,8 @@ impl TableOutput {
             table.add_row(&[
                 Cell::Text(expense.tag.to_owned()),
                 Cell::Text(expense.description.to_owned()),
-                Cell::Value(expense.expenses.month_avg() * -1.0),
-                Cell::Value(expense.expenses.year() * -1.0),
+                Cell::Value(expense.expenses.month_avg() * Decimal::NEGATIVE_ONE),
+                Cell::Value(expense.expenses.year() * Decimal::NEGATIVE_ONE),
             ]);
         }
 
@@ -51,12 +52,12 @@ impl TableOutput {
             &[
                 &expenses
                     .iter()
-                    .map(|expense| expense.expenses.month_avg() * -1.0)
-                    .collect::<Vec<f32>>(),
+                    .map(|expense| expense.expenses.month_avg() * Decimal::NEGATIVE_ONE)
+                    .collect::<Vec<Decimal>>(),
                 &expenses
                     .iter()
-                    .map(|expense| expense.expenses.year() * -1.0)
-                    .collect::<Vec<f32>>(),
+                    .map(|expense| expense.expenses.year() * Decimal::NEGATIVE_ONE)
+                    .collect::<Vec<Decimal>>(),
             ],
         )
     }
@@ -86,11 +87,11 @@ impl TableOutput {
                 &income
                     .iter()
                     .map(|statement| statement.income.month_avg())
-                    .collect::<Vec<f32>>(),
+                    .collect::<Vec<Decimal>>(),
                 &income
                     .iter()
                     .map(|statement| statement.income.year())
-                    .collect::<Vec<f32>>(),
+                    .collect::<Vec<Decimal>>(),
             ],
         )
     }

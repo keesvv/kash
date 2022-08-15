@@ -2,6 +2,7 @@ use colored::*;
 use kash::statements::{fixed::FixedExpense, Statement};
 use kash_convert::output::Output;
 use piechart::{Chart, Color, Data};
+use rust_decimal::prelude::*;
 use std::collections::HashMap;
 use std::io;
 use std::iter::{self, Flatten, Repeat};
@@ -17,11 +18,11 @@ impl PieOutput {
         }
     }
 
-    pub fn get_sorted_data<D>(&self, data: D) -> Vec<(String, f32)>
+    pub fn get_sorted_data<D>(&self, data: D) -> Vec<(String, Decimal)>
     where
-        D: Iterator<Item = (String, f32)>,
+        D: Iterator<Item = (String, Decimal)>,
     {
-        let mut entries: Vec<(String, f32)> = data
+        let mut entries: Vec<(String, Decimal)> = data
             .fold(HashMap::new(), |mut acc, entry| {
                 acc.insert(
                     entry.0.clone(),
@@ -58,7 +59,7 @@ impl PieOutput {
         &self,
         writer: &mut W,
         caption: &str,
-        data: &[(String, f32)],
+        data: &[(String, Decimal)],
     ) -> io::Result<()>
     where
         W: io::Write,
@@ -68,7 +69,7 @@ impl PieOutput {
             .iter()
             .map(|(label, value)| Data {
                 label: label.to_owned(),
-                value: value.to_owned(),
+                value: value.to_owned().to_f32().unwrap(),
                 color: Some(colors.next().unwrap().into()),
                 ..Default::default()
             })
