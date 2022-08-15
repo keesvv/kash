@@ -30,10 +30,10 @@
 - [x] repo: repo management, read inputs from repo
 - [x] manage-cli: `show` subcmd
 - [x] manage-cli: config management
+- [x] http: implement kash_repo
 
 ## Currently working on
 
-- [ ] http: implement kash_repo
 - [ ] lib: implement rust_decimal for fixed-precision calculations
 
 ## Coming soon

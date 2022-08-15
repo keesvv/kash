@@ -11,6 +11,7 @@ path = "src/main.rs"
 [dependencies]
 warp = { version = "0.3.2", default-features = false }
 kash = { path = "../lib" }
+kash_repo = { path = "../repo" }
 
 [dependencies.tokio]
 version = "1.20.1"
@@ -18,4 +19,4 @@ features = ["macros", "rt-multi-thread"]
 
 [dependencies.kash_convert]
 path = "../convert"
-features = ["input-json", "output-json"]
+features = ["output-json"]

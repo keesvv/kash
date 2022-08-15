@@ -6,6 +6,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
+#[derive(Clone)]
 pub struct FsRepo {
     path: PathBuf,
     statements: Vec<Statement>,

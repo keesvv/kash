@@ -1,13 +1,16 @@
-use kash_convert::input::{json::JsonInput, Input};
-use std::io;
+use kash_repo::{fs::FsRepo, repo::RepoLike};
+use std::env;
 use std::net::Ipv4Addr;
-use warp::Filter;
+use std::path::PathBuf;
+use warp::{reply, Filter};
 
 #[tokio::main]
 async fn main() {
-    let statements = JsonInput::new().from_read(io::stdin()).unwrap();
+    let mut repo = FsRepo::new(&PathBuf::from(env::args().nth(1).unwrap_or_default()));
+    repo.reload_store().unwrap();
 
-    let get_statements = warp::path!("statements").map(move || warp::reply::json(&statements));
+    let get_statements =
+        warp::path!("statements").map(move || reply::json(&repo.get_all().unwrap()));
 
     warp::serve(get_statements)
         .run((Ipv4Addr::LOCALHOST, 8080))
