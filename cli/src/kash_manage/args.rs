@@ -7,8 +7,8 @@ use std::path::PathBuf;
 #[clap(name = "kash-manage-cli", version, about)]
 pub struct Args {
     /// Repository directory
-    #[clap(default_value = ".")]
-    pub repo_dir: PathBuf,
+    #[clap(short = 'r', long = "repo")]
+    pub repo_dir: Option<PathBuf>,
 
     #[clap(subcommand)]
     pub op: Operation,

@@ -33,10 +33,7 @@ fn main() {
         );
     }
 
-    args.output.output_format.to_stdout(
-        &input,
-        OutputOptions {
-            discrete: args.output.discrete,
-        },
-    );
+    args.output
+        .output_format
+        .to_stdout(&input, OutputOptions::from(args.output));
 }

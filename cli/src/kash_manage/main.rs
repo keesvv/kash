@@ -7,16 +7,14 @@ use kash_manage::{fs::FsRepo, repo::RepoLike};
 
 fn main() {
     let args: Args = Args::parse();
-    let mut repo = FsRepo::new(&args.repo_dir);
+    let mut repo = FsRepo::new(&args.repo_dir.unwrap_or_default());
 
     repo.reload_store().unwrap();
 
     match args.op {
-        Operation::Show(args) => args.output.output_format.to_stdout(
-            &repo.get_all().unwrap(),
-            OutputOptions {
-                discrete: args.output.discrete,
-            },
-        ),
+        Operation::Show(args) => args
+            .output
+            .output_format
+            .to_stdout(&repo.get_all().unwrap(), OutputOptions::from(args.output)),
     };
 }

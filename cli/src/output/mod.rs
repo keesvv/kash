@@ -10,7 +10,7 @@ use kash::statements::Statement;
 use kash_convert::output::{json::JsonOutput, Output};
 use std::iter;
 
-#[derive(Debug, Clone, ArgEnum)]
+#[derive(Debug, Clone, Copy, ArgEnum)]
 pub enum OutputFormat {
     Table,
     #[cfg(feature = "output-pie")]
@@ -29,6 +29,14 @@ impl Default for OutputOptions {
     }
 }
 
+impl From<OutputArgs> for OutputOptions {
+    fn from(args: OutputArgs) -> Self {
+        Self {
+            discrete: args.discrete,
+        }
+    }
+}
+
 impl OutputFormat {
     pub fn to_stdout(&self, input: &[Statement], opts: OutputOptions) {
         println!(
@@ -43,7 +51,7 @@ impl OutputFormat {
     }
 }
 
-#[derive(Parser, Debug)]
+#[derive(Parser, Debug, Clone, Copy)]
 pub struct OutputArgs {
     /// Output format
     #[clap(short = 'o', long = "output", arg_enum, default_value = "table")]
