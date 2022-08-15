@@ -1,5 +1,7 @@
 #[cfg(feature = "account")]
 pub mod account;
+#[cfg(feature = "budget")]
+pub mod budget;
 #[cfg(feature = "fixed")]
 pub mod fixed;
 #[cfg(feature = "income")]
@@ -20,4 +22,6 @@ pub enum Statement {
     Transaction(transaction::Transaction),
     #[cfg(feature = "account")]
     Account(account::Account),
+    #[cfg(feature = "budget")]
+    Budget(budget::Budget),
 }

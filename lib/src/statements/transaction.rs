@@ -3,6 +3,7 @@ use crate::date::Date;
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
+#[serde(rename_all = "camelCase")]
 pub struct Transaction {
     pub tag: Option<String>,
     pub description: String,

@@ -31,25 +31,23 @@
 - [x] manage-cli: `show` subcmd
 - [x] manage-cli: config management
 - [x] http: implement kash_repo
+- [x] statement: Budget variant
 
 ## Currently working on
 
-- [ ] lib: implement rust_decimal for fixed-precision calculations
-
 ## Coming soon
 
-- [ ] convert: convert between inputs
-
-- [ ] http: Determine input type based on `Content-Type` header
 - [ ] web: add bindings with wasm_bindgen
 - [ ] web: wasm/http repository abstractions with TypeScript
 
-- [ ] statement: Budget variant
+- [ ] transaction: subitems
 - [ ] statement: Goal variant
 
+- [ ] convert: convert between inputs
 - [ ] repo: atomic edits for consumption in http, cli, etc
 
 - [ ] lib: predictions
-- [ ] http: SVG chart generation
 
+- [ ] http: Determine input type based on `Content-Type` header
+- [ ] http: SVG chart generation
 - [ ] ktf: finalize

@@ -17,7 +17,7 @@ impl ValueTable {
             &cols
                 .iter()
                 .map(|col| match col.1 {
-                    Cell::Text(_) | Cell::MaskedText(_) => "{:<}",
+                    Cell::Text(_) | Cell::MaskedText(_) | Cell::Quota(..) => "{:<}",
                     Cell::Value(_) | Cell::MaskedValue(_) => "{:>}",
                 })
                 .collect::<Vec<&str>>()
@@ -87,6 +87,7 @@ pub enum Cell {
     MaskedText(String),
     Value(f32),
     MaskedValue(f32),
+    Quota(f32, f32),
 }
 
 impl Cell {
@@ -110,6 +111,14 @@ impl Cell {
                     "{}{}",
                     Self::get_mutation_style(*v).0,
                     output::generate_mask(3)
+                )
+            }
+            Cell::Quota(spent, quota) => {
+                format!(
+                    "{:.2}/{:.2} ({:.1}%)",
+                    spent,
+                    quota,
+                    (spent / quota) * 100.0
                 )
             }
         }

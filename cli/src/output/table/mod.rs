@@ -4,6 +4,7 @@ use self::value::{Cell, Col, ValueTable};
 use super::OutputOptions;
 use kash::statements::{
     account::{Account, AccountType},
+    budget::{Budget, Quota},
     fixed::FixedExpense,
     income::Income,
     transaction::Transaction,
@@ -95,7 +96,12 @@ impl TableOutput {
         )
     }
 
-    pub fn format_transactions(&self, transactions: &[Transaction]) -> ValueTable {
+    pub fn format_transactions(
+        &self,
+        transactions: &[Transaction],
+        budget: &[Budget],
+        income: f32,
+    ) -> ValueTable {
         let mut table = ValueTable::new(
             "Latest transactions",
             &[
@@ -103,6 +109,7 @@ impl TableOutput {
                 Col("description".into(), Cell::Text(Default::default())),
                 Col("mutation".into(), Cell::Text(Default::default())),
                 Col("tag".into(), Cell::Text(Default::default())),
+                Col("quota".into(), Cell::Text(Default::default())),
             ],
             self.opts,
         );
@@ -125,6 +132,19 @@ impl TableOutput {
                 ),
                 Cell::Value(transaction.mutation),
                 Cell::Text(transaction.tag.to_owned().unwrap_or_default()),
+                match budget
+                    .iter()
+                    .find(|b| b.tag.eq(&transaction.tag.to_owned().unwrap_or_default()))
+                {
+                    Some(budget) => Cell::Quota(
+                        transaction.mutation.abs(),
+                        match budget.quota {
+                            Quota::Absolute(a) => a,
+                            Quota::Percentage(p) => (p / 100.0) * income,
+                        },
+                    ),
+                    None => Cell::Text("".into()),
+                },
             ]);
         }
 
@@ -175,6 +195,7 @@ impl Output for TableOutput {
         let mut income: Vec<Income> = Vec::new();
         let mut transactions: Vec<Transaction> = Vec::new();
         let mut accounts: Vec<Account> = Vec::new();
+        let mut budget: Vec<Budget> = Vec::new();
 
         for statement in &self.statements {
             match &statement {
@@ -182,6 +203,7 @@ impl Output for TableOutput {
                 Statement::Income(i) => income.push(i.to_owned()),
                 Statement::Transaction(t) => transactions.push(t.to_owned()),
                 Statement::Account(a) => accounts.push(a.to_owned()),
+                Statement::Budget(b) => budget.push(b.to_owned()),
             }
         }
 
@@ -192,7 +214,11 @@ impl Output for TableOutput {
                 self.format_accounts(&accounts),
                 self.format_fixed(&fixed),
                 self.format_income(&income),
-                self.format_transactions(&transactions),
+                self.format_transactions(
+                    &transactions,
+                    &budget,
+                    income.iter().map(|i| i.income.month_avg()).sum()
+                ),
             ]
             .iter()
             .map(ToString::to_string)

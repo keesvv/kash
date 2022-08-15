@@ -21,9 +21,11 @@ default = [
     "account",
     "fixed",
     "income",
-    "transaction"
+    "transaction",
+    "budget"
 ]
 account = []
 fixed = []
 income = []
 transaction = ["dep:chrono", "account"]
+budget = []
