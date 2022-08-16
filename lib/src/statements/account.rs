@@ -6,7 +6,7 @@ pub struct Account {
     pub account_type: AccountType,
     pub id: AccountId,
     pub name: String,
-    pub bank: String,
+    pub bank: Option<String>,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
@@ -19,6 +19,7 @@ pub enum AccountType {
 #[derive(Clone, Debug)]
 pub enum AccountId {
     Iban(String),
+    Cash(String),
 }
 
 impl<'de> Deserialize<'de> for AccountId {
@@ -36,6 +37,7 @@ impl<'de> Deserialize<'de> for AccountId {
 
         match acc_type {
             "iban" => Ok(Self::Iban(acc_id.to_owned())),
+            "cash" => Ok(Self::Cash(acc_id.to_owned())),
             unknown => Err(de::Error::custom(format!(
                 "unknown account type '{unknown}'",
             ))),
@@ -55,7 +57,8 @@ impl Serialize for AccountId {
 impl ToString for AccountId {
     fn to_string(&self) -> String {
         match self {
-            AccountId::Iban(iban) => format!("iban:{}", iban),
+            Self::Iban(iban) => format!("iban:{}", iban),
+            Self::Cash(id) => format!("cash:{}", id),
         }
     }
 }

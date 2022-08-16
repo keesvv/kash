@@ -32,12 +32,12 @@
 - [x] manage-cli: config management
 - [x] http: implement kash_repo
 - [x] statement: Budget variant
+- [x] account: multiple AccountId variants
 
 ## Currently working on
 
 ## Coming soon
 
-- [ ] account: multiple AccountId variants
 - [ ] lib: Rule variant w/ patterns-based replacements
   - [ ] lib/rule: auto description renaming
   - [ ] lib/rule: auto tagging

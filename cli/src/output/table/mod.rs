@@ -178,7 +178,7 @@ impl TableOutput {
                     Cell::Text(account.id.to_string())
                 },
                 Cell::Text(account.name.to_owned()),
-                Cell::Text(account.bank.to_owned()),
+                Cell::Text(account.bank.to_owned().unwrap_or_default()),
             ]);
         }
 
