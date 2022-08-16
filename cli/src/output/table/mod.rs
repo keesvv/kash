@@ -107,7 +107,7 @@ impl TableOutput {
             &[
                 Col::Text("date".into()),
                 Col::Text("description".into()),
-                Col::Text("mutation".into()),
+                Col::Value("mutation".into()),
                 Col::Text("tag".into()),
                 Col::Text("quota".into()),
             ],
