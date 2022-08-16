@@ -1,6 +1,7 @@
 use super::OutputOptions;
 use crate::output;
 use colored::*;
+use kash::statements::account::AccountId;
 use std::cmp::Ordering;
 use std::fmt::{self, Display};
 use tabular::{Row, Table};
@@ -46,6 +47,7 @@ impl ValueTable {
                 match cell.to_owned() {
                     Cell::Value(v) => Cell::MaskedValue(v),
                     Cell::Quota(a, b) => Cell::MaskedQuota(a, b),
+                    Cell::AccountId(id) => Cell::MaskedAccountId(id),
                     other => other,
                 }
             };
@@ -91,6 +93,8 @@ pub enum Cell {
     MaskedValue(f32),
     Quota(f32, f32),
     MaskedQuota(f32, f32),
+    AccountId(AccountId),
+    MaskedAccountId(AccountId),
 }
 
 impl Cell {
@@ -131,6 +135,14 @@ impl Cell {
                     output::generate_mask(3),
                     (spent / quota) * 100.0
                 )
+            }
+            Cell::AccountId(id) => id.to_string(),
+            Cell::MaskedAccountId(id) => {
+                let id_parts = match id {
+                    AccountId::Iban(iban) => ("iban", iban),
+                    AccountId::Cash(id) => ("cash", id),
+                };
+                format!("{}:{}", id_parts.0, output::generate_mask(id_parts.1.len()))
             }
         }
     }

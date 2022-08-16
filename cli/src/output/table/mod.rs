@@ -172,11 +172,7 @@ impl TableOutput {
                     }
                     .to_string(),
                 ),
-                if self.opts.discrete {
-                    Cell::MaskedText(account.id.to_string())
-                } else {
-                    Cell::Text(account.id.to_string())
-                },
+                Cell::AccountId(account.id.to_owned()),
                 Cell::Text(account.name.to_owned()),
                 Cell::Text(account.bank.to_owned().unwrap_or_default()),
             ]);
