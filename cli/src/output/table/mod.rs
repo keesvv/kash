@@ -200,6 +200,7 @@ impl Output for TableOutput {
                 Statement::Transaction(t) => transactions.push(t.to_owned()),
                 Statement::Account(a) => accounts.push(a.to_owned()),
                 Statement::Budget(b) => budget.push(b.to_owned()),
+                Statement::Rule(_) => (),
             }
         }
 
