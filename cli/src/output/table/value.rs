@@ -37,6 +37,15 @@ impl ValueTable {
         Self { table, opts }
     }
 
+    pub fn mask_cell(&self, cell: &Cell) -> Cell {
+        match cell {
+            Cell::Value(v) => Cell::MaskedValue(*v),
+            Cell::Quota(a, b) => Cell::MaskedQuota(*a, *b),
+            Cell::AccountId(id) => Cell::MaskedAccountId(id.clone()),
+            other => other.clone(),
+        }
+    }
+
     pub fn add_row(&mut self, row: &[Cell]) {
         let mut table_row = Row::new();
 
@@ -44,12 +53,7 @@ impl ValueTable {
             let cell = if !self.opts.discrete {
                 cell.to_owned()
             } else {
-                match cell.to_owned() {
-                    Cell::Value(v) => Cell::MaskedValue(v),
-                    Cell::Quota(a, b) => Cell::MaskedQuota(a, b),
-                    Cell::AccountId(id) => Cell::MaskedAccountId(id),
-                    other => other,
-                }
+                self.mask_cell(cell)
             };
 
             table_row.add_custom_width_cell(cell.to_string(), cell.content().len());
