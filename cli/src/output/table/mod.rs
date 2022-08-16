@@ -30,10 +30,10 @@ impl TableOutput {
         let mut table = ValueTable::new(
             "Fixed expenses",
             &[
-                Col("tag".into(), Cell::Text(Default::default())),
-                Col("description".into(), Cell::Text(Default::default())),
-                Col("avg/mo".into(), Cell::Value(Default::default())),
-                Col("year".into(), Cell::Value(Default::default())),
+                Col::Text("tag".into()),
+                Col::Text("description".into()),
+                Col::Value("avg/mo".into()),
+                Col::Value("year".into()),
             ],
             self.opts,
         );
@@ -66,9 +66,9 @@ impl TableOutput {
         let mut table = ValueTable::new(
             "Income",
             &[
-                Col("description".into(), Cell::Text(Default::default())),
-                Col("avg/mo".into(), Cell::Value(Default::default())),
-                Col("year".into(), Cell::Value(Default::default())),
+                Col::Text("description".into()),
+                Col::Value("avg/mo".into()),
+                Col::Value("year".into()),
             ],
             self.opts,
         );
@@ -105,11 +105,11 @@ impl TableOutput {
         let mut table = ValueTable::new(
             "Latest transactions",
             &[
-                Col("date".into(), Cell::Text(Default::default())),
-                Col("description".into(), Cell::Text(Default::default())),
-                Col("mutation".into(), Cell::Text(Default::default())),
-                Col("tag".into(), Cell::Text(Default::default())),
-                Col("quota".into(), Cell::Text(Default::default())),
+                Col::Text("date".into()),
+                Col::Text("description".into()),
+                Col::Text("mutation".into()),
+                Col::Text("tag".into()),
+                Col::Text("quota".into()),
             ],
             self.opts,
         );
@@ -155,10 +155,10 @@ impl TableOutput {
         let mut table = ValueTable::new(
             "Accounts",
             &[
-                Col("type".into(), Cell::Text(Default::default())),
-                Col("id".into(), Cell::Text(Default::default())),
-                Col("name".into(), Cell::Text(Default::default())),
-                Col("bank".into(), Cell::Text(Default::default())),
+                Col::Text("type".into()),
+                Col::Text("id".into()),
+                Col::Text("name".into()),
+                Col::Text("bank".into()),
             ],
             self.opts,
         );

@@ -17,9 +17,9 @@ impl ValueTable {
         let table = Table::new(
             &cols
                 .iter()
-                .map(|col| match col.1 {
-                    Cell::Value(_) | Cell::MaskedValue(_) => "{:>}",
-                    _ => "{:<}",
+                .map(|col| match col {
+                    Col::Text(_) => "{:<}",
+                    Col::Value(_) => "{:>}",
                 })
                 .collect::<Vec<&str>>()
                 .join(" "),
@@ -27,9 +27,9 @@ impl ValueTable {
         .with_heading(heading.bold().to_string())
         .with_row(Row::from_cells(
             cols.iter()
-                .map(|col| match col.1 {
-                    Cell::Value(_) => format!("{} ({})", col.0, opts.currency_symbol),
-                    _ => col.0.to_owned(),
+                .map(|col| match col {
+                    Col::Text(caption) => caption.to_owned(),
+                    Col::Value(caption) => format!("{} ({})", caption, opts.currency_symbol),
                 })
                 .collect::<Vec<String>>(),
         ));
@@ -87,7 +87,10 @@ impl Display for ValueTable {
 }
 
 #[derive(Debug, Clone)]
-pub struct Col(pub String, pub Cell);
+pub enum Col {
+    Text(String),
+    Value(String),
+}
 
 #[derive(Debug, Clone)]
 pub enum Cell {
