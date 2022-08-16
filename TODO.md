@@ -37,6 +37,11 @@
 
 ## Coming soon
 
+- [ ] account: multiple AccountId variants
+- [ ] lib: Rule variant w/ patterns-based replacements
+  - [ ] lib/rule: auto description renaming
+  - [ ] lib/rule: auto tagging
+
 - [ ] web: add bindings with wasm_bindgen
 - [ ] web: wasm/http repository abstractions with TypeScript
 

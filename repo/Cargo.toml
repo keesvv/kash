@@ -6,7 +6,8 @@ edition = "2021"
 [dependencies]
 kash = { path = "../lib" }
 kash_convert = { path = "../convert" }
+glob = { version = "0.3.0", optional = true }
 
 [features]
 default = ["fs"]
-fs = ["kash_convert/all-inputs"]
+fs = ["kash_convert/all-inputs", "dep:glob"]
