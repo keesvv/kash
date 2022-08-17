@@ -3,6 +3,8 @@ use serde::{Deserialize, Serialize};
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct Rule {
     pub description: Option<String>,
+    #[serde(default)]
+    pub active: bool,
     #[serde(rename = "match")]
     pub match_opts: MatchOpts,
     #[serde(rename = "action")]
@@ -41,4 +43,5 @@ pub struct Pattern(String);
 #[serde(rename_all = "camelCase", tag = "type")]
 pub enum Action {
     Set { field: Field, value: String },
+    ApplyTag { tag: String },
 }
