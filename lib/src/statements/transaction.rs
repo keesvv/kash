@@ -23,7 +23,7 @@ impl RuleBehaviour for Transaction {
 
     fn does_match(&self, field: Field, pattern: &Pattern) -> bool {
         match field {
-            Field::Description => self.description.contains(&pattern.0),
+            Field::Description => pattern.0.is_match(&self.description),
         }
     }
 }

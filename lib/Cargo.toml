@@ -9,6 +9,7 @@ crate-type = ["lib", "cdylib"]
 
 [dependencies]
 serde = { version = "1.0.139", features = ["derive"] }
+regex = { version = "1.6", optional = true }
 
 [dependencies.chrono]
 version = "0.4.20"
@@ -30,4 +31,4 @@ fixed = []
 income = []
 transaction = ["dep:chrono", "account"]
 budget = []
-rule = []
+rule = ["dep:regex"]
