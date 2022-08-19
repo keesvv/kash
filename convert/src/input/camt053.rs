@@ -1,5 +1,5 @@
 use super::{Input, InputError};
-use camt053::{Document, Entry};
+use camt053::{CreditOrDebit, Document, Entry};
 use chrono::{DateTime, Utc};
 use kash::{
     date::Date,
@@ -34,6 +34,10 @@ impl Camt053Input {
         statement
             .entries
             .iter()
+            .filter_map(|entry: &Entry| match entry.credit_or_debit.value {
+                CreditOrDebit::Debit => Some(entry),
+                CreditOrDebit::Credit => None,
+            })
             .map(|entry: &Entry| {
                 Statement::Transaction(Transaction {
                     date: Date(DateTime::from_utc(
