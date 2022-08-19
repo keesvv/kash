@@ -11,17 +11,19 @@ impl Rule {
 
         rb
     }
+}
 
-    pub fn apply(&self, statement: &Statement) -> Statement {
-        if !self.active {
-            return statement.to_owned();
+impl Statement {
+    pub fn apply_rule(&self, rule: &Rule) -> Self {
+        if !rule.active {
+            return self.to_owned();
         }
 
-        match (&self.match_opts.target, statement) {
-            (Target::Transaction, Statement::Transaction(t)) => {
-                Statement::Transaction(self.match_apply(t.to_owned()))
+        match (rule.match_opts.target, self) {
+            (Target::Transaction, Self::Transaction(t)) => {
+                Self::Transaction(rule.match_apply(t.to_owned()))
             }
-            _ => statement.to_owned(),
+            _ => self.to_owned(),
         }
     }
 }

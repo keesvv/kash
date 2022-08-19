@@ -32,10 +32,10 @@ pub enum Statement {
 
 impl Statement {
     pub fn with_context<C: Context>(&self, context: &C) -> Self {
-        context.apply(self)
+        context.apply(self.to_owned())
     }
 }
 
 pub trait Context {
-    fn apply(&self, statement: &Statement) -> Statement;
+    fn apply(&self, statement: Statement) -> Statement;
 }
