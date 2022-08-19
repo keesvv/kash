@@ -1,5 +1,5 @@
 use super::repo::{Error, RepoLike, Result};
-use kash::statements::Statement;
+use kash::statements::{rule::RuleContext, Statement};
 use kash_convert::input::{camt053::Camt053Input, json::JsonInput, toml::TomlInput, Input};
 use std::{
     fs::{self, File},
@@ -64,7 +64,13 @@ impl FsRepo {
             statements.extend(self.read_input(&self.path.join(input))?);
         }
 
-        self.statements = statements;
+        let rule_context = RuleContext::from_statements(&statements);
+
+        self.statements = statements
+            .iter()
+            .map(|statement: &Statement| statement.with_context(&rule_context))
+            .collect();
+
         Ok(())
     }
 }

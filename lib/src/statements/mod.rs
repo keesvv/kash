@@ -29,3 +29,13 @@ pub enum Statement {
     #[cfg(feature = "rule")]
     Rule(rule::Rule),
 }
+
+impl Statement {
+    pub fn with_context<C: Context>(&self, context: &C) -> Self {
+        context.apply(self)
+    }
+}
+
+pub trait Context {
+    fn apply(&self, statement: &Statement) -> Statement;
+}
