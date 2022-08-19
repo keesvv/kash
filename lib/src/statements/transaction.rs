@@ -1,8 +1,6 @@
-use super::{
-    account::AccountId,
-    rule::{Action, ActionError, Field, Pattern, RuleBehaviour},
-};
+use super::account::AccountId;
 use crate::date::Date;
+use crate::rules::{Action, ActionError, Field, Pattern, RuleBehaviour};
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize, Clone, Debug)]

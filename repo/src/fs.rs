@@ -1,5 +1,5 @@
 use super::repo::{Error, RepoLike, Result};
-use kash::statements::{rule::RuleContext, Statement};
+use kash::{rules::context::RuleContext, statements::Statement};
 use kash_convert::input::{camt053::Camt053Input, json::JsonInput, toml::TomlInput, Input};
 use std::{
     fs::{self, File},
