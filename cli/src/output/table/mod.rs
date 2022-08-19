@@ -4,7 +4,7 @@ use self::value::{Cell, Col, ValueTable};
 use super::OutputOptions;
 use kash::statements::{
     account::{Account, AccountType},
-    budget::{Budget, Quota},
+    budget::Budget,
     fixed::FixedExpense,
     income::Income,
     transaction::Transaction,
@@ -136,13 +136,9 @@ impl TableOutput {
                     .iter()
                     .find(|b| b.tag.eq(&transaction.tag.to_owned().unwrap_or_default()))
                 {
-                    Some(budget) => Cell::Quota(
-                        transaction.mutation.abs(),
-                        match budget.quota {
-                            Quota::Absolute(a) => a,
-                            Quota::Percentage(p) => (p / 100.0) * income,
-                        },
-                    ),
+                    Some(budget) => {
+                        Cell::Quota(transaction.mutation.abs(), budget.quota.get_abs(income))
+                    }
                     None => Cell::Text("".into()),
                 },
             ]);

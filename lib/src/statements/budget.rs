@@ -12,6 +12,15 @@ pub enum Quota {
     Absolute(f32),
 }
 
+impl Quota {
+    pub fn get_abs(&self, income: f32) -> f32 {
+        match self {
+            Quota::Absolute(a) => *a,
+            Quota::Percentage(p) => (p / 100.0) * income,
+        }
+    }
+}
+
 impl<'de> Deserialize<'de> for Quota {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where

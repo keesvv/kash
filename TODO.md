@@ -33,14 +33,14 @@
 - [x] http: implement kash_repo
 - [x] statement: Budget variant
 - [x] account: multiple AccountId variants
+- [x] lib: Rule variant w/ patterns-based replacements
+  - [x] lib/rule: auto tagging
 
 ## Currently working on
 
-## Coming soon
+- [ ] lib/rule: auto description renaming
 
-- [ ] lib: Rule variant w/ patterns-based replacements
-  - [ ] lib/rule: auto description renaming
-  - [ ] lib/rule: auto tagging
+## Coming soon
 
 - [ ] web: add bindings with wasm_bindgen
 - [ ] web: wasm/http repository abstractions with TypeScript
