@@ -1,9 +1,12 @@
+use crate::value::MonthValues;
 use serde::{de::Error, Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct Budget {
     pub tag: String,
     pub quota: Quota,
+    #[serde(default)]
+    pub reserved: bool,
 }
 
 #[derive(Serialize, Clone, Copy, Debug)]
@@ -13,11 +16,13 @@ pub enum Quota {
 }
 
 impl Quota {
-    pub fn get_abs(&self, income: f32) -> f32 {
-        match self {
-            Quota::Absolute(a) => *a,
-            Quota::Percentage(p) => (p / 100.0) * income,
-        }
+    pub fn get_month_values(&self, income: MonthValues) -> MonthValues {
+        MonthValues::new(
+            [match self {
+                Quota::Absolute(a) => *a,
+                Quota::Percentage(p) => (p / 100.0) * income.month_avg(),
+            }; 12],
+        )
     }
 }
 

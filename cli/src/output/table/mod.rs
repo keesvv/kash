@@ -65,7 +65,12 @@ impl TableOutput {
         )
     }
 
-    pub fn format_income(&self, income: &[Income], expenses: &[FixedExpense]) -> ValueTable {
+    pub fn format_income(
+        &self,
+        income: &[Income],
+        gross_income: MonthValues,
+        disc_income: MonthValues,
+    ) -> ValueTable {
         let mut table = ValueTable::new(
             "Income",
             &[
@@ -83,9 +88,6 @@ impl TableOutput {
                 Cell::Value(statement.income.year()),
             ]);
         }
-
-        let gross_income = income.iter().map(|i| i.income).sum::<MonthValues>();
-        let disc_income = gross_income.get_discretionary(expenses.iter().map(|e| e.expenses).sum());
 
         table.add_row(&[
             Cell::Text("total (gross)".into()),
@@ -106,7 +108,7 @@ impl TableOutput {
         &self,
         transactions: &[Transaction],
         budget: &[Budget],
-        income: f32,
+        disc_income: MonthValues,
     ) -> ValueTable {
         let mut table = ValueTable::new(
             "Latest transactions",
@@ -142,9 +144,10 @@ impl TableOutput {
                     .iter()
                     .find(|b| b.tag.eq(&transaction.tag.to_owned().unwrap_or_default()))
                 {
-                    Some(budget) => {
-                        Cell::Quota(transaction.mutation.abs(), budget.quota.get_abs(income))
-                    }
+                    Some(budget) => Cell::Quota(
+                        transaction.mutation.abs(),
+                        budget.quota.get_month_values(disc_income).month_avg(),
+                    ),
                     None => Cell::Text("".into()),
                 },
             ]);
@@ -189,7 +192,7 @@ impl Output for TableOutput {
     where
         W: io::Write,
     {
-        let mut fixed: Vec<FixedExpense> = Vec::new();
+        let mut expenses: Vec<FixedExpense> = Vec::new();
         let mut income: Vec<Income> = Vec::new();
         let mut transactions: Vec<Transaction> = Vec::new();
         let mut accounts: Vec<Account> = Vec::new();
@@ -197,7 +200,7 @@ impl Output for TableOutput {
 
         for statement in &self.statements {
             match &statement {
-                Statement::Fixed(f) => fixed.push(f.to_owned()),
+                Statement::Fixed(f) => expenses.push(f.to_owned()),
                 Statement::Income(i) => income.push(i.to_owned()),
                 Statement::Transaction(t) => transactions.push(t.to_owned()),
                 Statement::Account(a) => accounts.push(a.to_owned()),
@@ -206,18 +209,23 @@ impl Output for TableOutput {
             }
         }
 
+        let gross_income: MonthValues = income.iter().map(|i| i.income).sum();
+        let total_expenses: MonthValues = expenses.iter().map(|e| e.expenses).sum();
+        let reserved_budget: MonthValues = budget
+            .iter()
+            .filter(|b| b.reserved)
+            .map(|b| b.quota.get_month_values(gross_income))
+            .sum();
+        let disc_income = gross_income.get_discretionary(total_expenses + reserved_budget);
+
         write!(
             writer,
             "{}",
             [
                 self.format_accounts(&accounts),
-                self.format_fixed(&fixed),
-                self.format_income(&income, &fixed),
-                self.format_transactions(
-                    &transactions,
-                    &budget,
-                    income.iter().map(|i| i.income.month_avg()).sum()
-                ),
+                self.format_fixed(&expenses),
+                self.format_income(&income, gross_income, disc_income),
+                self.format_transactions(&transactions, &budget, disc_income),
             ]
             .iter()
             .map(ToString::to_string)
