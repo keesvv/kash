@@ -6,6 +6,7 @@ members = [
     "convert",
     "repo",
     "cli",
-    "http"
+    "http",
+    "web"
 ]
 default-members = ["cli"]

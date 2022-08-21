@@ -485,6 +485,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "kash_web"
+version = "0.1.0"
+dependencies = [
+ "kash",
+ "kash_repo",
+ "wasm-bindgen",
+]
+
+[[package]]
 name = "ktf"
 version = "0.1.0"
 dependencies = [
