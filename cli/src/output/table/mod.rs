@@ -138,14 +138,14 @@ impl TableOutput {
                         .collect::<Vec<&str>>()
                         .join(" "),
                 ),
-                Cell::Value(transaction.mutation),
+                Cell::Value(transaction.amount * -1.0),
                 Cell::Text(transaction.tag.to_owned().unwrap_or_default()),
                 match budget
                     .iter()
                     .find(|b| b.tag.eq(&transaction.tag.to_owned().unwrap_or_default()))
                 {
                     Some(budget) => Cell::Quota(
-                        transaction.mutation.abs(),
+                        transaction.amount,
                         budget.quota.get_month_values(disc_income).month_avg(),
                     ),
                     None => Cell::Text("".into()),

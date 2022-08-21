@@ -9,7 +9,7 @@ pub struct Transaction {
     pub tag: Option<String>,
     pub description: String,
     pub date: Date,
-    pub mutation: f32,
+    pub amount: f32,
     pub account_id: AccountId,
 }
 

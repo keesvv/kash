@@ -35,17 +35,17 @@
 - [x] account: multiple AccountId variants
 - [x] lib: Rule variant w/ patterns-based replacements
   - [x] lib/rule: auto tagging
+  - [x] lib/rule: auto description renaming
 
 ## Currently working on
 
-- [ ] lib/rule: auto description renaming
+- [ ] web: add bindings with wasm_bindgen
 
 ## Coming soon
 
-- [ ] web: add bindings with wasm_bindgen
 - [ ] web: wasm/http repository abstractions with TypeScript
 
-- [ ] transaction: subitems
+- [ ] transaction: Products w/ price tracking
 - [ ] statement: Goal variant
 
 - [ ] convert: convert between inputs
