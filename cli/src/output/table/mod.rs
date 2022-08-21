@@ -2,13 +2,16 @@ pub mod value;
 
 use self::value::{Cell, Col, ValueTable};
 use super::OutputOptions;
-use kash::statements::{
-    account::{Account, AccountType},
-    budget::Budget,
-    fixed::FixedExpense,
-    income::Income,
-    transaction::Transaction,
-    Statement,
+use kash::{
+    statements::{
+        account::{Account, AccountType},
+        budget::Budget,
+        fixed::FixedExpense,
+        income::Income,
+        transaction::Transaction,
+        Statement,
+    },
+    value::MonthValues,
 };
 use kash_convert::output::Output;
 use std::io;
@@ -62,7 +65,7 @@ impl TableOutput {
         )
     }
 
-    pub fn format_income(&self, income: &[Income]) -> ValueTable {
+    pub fn format_income(&self, income: &[Income], expenses: &[FixedExpense]) -> ValueTable {
         let mut table = ValueTable::new(
             "Income",
             &[
@@ -81,19 +84,22 @@ impl TableOutput {
             ]);
         }
 
-        table.with_total(
-            1,
-            &[
-                &income
-                    .iter()
-                    .map(|statement| statement.income.month_avg())
-                    .collect::<Vec<f32>>(),
-                &income
-                    .iter()
-                    .map(|statement| statement.income.year())
-                    .collect::<Vec<f32>>(),
-            ],
-        )
+        let gross_income = income.iter().map(|i| i.income).sum::<MonthValues>();
+        let disc_income = gross_income.get_discretionary(expenses.iter().map(|e| e.expenses).sum());
+
+        table.add_row(&[
+            Cell::Text("total (gross)".into()),
+            Cell::Value(gross_income.month_avg()),
+            Cell::Value(gross_income.year()),
+        ]);
+
+        table.add_row(&[
+            Cell::Text("total (discr.)".into()),
+            Cell::Value(disc_income.month_avg()),
+            Cell::Value(disc_income.year()),
+        ]);
+
+        table
     }
 
     pub fn format_transactions(
@@ -206,7 +212,7 @@ impl Output for TableOutput {
             [
                 self.format_accounts(&accounts),
                 self.format_fixed(&fixed),
-                self.format_income(&income),
+                self.format_income(&income, &fixed),
                 self.format_transactions(
                     &transactions,
                     &budget,
