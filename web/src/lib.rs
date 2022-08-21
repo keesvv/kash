@@ -1,6 +1,21 @@
+use kash_repo::{mem::MemRepo, repo::RepoLike};
+use lazy_static::lazy_static;
+use std::sync::Mutex;
 use wasm_bindgen::prelude::*;
 
+lazy_static! {
+    pub static ref REPO: Mutex<MemRepo> = Mutex::new(MemRepo::new());
+}
+
 #[wasm_bindgen]
-pub fn greet(name: &str) -> String {
-    format!("Hello, {}!", name)
+pub fn get_all() -> String {
+    serde_json::to_string(&REPO.lock().unwrap().get_all().unwrap()).unwrap()
+}
+
+#[wasm_bindgen]
+pub fn insert(statement: &str) {
+    REPO.lock()
+        .unwrap()
+        .insert(&serde_json::from_str(statement).unwrap())
+        .unwrap()
 }

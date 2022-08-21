@@ -490,6 +490,9 @@ version = "0.1.0"
 dependencies = [
  "kash",
  "kash_repo",
+ "lazy_static",
+ "serde",
+ "serde_json",
  "wasm-bindgen",
 ]
 
