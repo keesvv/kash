@@ -76,6 +76,12 @@ impl Serialize for Pattern {
 #[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase", tag = "type")]
 pub enum Action {
-    Set { field: Field, value: String },
-    ApplyTag { tag: String },
+    #[serde(rename = "replaceDesc")]
+    ReplaceDescription {
+        replace: Pattern,
+        with: String,
+    },
+    ApplyTag {
+        tag: String,
+    },
 }

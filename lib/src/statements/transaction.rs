@@ -17,7 +17,9 @@ impl RuleBehaviour for Transaction {
     fn apply_action(&mut self, action: &Action) -> Result<(), ActionError> {
         match action {
             Action::ApplyTag { tag } => Ok(self.tag = Some(tag.to_owned())),
-            Action::Set { .. } => todo!(),
+            Action::ReplaceDescription { replace, with } => Ok({
+                self.description = replace.0.replace_all(&self.description, with).to_string();
+            }),
         }
     }
 
