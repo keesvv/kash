@@ -8,10 +8,8 @@ crate-type = ["cdylib"]
 
 [dependencies]
 kash = { path = "../lib" }
-wasm-bindgen = "0.2.82"
+wasm-bindgen = { version = "0.2.82", features = ["serde-serialize"] }
 lazy_static = "1.4.0"
-serde = { version = "1.0.139" }
-serde_json = { version = "1.0.82" }
 
 [dependencies.kash_repo]
 path = "../repo"
