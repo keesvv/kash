@@ -8,12 +8,24 @@ pub mod ktf;
 pub mod toml;
 
 use kash::statements::Statement;
+use std::error;
+use std::fmt::Display;
 use std::io::Read;
 
 #[derive(Debug)]
 pub enum InputError {
     Read,
     Invalid(String),
+}
+
+impl error::Error for InputError {}
+impl Display for InputError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Read => write!(f, "input read error"),
+            Self::Invalid(err) => write!(f, "invalid input: {err}"),
+        }
+    }
 }
 
 pub trait Input {
