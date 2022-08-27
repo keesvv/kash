@@ -8,6 +8,8 @@ pub mod fixed;
 pub mod income;
 #[cfg(feature = "rule")]
 pub mod rule;
+#[cfg(feature = "savings")]
+pub mod savings;
 #[cfg(feature = "transaction")]
 pub mod transaction;
 
@@ -28,6 +30,8 @@ pub enum Statement {
     Budget(budget::Budget),
     #[cfg(feature = "rule")]
     Rule(rule::Rule),
+    #[cfg(feature = "savings")]
+    Goal(savings::Goal),
 }
 
 impl Statement {
