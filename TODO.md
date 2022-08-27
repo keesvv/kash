@@ -36,17 +36,18 @@
 - [x] lib: Rule variant w/ patterns-based replacements
   - [x] lib/rule: auto tagging
   - [x] lib/rule: auto description renaming
+- [x] web: add bindings with wasm_bindgen
 
 ## Currently working on
 
-- [ ] web: add bindings with wasm_bindgen
-
 ## Coming soon
 
-- [ ] web: wasm/http repository abstractions with TypeScript
+- [ ] kash.js: wasm/http repository abstractions with TypeScript
+- [ ] kash.js: sync repository instances with other instances
 
-- [ ] transaction: Products w/ price tracking
+- [ ] statement: Savings variant
 - [ ] statement: Goal variant
+- [ ] transaction: Products w/ price tracking
 
 - [ ] convert: convert between inputs
 - [ ] repo: atomic edits for consumption in http, cli, etc
