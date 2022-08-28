@@ -31,6 +31,8 @@ pub enum Statement {
     #[cfg(feature = "rule")]
     Rule(rule::Rule),
     #[cfg(feature = "savings")]
+    Savings(savings::Savings),
+    #[cfg(feature = "savings")]
     Goal(savings::Goal),
 }
 
