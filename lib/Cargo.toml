@@ -25,7 +25,7 @@ default = [
     "transaction",
     "budget",
     "rule",
-    "savings"
+    "savings",
 ]
 account = []
 fixed = []
@@ -33,4 +33,4 @@ income = []
 transaction = ["dep:chrono", "account"]
 budget = []
 rule = ["dep:regex"]
-savings = []
+savings = ["dep:chrono", "chrono?/clock"]

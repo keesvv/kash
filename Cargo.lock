@@ -95,6 +95,7 @@ dependencies = [
  "num-traits",
  "serde",
  "wasm-bindgen",
+ "winapi",
 ]
 
 [[package]]
