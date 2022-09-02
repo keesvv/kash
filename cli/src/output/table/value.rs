@@ -1,4 +1,4 @@
-use super::OutputOptions;
+use super::{OutputOptions, TableLike};
 use crate::output::mask;
 use colored::*;
 use kash::statements::account::AccountId;
@@ -80,6 +80,7 @@ impl ValueTable {
     }
 }
 
+impl TableLike for ValueTable {}
 impl Display for ValueTable {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.table.to_string().trim_end())

@@ -1,24 +1,27 @@
+pub mod accounts;
 pub mod value;
 
 use self::value::{Cell, Col, ValueTable};
 use super::OutputOptions;
+use accounts::AccountsTable;
 use kash::{
     statements::{
-        account::{Account, AccountType},
-        budget::Budget,
-        fixed::FixedExpense,
-        income::Income,
-        transaction::Transaction,
-        Statement,
+        account::Account, budget::Budget, fixed::FixedExpense, income::Income,
+        transaction::Transaction, Statement,
     },
     value::MonthValues,
 };
 use kash_convert::output::Output;
-use std::io;
+use std::{fmt::Display, io};
 
 pub struct TableOutput {
     statements: Vec<Statement>,
     opts: OutputOptions,
+}
+
+pub trait TableLike: Display {}
+pub trait ToTable<T: TableLike> {
+    fn to_table(&self, opts: OutputOptions) -> T;
 }
 
 impl TableOutput {
@@ -155,36 +158,6 @@ impl TableOutput {
 
         table
     }
-
-    pub fn format_accounts(&self, accounts: &[Account]) -> ValueTable {
-        let mut table = ValueTable::new(
-            "Accounts",
-            &[
-                Col::Text("type".into()),
-                Col::Text("id".into()),
-                Col::Text("name".into()),
-                Col::Text("bank".into()),
-            ],
-            self.opts,
-        );
-
-        for account in accounts {
-            table.add_row(&[
-                Cell::Text(
-                    match account.account_type {
-                        AccountType::Payment => "payment",
-                        AccountType::Savings => "savings",
-                    }
-                    .to_string(),
-                ),
-                Cell::AccountId(account.id.to_owned()),
-                Cell::Text(account.name.to_owned()),
-                Cell::Text(account.bank.to_owned().unwrap_or_default()),
-            ]);
-        }
-
-        table
-    }
 }
 
 impl Output for TableOutput {
@@ -222,7 +195,7 @@ impl Output for TableOutput {
             writer,
             "{}",
             [
-                self.format_accounts(&accounts),
+                AccountsTable { accounts }.to_table(self.opts),
                 self.format_fixed(&expenses),
                 self.format_income(&income, gross_income, disc_income),
                 self.format_transactions(&transactions, &budget, disc_income),
