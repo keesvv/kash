@@ -37,17 +37,21 @@
   - [x] lib/rule: auto tagging
   - [x] lib/rule: auto description renaming
 - [x] web: add bindings with wasm_bindgen
+- [x] statement: Savings variant
+- [x] statement: Goal variant
+- [x] savings: SavingsContext
 
 ## Currently working on
 
+- [ ] contexts: mappable and composable API
+
 ## Coming soon
+
+- [ ] savings: support for Savings without goals
+- [ ] transaction: Products w/ price tracking
 
 - [ ] kash.js: wasm/http repository abstractions with TypeScript
 - [ ] kash.js: sync repository instances with other instances
-
-- [ ] statement: Savings variant
-- [ ] statement: Goal variant
-- [ ] transaction: Products w/ price tracking
 
 - [ ] convert: convert between inputs
 - [ ] repo: atomic edits for consumption in http, cli, etc

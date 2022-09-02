@@ -26,7 +26,7 @@ impl ToTable<ValueTable> for SavingsTable {
             table.add_row(&[
                 Cell::Text(goal.id.to_owned()),
                 Cell::Text(goal.description.to_owned()),
-                Cell::Value(0.0), // TODO
+                Cell::Value(goal.progress),
                 Cell::Value(goal.get_total()),
             ]);
         }
