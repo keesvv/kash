@@ -1,9 +1,13 @@
 pub mod accounts;
+pub mod expenses;
+pub mod income;
+pub mod transactions;
 pub mod value;
 
-use self::value::{Cell, Col, ValueTable};
 use super::OutputOptions;
 use accounts::AccountsTable;
+use expenses::ExpensesTable;
+use income::IncomeTable;
 use kash::{
     statements::{
         account::Account, budget::Budget, fixed::FixedExpense, income::Income,
@@ -13,6 +17,7 @@ use kash::{
 };
 use kash_convert::output::Output;
 use std::{fmt::Display, io};
+use transactions::TransactionsTable;
 
 pub struct TableOutput {
     statements: Vec<Statement>,
@@ -30,133 +35,6 @@ impl TableOutput {
             statements: statements.to_owned(),
             opts,
         }
-    }
-
-    pub fn format_fixed(&self, expenses: &[FixedExpense]) -> ValueTable {
-        let mut table = ValueTable::new(
-            "Fixed expenses",
-            &[
-                Col::Text("tag".into()),
-                Col::Text("description".into()),
-                Col::Value("avg/mo".into()),
-                Col::Value("year".into()),
-            ],
-            self.opts,
-        );
-
-        for expense in expenses {
-            table.add_row(&[
-                Cell::Text(expense.tag.to_owned()),
-                Cell::Text(expense.description.to_owned()),
-                Cell::Value(expense.expenses.month_avg() * -1.0),
-                Cell::Value(expense.expenses.year() * -1.0),
-            ]);
-        }
-
-        table.with_total(
-            2,
-            &[
-                &expenses
-                    .iter()
-                    .map(|expense| expense.expenses.month_avg() * -1.0)
-                    .collect::<Vec<f32>>(),
-                &expenses
-                    .iter()
-                    .map(|expense| expense.expenses.year() * -1.0)
-                    .collect::<Vec<f32>>(),
-            ],
-        )
-    }
-
-    pub fn format_income(
-        &self,
-        income: &[Income],
-        gross_income: MonthValues,
-        disc_income: MonthValues,
-    ) -> ValueTable {
-        let mut table = ValueTable::new(
-            "Income",
-            &[
-                Col::Text("description".into()),
-                Col::Value("avg/mo".into()),
-                Col::Value("year".into()),
-            ],
-            self.opts,
-        );
-
-        for statement in income {
-            table.add_row(&[
-                Cell::Text(statement.description.to_owned()),
-                Cell::Value(statement.income.month_avg()),
-                Cell::Value(statement.income.year()),
-            ]);
-        }
-
-        table.add_row(&[
-            Cell::Text("total (gross)".into()),
-            Cell::Value(gross_income.month_avg()),
-            Cell::Value(gross_income.year()),
-        ]);
-
-        table.add_row(&[
-            Cell::Text("total (discr.)".into()),
-            Cell::Value(disc_income.month_avg()),
-            Cell::Value(disc_income.year()),
-        ]);
-
-        table
-    }
-
-    pub fn format_transactions(
-        &self,
-        transactions: &[Transaction],
-        budget: &[Budget],
-        disc_income: MonthValues,
-    ) -> ValueTable {
-        let mut table = ValueTable::new(
-            "Latest transactions",
-            &[
-                Col::Text("date".into()),
-                Col::Text("description".into()),
-                Col::Value("mutation".into()),
-                Col::Text("tag".into()),
-                Col::Text("quota".into()),
-            ],
-            self.opts,
-        );
-
-        let mut transactions = transactions.iter().collect::<Vec<&Transaction>>();
-        transactions.sort_by(|a, b| b.date.cmp(&a.date));
-
-        for transaction in transactions.iter().take(10) {
-            table.add_row(&[
-                Cell::Text(transaction.date.0.format("%Y/%m/%d").to_string()),
-                Cell::Text(
-                    transaction
-                        .description
-                        .chars()
-                        .take(60)
-                        .collect::<String>()
-                        .split_whitespace()
-                        .collect::<Vec<&str>>()
-                        .join(" "),
-                ),
-                Cell::Value(transaction.amount * -1.0),
-                Cell::Text(transaction.tag.to_owned().unwrap_or_default()),
-                match budget
-                    .iter()
-                    .find(|b| b.tag.eq(&transaction.tag.to_owned().unwrap_or_default()))
-                {
-                    Some(budget) => Cell::Quota(
-                        transaction.amount,
-                        budget.quota.get_month_values(disc_income).month_avg(),
-                    ),
-                    None => Cell::Text("".into()),
-                },
-            ]);
-        }
-
-        table
     }
 }
 
@@ -196,9 +74,19 @@ impl Output for TableOutput {
             "{}",
             [
                 AccountsTable { accounts }.to_table(self.opts),
-                self.format_fixed(&expenses),
-                self.format_income(&income, gross_income, disc_income),
-                self.format_transactions(&transactions, &budget, disc_income),
+                ExpensesTable { expenses }.to_table(self.opts),
+                IncomeTable {
+                    income,
+                    disc_income,
+                    gross_income
+                }
+                .to_table(self.opts),
+                TransactionsTable {
+                    budget,
+                    transactions,
+                    disc_income
+                }
+                .to_table(self.opts),
             ]
             .iter()
             .map(ToString::to_string)
