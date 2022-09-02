@@ -1,6 +1,7 @@
 pub mod accounts;
 pub mod expenses;
 pub mod income;
+pub mod savings;
 pub mod transactions;
 pub mod value;
 
@@ -10,12 +11,13 @@ use expenses::ExpensesTable;
 use income::IncomeTable;
 use kash::{
     statements::{
-        account::Account, budget::Budget, fixed::FixedExpense, income::Income,
+        account::Account, budget::Budget, fixed::FixedExpense, income::Income, savings::Goal,
         transaction::Transaction, Statement,
     },
     value::MonthValues,
 };
 use kash_convert::output::Output;
+use savings::SavingsTable;
 use std::{fmt::Display, io};
 use transactions::TransactionsTable;
 
@@ -48,6 +50,7 @@ impl Output for TableOutput {
         let mut transactions: Vec<Transaction> = Vec::new();
         let mut accounts: Vec<Account> = Vec::new();
         let mut budget: Vec<Budget> = Vec::new();
+        let mut goals: Vec<Goal> = Vec::new();
 
         for statement in &self.statements {
             match &statement {
@@ -56,6 +59,7 @@ impl Output for TableOutput {
                 Statement::Transaction(t) => transactions.push(t.to_owned()),
                 Statement::Account(a) => accounts.push(a.to_owned()),
                 Statement::Budget(b) => budget.push(b.to_owned()),
+                Statement::Goal(g) => goals.push(g.to_owned()),
                 _ => (),
             }
         }
@@ -74,6 +78,7 @@ impl Output for TableOutput {
             "{}",
             [
                 AccountsTable { accounts }.to_table(self.opts),
+                SavingsTable { goals }.to_table(self.opts),
                 ExpensesTable { expenses }.to_table(self.opts),
                 IncomeTable {
                     income,
