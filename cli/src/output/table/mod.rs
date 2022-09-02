@@ -11,8 +11,13 @@ use expenses::ExpensesTable;
 use income::IncomeTable;
 use kash::{
     statements::{
-        account::Account, budget::Budget, fixed::FixedExpense, income::Income, savings::Goal,
-        transaction::Transaction, Statement,
+        account::Account,
+        budget::Budget,
+        fixed::FixedExpense,
+        income::Income,
+        savings::{Goal, Savings},
+        transaction::Transaction,
+        Statement,
     },
     value::MonthValues,
 };
@@ -51,6 +56,7 @@ impl Output for TableOutput {
         let mut accounts: Vec<Account> = Vec::new();
         let mut budget: Vec<Budget> = Vec::new();
         let mut goals: Vec<Goal> = Vec::new();
+        let mut savings: Vec<Savings> = Vec::new();
 
         for statement in &self.statements {
             match &statement {
@@ -60,6 +66,7 @@ impl Output for TableOutput {
                 Statement::Account(a) => accounts.push(a.to_owned()),
                 Statement::Budget(b) => budget.push(b.to_owned()),
                 Statement::Goal(g) => goals.push(g.to_owned()),
+                Statement::Savings(s) => savings.push(s.to_owned()),
                 _ => (),
             }
         }
@@ -71,7 +78,9 @@ impl Output for TableOutput {
             .filter(|b| b.reserved)
             .map(|b| b.quota.get_month_values(gross_income))
             .sum();
-        let disc_income = gross_income.get_discretionary(total_expenses + reserved_budget);
+
+        let disc_income =
+            gross_income.get_discretionary(total_expenses + reserved_budget, &savings);
 
         write!(
             writer,
