@@ -45,7 +45,7 @@ pub struct Savings {
     #[serde(flatten)]
     pub model: SavingsModel,
     pub amount: f32,
-    pub goal_id: Option<String>,
+    pub goal: String,
 }
 
 impl Savings {

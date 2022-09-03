@@ -38,9 +38,7 @@ impl Context for SavingsContext {
                 let progress = self
                     .savings
                     .iter()
-                    .filter(|savings: &&Savings| {
-                        savings.goal_id == Some(goal.id.to_owned())
-                    })
+                    .filter(|savings: &&Savings| savings.goal == goal.id)
                     .map(|savings: &Savings| savings.get_total_amount())
                     .sum();
 
