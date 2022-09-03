@@ -40,10 +40,9 @@
 - [x] statement: Savings variant
 - [x] statement: Goal variant
 - [x] savings: SavingsContext
+- [x] contexts: mappable and composable API
 
 ## Currently working on
-
-- [ ] contexts: mappable and composable API
 
 ## Coming soon
 

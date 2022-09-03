@@ -18,7 +18,8 @@ pub fn throw<E: Error>(err: E) -> JsValue {
 
 #[wasm_bindgen]
 pub fn get_all() -> Result<JsValue> {
-    JsValue::from_serde(&REPO.lock().map_err(throw)?.get_all().map_err(throw)?).map_err(throw)
+    JsValue::from_serde(&REPO.lock().map_err(throw)?.get_all().map_err(throw)?)
+        .map_err(throw)
 }
 
 #[wasm_bindgen]

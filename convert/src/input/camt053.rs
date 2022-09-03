@@ -47,7 +47,9 @@ impl Camt053Input {
                     description: Self::get_description(entry).unwrap_or_default(),
                     amount: entry.amount.value,
                     tag: None,
-                    account_id: AccountId::Iban(statement.account.id.value.as_str_id().into()),
+                    account_id: AccountId::Iban(
+                        statement.account.id.value.as_str_id().into(),
+                    ),
                 })
             })
             .collect()

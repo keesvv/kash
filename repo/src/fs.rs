@@ -47,9 +47,8 @@ impl FsRepo {
     }
 
     fn get_inputs(&self) -> Result<Vec<PathBuf>> {
-        let include_str =
-            fs::read_to_string(&self.path.join(".kash").join("include"))
-                .map_err(Error::IO)?;
+        let include_str = fs::read_to_string(&self.path.join(".kash").join("include"))
+            .map_err(Error::IO)?;
 
         Ok(include_str
             .lines()

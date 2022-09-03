@@ -29,7 +29,9 @@ impl ValueTable {
             cols.iter()
                 .map(|col| match col {
                     Col::Text(caption) => caption.to_owned(),
-                    Col::Value(caption) => format!("{} ({})", caption, opts.currency_symbol),
+                    Col::Value(caption) => {
+                        format!("{} ({})", caption, opts.currency_symbol)
+                    }
                 })
                 .collect::<Vec<String>>(),
         ));

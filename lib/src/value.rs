@@ -106,7 +106,8 @@ impl Debug for MonthValues {
         let mut dbg = f.debug_struct("MonthValues");
 
         for (i, month) in [
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov",
+            "Dec",
         ]
         .iter()
         .enumerate()
