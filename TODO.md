@@ -41,16 +41,18 @@
 - [x] statement: Goal variant
 - [x] savings: SavingsContext
 - [x] contexts: mappable and composable API
+- [x] savings: support for Savings without goals
 
 ## Currently working on
 
-## Coming soon
+- [ ] statement: Variable variant
 
-- [ ] savings: support for Savings without goals
-- [ ] transaction: Products w/ price tracking
+## Coming soon
 
 - [ ] kash.js: wasm/http repository abstractions with TypeScript
 - [ ] kash.js: sync repository instances with other instances
+
+- [ ] transaction: Products w/ price tracking
 
 - [ ] convert: convert between inputs
 - [ ] repo: atomic edits for consumption in http, cli, etc
