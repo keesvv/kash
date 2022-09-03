@@ -9,20 +9,26 @@ pub struct SavingsContext {
 }
 
 impl SavingsContext {
-    pub fn from_statements(statements: &[Statement]) -> Self {
+    pub fn new() -> Self {
         Self {
-            savings: statements
+            savings: Vec::new(),
+        }
+    }
+}
+
+impl Context for SavingsContext {
+    fn add(&mut self, statements: &[Statement]) {
+        self.savings.extend(
+            statements
                 .iter()
                 .filter_map(|s| match s {
                     Statement::Savings(savings) => Some(savings.to_owned()),
                     _ => None,
                 })
                 .collect::<Vec<Savings>>(),
-        }
+        )
     }
-}
 
-impl Context for SavingsContext {
     fn apply(&self, statement: Statement) -> Statement {
         match statement {
             Statement::Goal(goal) => {

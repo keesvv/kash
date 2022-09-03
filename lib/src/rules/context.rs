@@ -6,20 +6,24 @@ pub struct RuleContext {
 }
 
 impl RuleContext {
-    pub fn from_statements(statements: &[Statement]) -> Self {
-        Self {
-            rules: statements
+    pub fn new() -> Self {
+        Self { rules: Vec::new() }
+    }
+}
+
+impl Context for RuleContext {
+    fn add(&mut self, statements: &[Statement]) {
+        self.rules.extend(
+            statements
                 .iter()
                 .filter_map(|s| match s {
                     Statement::Rule(rule) => Some(rule.to_owned()),
                     _ => None,
                 })
                 .collect::<Vec<Rule>>(),
-        }
+        )
     }
-}
 
-impl Context for RuleContext {
     fn apply(&self, statement: Statement) -> Statement {
         self.rules
             .iter()

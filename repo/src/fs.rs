@@ -1,5 +1,9 @@
 use super::repo::{Error, RepoLike, Result};
-use kash::{rules::context::RuleContext, savings::context::SavingsContext, statements::Statement};
+use kash::{
+    rules::context::RuleContext,
+    savings::context::SavingsContext,
+    statements::{apply_contexts, Statement},
+};
 use kash_convert::input::{camt053::Camt053Input, json::JsonInput, toml::TomlInput, Input};
 use std::{
     fs::{self, File},
@@ -64,23 +68,13 @@ impl FsRepo {
             statements.extend(self.read_input(&self.path.join(input))?);
         }
 
-        // TODO: refactor contexts (see TODO.md)
-
-        let rule_context = RuleContext::from_statements(&statements);
-
-        statements = statements
-            .iter()
-            .map(|statement: &Statement| statement.with_context(&rule_context))
-            .collect();
-
-        let savings_context = SavingsContext::from_statements(&statements);
-
-        statements = statements
-            .iter()
-            .map(|statement: &Statement| statement.with_context(&savings_context))
-            .collect();
-
-        Ok(self.statements = statements)
+        Ok(self.statements = apply_contexts(
+            &statements,
+            &mut [
+                Box::new(RuleContext::new()),
+                Box::new(SavingsContext::new()),
+            ],
+        ))
     }
 }
 

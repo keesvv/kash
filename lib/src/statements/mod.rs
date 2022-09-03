@@ -36,12 +36,22 @@ pub enum Statement {
     Goal(savings::Goal),
 }
 
-impl Statement {
-    pub fn with_context<C: Context>(&self, context: &C) -> Self {
-        context.apply(self.to_owned())
+pub trait Context {
+    fn add(&mut self, statements: &[Statement]);
+    fn apply(&self, statement: Statement) -> Statement;
+    fn apply_all(&self, statements: &[Statement]) -> Vec<Statement> {
+        statements
+            .iter()
+            .map(|statement| self.apply(statement.to_owned()))
+            .collect()
     }
 }
 
-pub trait Context {
-    fn apply(&self, statement: Statement) -> Statement;
+pub fn apply_contexts(store: &[Statement], contexts: &mut [Box<dyn Context>]) -> Vec<Statement> {
+    contexts
+        .iter_mut()
+        .fold(store.to_owned(), |statements, context| {
+            context.add(&statements);
+            context.apply_all(&statements)
+        })
 }
