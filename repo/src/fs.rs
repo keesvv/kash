@@ -1,10 +1,11 @@
 use super::repo::{Error, RepoLike, Result};
 use kash::{
-    rules::context::RuleContext,
-    savings::context::SavingsContext,
-    statements::{apply_contexts, Statement},
+    contexts, rules::context::RuleContext, savings::context::SavingsContext,
+    statements::Statement,
 };
-use kash_convert::input::{camt053::Camt053Input, json::JsonInput, toml::TomlInput, Input};
+use kash_convert::input::{
+    camt053::Camt053Input, json::JsonInput, toml::TomlInput, Input,
+};
 use std::{
     fs::{self, File},
     path::{Path, PathBuf},
@@ -47,7 +48,8 @@ impl FsRepo {
 
     fn get_inputs(&self) -> Result<Vec<PathBuf>> {
         let include_str =
-            fs::read_to_string(&self.path.join(".kash").join("include")).map_err(Error::IO)?;
+            fs::read_to_string(&self.path.join(".kash").join("include"))
+                .map_err(Error::IO)?;
 
         Ok(include_str
             .lines()
@@ -68,7 +70,7 @@ impl FsRepo {
             statements.extend(self.read_input(&self.path.join(input))?);
         }
 
-        Ok(self.statements = apply_contexts(
+        Ok(self.statements = contexts::apply_stacked(
             &statements,
             &mut [
                 Box::new(RuleContext::new()),

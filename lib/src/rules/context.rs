@@ -1,4 +1,7 @@
-use crate::statements::{rule::Rule, Context, Statement};
+use crate::{
+    contexts::Context,
+    statements::{rule::Rule, Statement},
+};
 
 #[derive(Clone)]
 pub struct RuleContext {

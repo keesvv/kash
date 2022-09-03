@@ -1,6 +1,9 @@
-use crate::statements::{
-    savings::{Goal, Savings},
-    Context, Statement,
+use crate::{
+    contexts::Context,
+    statements::{
+        savings::{Goal, Savings},
+        Statement,
+    },
 };
 
 #[derive(Clone)]
