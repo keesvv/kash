@@ -27,7 +27,11 @@ impl ToTable<ValueTable> for SavingsTable {
                 Cell::Text(goal.id.to_owned()),
                 Cell::Text(goal.description.to_owned()),
                 Cell::Value(goal.progress),
-                Cell::Value(goal.get_total()),
+                Cell::Value(if goal.get_total() == 0.0 {
+                    goal.progress
+                } else {
+                    goal.get_total()
+                }),
             ]);
         }
 
