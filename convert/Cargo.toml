@@ -10,6 +10,7 @@ serde_json = { version = "1.0.82", optional = true }
 toml = { version = "0.5.9", optional = true }
 kash = { path = "../lib" }
 camt053 = { path = "../camt053", optional = true }
+ktf = { path = "../ktf", optional = true }
 
 [dependencies.quick-xml]
 version = "0.23.0"
@@ -27,11 +28,13 @@ all = ["all-inputs", "all-outputs"]
 all-inputs = [
     "input-json",
     "input-toml",
-    "input-camt053"
+    "input-camt053",
+    "input-ktf"
 ]
 all-outputs = ["output-json"]
 
 input-json = ["dep:serde_json"]
 input-toml = ["dep:toml"]
 input-camt053 = ["dep:camt053", "dep:quick-xml", "dep:chrono"]
+input-ktf = ["dep:ktf"]
 output-json = ["dep:serde_json"]
