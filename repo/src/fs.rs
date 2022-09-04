@@ -1,7 +1,9 @@
 use super::repo::{Error, RepoLike, Result};
 use kash::{
-    contexts, rules::context::RuleContext, savings::context::SavingsContext,
-    statements::Statement,
+    contexts,
+    statements::{
+        rule::context::RuleContext, savings::context::SavingsContext, Statement,
+    },
 };
 use kash_convert::input::{
     camt053::Camt053Input, json::JsonInput, toml::TomlInput, Input,

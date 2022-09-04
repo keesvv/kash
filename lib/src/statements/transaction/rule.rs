@@ -1,17 +1,10 @@
-use super::account::AccountId;
-use crate::date::Date;
-use crate::rules::{Action, ActionError, Field, Pattern, RuleBehaviour};
-use serde::{Deserialize, Serialize};
-
-#[derive(Deserialize, Serialize, Clone, Debug)]
-#[serde(rename_all = "camelCase")]
-pub struct Transaction {
-    pub tag: Option<String>,
-    pub description: String,
-    pub date: Date,
-    pub amount: f32,
-    pub account_id: AccountId,
-}
+use super::Transaction;
+use crate::statements::rule::{
+    action_opts::{Action, ActionError},
+    behaviour::RuleBehaviour,
+    match_opts::Field,
+    pattern::Pattern,
+};
 
 impl RuleBehaviour for Transaction {
     fn apply_action(&mut self, action: &Action) -> Result<(), ActionError> {

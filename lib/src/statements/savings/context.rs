@@ -1,10 +1,5 @@
-use crate::{
-    contexts::Context,
-    statements::{
-        savings::{Goal, Savings},
-        Statement,
-    },
-};
+use super::{Goal, Savings};
+use crate::{contexts::Context, statements::Statement};
 
 #[derive(Clone)]
 pub struct SavingsContext {

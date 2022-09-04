@@ -42,10 +42,9 @@
 - [x] savings: SavingsContext
 - [x] contexts: mappable and composable API
 - [x] savings: support for Savings without goals
+- [x] statement: Variable variant
 
 ## Currently working on
-
-- [ ] statement: Variable variant
 
 ## Coming soon
 
