@@ -33,20 +33,25 @@
 - [x] http: implement kash_repo
 - [x] statement: Budget variant
 - [x] account: multiple AccountId variants
+- [x] lib: Rule variant w/ patterns-based replacements
+  - [x] lib/rule: auto tagging
+  - [x] lib/rule: auto description renaming
+- [x] web: add bindings with wasm_bindgen
+- [x] statement: Savings variant
+- [x] statement: Goal variant
+- [x] savings: SavingsContext
+- [x] contexts: mappable and composable API
+- [x] savings: support for Savings without goals
+- [x] statement: Variable variant
 
 ## Currently working on
 
 ## Coming soon
 
-- [ ] lib: Rule variant w/ patterns-based replacements
-  - [ ] lib/rule: auto description renaming
-  - [ ] lib/rule: auto tagging
+- [ ] kash.js: wasm/http repository abstractions with TypeScript
+- [ ] kash.js: sync repository instances with other instances
 
-- [ ] web: add bindings with wasm_bindgen
-- [ ] web: wasm/http repository abstractions with TypeScript
-
-- [ ] transaction: subitems
-- [ ] statement: Goal variant
+- [ ] transaction: Products w/ price tracking
 
 - [ ] convert: convert between inputs
 - [ ] repo: atomic edits for consumption in http, cli, etc

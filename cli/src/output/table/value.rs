@@ -1,5 +1,5 @@
-use super::OutputOptions;
-use crate::output;
+use super::{OutputOptions, TableLike};
+use crate::output::mask;
 use colored::*;
 use kash::statements::account::AccountId;
 use std::cmp::Ordering;
@@ -29,7 +29,9 @@ impl ValueTable {
             cols.iter()
                 .map(|col| match col {
                     Col::Text(caption) => caption.to_owned(),
-                    Col::Value(caption) => format!("{} ({})", caption, opts.currency_symbol),
+                    Col::Value(caption) => {
+                        format!("{} ({})", caption, opts.currency_symbol)
+                    }
                 })
                 .collect::<Vec<String>>(),
         ));
@@ -80,6 +82,7 @@ impl ValueTable {
     }
 }
 
+impl TableLike for ValueTable {}
 impl Display for ValueTable {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.table.to_string().trim_end())
@@ -113,10 +116,14 @@ impl Cell {
         }
     }
 
+    fn get_value_mask() -> String {
+        mask::gen_pattern("#.##")
+    }
+
     pub fn content(&self) -> String {
         match self {
             Cell::Text(t) => t.to_owned(),
-            Cell::MaskedText(t) => output::generate_mask(t.len()),
+            Cell::MaskedText(t) => mask::gen_str(t),
             Cell::Value(v) => {
                 format!("{}{:.2}", Self::get_mutation_style(*v).0, v.abs())
             }
@@ -124,7 +131,7 @@ impl Cell {
                 format!(
                     "{}{}",
                     Self::get_mutation_style(*v).0,
-                    output::generate_mask(3)
+                    Self::get_value_mask()
                 )
             }
             Cell::Quota(spent, quota) => {
@@ -138,8 +145,8 @@ impl Cell {
             Cell::MaskedQuota(spent, quota) => {
                 format!(
                     "{}/{} ({:.1}%)",
-                    output::generate_mask(3),
-                    output::generate_mask(3),
+                    Self::get_value_mask(),
+                    Self::get_value_mask(),
                     (spent / quota) * 100.0
                 )
             }
@@ -149,7 +156,7 @@ impl Cell {
                     AccountId::Iban(iban) => ("iban", iban),
                     AccountId::Cash(id) => ("cash", id),
                 };
-                format!("{}:{}", id_parts.0, output::generate_mask(id_parts.1.len()))
+                format!("{}:{}", id_parts.0, mask::gen_str(id_parts.1))
             }
         }
     }

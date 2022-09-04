@@ -25,7 +25,8 @@ impl PieOutput {
             .fold(HashMap::new(), |mut acc, entry| {
                 acc.insert(
                     entry.0.clone(),
-                    entry.1 + acc.get(&entry.0).map(ToOwned::to_owned).unwrap_or_default(),
+                    entry.1
+                        + acc.get(&entry.0).map(ToOwned::to_owned).unwrap_or_default(),
                 );
                 acc
             })

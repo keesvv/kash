@@ -6,8 +6,14 @@ pub mod budget;
 pub mod fixed;
 #[cfg(feature = "income")]
 pub mod income;
+#[cfg(feature = "rule")]
+pub mod rule;
+#[cfg(feature = "savings")]
+pub mod savings;
 #[cfg(feature = "transaction")]
 pub mod transaction;
+#[cfg(feature = "variable")]
+pub mod variable;
 
 use serde::{Deserialize, Serialize};
 
@@ -24,4 +30,12 @@ pub enum Statement {
     Account(account::Account),
     #[cfg(feature = "budget")]
     Budget(budget::Budget),
+    #[cfg(feature = "rule")]
+    Rule(rule::Rule),
+    #[cfg(feature = "savings")]
+    Savings(savings::Savings),
+    #[cfg(feature = "savings")]
+    Goal(savings::Goal),
+    #[cfg(feature = "variable")]
+    Variable(variable::Variable),
 }

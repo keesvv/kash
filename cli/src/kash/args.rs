@@ -6,7 +6,6 @@ use kash_cli::output::OutputArgs;
 pub enum InputFormat {
     Toml,
     Json,
-    Ktf,
     Camt053,
 }
 

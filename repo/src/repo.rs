@@ -1,6 +1,7 @@
 use kash::statements::Statement;
 use kash_convert::input::InputError;
-use std::fmt::Debug;
+use std::error;
+use std::fmt::{Debug, Display};
 use std::io;
 use std::result;
 
@@ -9,6 +10,17 @@ pub enum Error {
     IO(io::Error),
     Input(InputError),
     Message(String),
+}
+
+impl error::Error for Error {}
+impl Display for Error {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Error::IO(io) => write!(f, "io error: {io}"),
+            Error::Input(input) => write!(f, "input error: {input}"),
+            Error::Message(msg) => write!(f, "{msg}"),
+        }
+    }
 }
 
 pub type Result<T> = result::Result<T, Error>;

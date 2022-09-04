@@ -166,6 +166,8 @@ pub enum DomainSubFamilyCode {
     PaymentDirectDebit,
     #[serde(rename = "SALA")]
     Salary,
+    #[serde(rename = "ESCT")]
+    CreditTransfer,
     #[serde(rename = "OTHR")]
     Other,
 }
@@ -322,7 +324,7 @@ pub struct ExchangeRate {
 pub struct AmountDetails {
     // Actual passed amount.
     #[serde(rename = "InstdAmt")]
-    pub instructed: AmountWithExchange,
+    pub instructed: Option<AmountWithExchange>,
     // Specified transaction amount, before charge deduction.
     #[serde(rename = "TxAmt")]
     pub transaction: AmountWithExchange,

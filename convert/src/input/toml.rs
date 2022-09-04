@@ -12,7 +12,7 @@ impl TomlInput {
 
 #[derive(Deserialize, Serialize)]
 pub struct TomlData {
-    #[serde(rename = "statement")]
+    #[serde(rename = "statement", default)]
     statements: Vec<Statement>,
 }
 

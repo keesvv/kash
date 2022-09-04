@@ -1,3 +1,4 @@
+pub mod mask;
 #[cfg(feature = "output-pie")]
 pub mod pie;
 pub mod table;
@@ -8,7 +9,6 @@ use self::table::TableOutput;
 use clap::{clap_derive::ArgEnum, Parser};
 use kash::statements::Statement;
 use kash_convert::output::{json::JsonOutput, Output};
-use std::iter;
 
 #[derive(Debug, Clone, Copy, ArgEnum)]
 pub enum OutputFormat {
@@ -17,6 +17,8 @@ pub enum OutputFormat {
     Pie,
     Json,
 }
+
+pub const CUR_SYM: char = '¤';
 
 #[derive(Clone, Copy)]
 pub struct OutputOptions {
@@ -71,11 +73,4 @@ pub struct OutputArgs {
     /// Hide sensitive information
     #[clap(short = 'd', long = "discrete")]
     pub discrete: bool,
-}
-
-pub const CUR_SYM: char = '¤';
-pub const MASK_CHAR: char = 'x';
-
-pub fn generate_mask(len: usize) -> String {
-    iter::repeat(MASK_CHAR).take(len).collect()
 }

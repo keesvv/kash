@@ -1,11 +1,11 @@
 [workspace]
 members = [
     "lib",
-    "ktf",
     "camt053",
     "convert",
     "repo",
     "cli",
-    "http"
+    "http",
+    "web"
 ]
 default-members = ["cli"]

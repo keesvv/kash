@@ -1,11 +1,54 @@
 use serde::de::Deserialize;
 use serde::ser::{Serialize, SerializeMap};
 use std::fmt::Debug;
-use std::iter;
+use std::iter::{self, Sum};
+use std::ops::{Add, Sub};
 
-#[derive(Clone)]
+#[derive(Clone, Copy, Default)]
 pub struct MonthValues {
     pub values: [f32; 12],
+}
+
+impl Add for MonthValues {
+    type Output = Self;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        Self::new(
+            self.values
+                .iter()
+                .enumerate()
+                .map(|(i, v)| v + rhs.values.iter().nth(i).unwrap())
+                .collect::<Vec<f32>>()
+                .try_into()
+                .unwrap(),
+        )
+    }
+}
+
+impl Sub for MonthValues {
+    type Output = Self;
+
+    fn sub(self, rhs: Self) -> Self::Output {
+        Self::new(
+            self.values
+                .iter()
+                .enumerate()
+                .map(|(i, v)| v - rhs.values.iter().nth(i).unwrap())
+                .collect::<Vec<f32>>()
+                .try_into()
+                .unwrap(),
+        )
+    }
+}
+
+impl Sum for MonthValues {
+    fn sum<I: Iterator<Item = Self>>(mut iter: I) -> Self {
+        let init = iter.next().unwrap_or_default();
+
+        iter.collect::<Vec<Self>>()
+            .iter()
+            .fold(init, |init, new| init + *new)
+    }
 }
 
 impl Serialize for MonthValues {
@@ -63,7 +106,8 @@ impl Debug for MonthValues {
         let mut dbg = f.debug_struct("MonthValues");
 
         for (i, month) in [
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov",
+            "Dec",
         ]
         .iter()
         .enumerate()

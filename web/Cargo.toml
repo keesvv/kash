@@ -1,0 +1,17 @@
+[package]
+name = "kash_web"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+kash = { path = "../lib" }
+wasm-bindgen = { version = "0.2.82", features = ["serde-serialize"] }
+lazy_static = "1.4.0"
+
+[dependencies.kash_repo]
+path = "../repo"
+default-features = false
+features = ["mem"]
