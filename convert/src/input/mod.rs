@@ -2,8 +2,6 @@
 pub mod camt053;
 #[cfg(feature = "input-json")]
 pub mod json;
-#[cfg(feature = "input-ktf")]
-pub mod ktf;
 #[cfg(feature = "input-toml")]
 pub mod toml;
 

@@ -458,7 +458,6 @@ dependencies = [
  "camt053",
  "chrono",
  "kash",
- "ktf",
  "quick-xml",
  "serde",
  "serde_json",
@@ -493,13 +492,6 @@ dependencies = [
  "kash_repo",
  "lazy_static",
  "wasm-bindgen",
-]
-
-[[package]]
-name = "ktf"
-version = "0.1.0"
-dependencies = [
- "kash",
 ]
 
 [[package]]

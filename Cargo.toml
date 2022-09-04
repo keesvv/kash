@@ -1,7 +1,6 @@
 [workspace]
 members = [
     "lib",
-    "ktf",
     "camt053",
     "convert",
     "repo",
