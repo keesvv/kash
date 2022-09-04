@@ -12,6 +12,8 @@ pub mod rule;
 pub mod savings;
 #[cfg(feature = "transaction")]
 pub mod transaction;
+#[cfg(feature = "variable")]
+pub mod variable;
 
 use serde::{Deserialize, Serialize};
 
@@ -34,4 +36,6 @@ pub enum Statement {
     Savings(savings::Savings),
     #[cfg(feature = "savings")]
     Goal(savings::Goal),
+    #[cfg(feature = "variable")]
+    Variable(variable::Variable),
 }
