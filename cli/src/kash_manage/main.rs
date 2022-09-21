@@ -5,7 +5,7 @@ use self::args::{Args, Operation};
 use self::config::Config;
 use clap::Parser;
 use kash_cli::output::OutputOptions;
-use kash_repo::{fs::FsRepo, repo::RepoLike};
+use kash_repo::{fs::{FsRepo, FsOptions}, repo::RepoLike};
 use std::io::ErrorKind;
 
 fn main() {
@@ -20,9 +20,12 @@ fn main() {
     };
 
     let mut repo = FsRepo::new(
-        &args
-            .repo_dir
-            .unwrap_or(config.repo.unwrap_or_default().path.unwrap_or_default()),
+        FsOptions {
+            path: args
+                .repo_dir
+                .unwrap_or(config.repo.unwrap_or_default().path.unwrap_or_default()),
+            include: args.include,
+        },
     );
 
     repo.reload_store().unwrap();

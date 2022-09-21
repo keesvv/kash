@@ -15,14 +15,20 @@ use std::{
 
 #[derive(Clone)]
 pub struct FsRepo {
-    path: PathBuf,
+    opts: FsOptions,
     statements: Vec<Statement>,
 }
 
+#[derive(Clone)]
+pub struct FsOptions {
+    pub path: PathBuf,
+    pub include: Vec<String>,
+}
+
 impl FsRepo {
-    pub fn new(path: &Path) -> Self {
+    pub fn new(opts: FsOptions) -> Self {
         Self {
-            path: path.to_owned(),
+            opts,
             statements: Vec::new(),
         }
     }
@@ -41,7 +47,7 @@ impl FsRepo {
 
     fn get_input_path(&self, path: &Path) -> Result<String> {
         Ok(self
-            .path
+            .opts.path
             .join(path)
             .to_str()
             .ok_or(Error::Message("path is not valid unicode".into()))?
@@ -49,11 +55,13 @@ impl FsRepo {
     }
 
     fn get_inputs(&self) -> Result<Vec<PathBuf>> {
-        let include_str = fs::read_to_string(&self.path.join(".kash").join("include"))
+        let include_str = fs::read_to_string(&self.opts.path.join(".kash").join("include"))
             .map_err(Error::IO)?;
 
         Ok(include_str
             .lines()
+            .map(ToOwned::to_owned)
+            .chain(self.opts.include.to_owned())
             .map(PathBuf::from)
             .flat_map(|ln| {
                 // TODO: replace unwrap with safe error handling
@@ -68,7 +76,7 @@ impl FsRepo {
         let mut statements = Vec::new();
 
         for input in self.get_inputs()? {
-            statements.extend(self.read_input(&self.path.join(input))?);
+            statements.extend(self.read_input(&self.opts.path.join(input))?);
         }
 
         Ok(self.statements = contexts::apply_stacked(
