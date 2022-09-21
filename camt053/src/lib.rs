@@ -130,6 +130,8 @@ pub struct DomainCodeValue {
 pub enum DomainCode {
     #[serde(rename = "PMNT")]
     Payment,
+    #[serde(rename = "XTND")]
+    Extended
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq)]
@@ -154,6 +156,8 @@ pub enum DomainFamilyCode {
     ReceivedCreditTransfers,
     #[serde(rename = "RDDT")]
     ReceivedDirectDebits,
+    #[serde(rename = "NTAV")]
+    NotAvailable,
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Eq)]
@@ -164,10 +168,16 @@ pub enum DomainSubFamilyCode {
     AutomaticTransfer,
     #[serde(rename = "PMDD")]
     PaymentDirectDebit,
+    #[serde(rename = "ESDD")]
+    SepaCoreDirectDebit,
     #[serde(rename = "SALA")]
     Salary,
     #[serde(rename = "ESCT")]
     CreditTransfer,
+    #[serde(rename = "STDO")]
+    StandingOrder,
+    #[serde(rename = "NTAV")]
+    NotAvailable,
     #[serde(rename = "OTHR")]
     Other,
 }
