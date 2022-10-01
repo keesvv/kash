@@ -1,8 +1,6 @@
 pub mod context;
-mod goal;
-pub use goal::*;
 
-use chrono::{NaiveDate, Utc};
+use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 
@@ -16,14 +14,14 @@ pub struct Savings {
 }
 
 impl Savings {
-    pub fn get_total_amount(&self) -> f32 {
+    pub fn get_total_amount(&self, now: NaiveDate) -> f32 {
         match self.model {
             SavingsModel::Single => self.amount,
             SavingsModel::Recurring {
                 start_date,
                 end_date,
             } => {
-                let diff = end_date.unwrap_or(Utc::now().date_naive()) - start_date;
+                let diff = end_date.unwrap_or(now) - start_date;
                 self.amount
                     * (match (diff.num_weeks() % 4).cmp(&0) {
                         Ordering::Equal => diff.num_weeks(),

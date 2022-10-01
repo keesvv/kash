@@ -10,6 +10,8 @@ pub mod income;
 pub mod rule;
 #[cfg(feature = "savings")]
 pub mod savings;
+#[cfg(feature = "goal")]
+pub mod goal;
 #[cfg(feature = "transaction")]
 pub mod transaction;
 #[cfg(feature = "variable")]
@@ -34,8 +36,8 @@ pub enum Statement {
     Rule(rule::Rule),
     #[cfg(feature = "savings")]
     Savings(savings::Savings),
-    #[cfg(feature = "savings")]
-    Goal(savings::Goal),
+    #[cfg(feature = "goal")]
+    Goal(goal::Goal),
     #[cfg(feature = "variable")]
     Variable(variable::Variable),
 }

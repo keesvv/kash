@@ -1,5 +1,5 @@
 use serde::de::Deserialize;
-use serde::ser::{Serialize, SerializeMap};
+use serde::ser::Serialize;
 use std::fmt::Debug;
 use std::iter::{self, Sum};
 use std::ops::{Add, Sub};
@@ -56,11 +56,7 @@ impl Serialize for MonthValues {
     where
         S: serde::Serializer,
     {
-        let mut map = serializer.serialize_map(None)?;
-        map.serialize_entry("values", &self.values)?;
-        map.serialize_entry("year", &self.year())?;
-        map.serialize_entry("month_avg", &self.month_avg())?;
-        map.end()
+        Serialize::serialize(&self.values, serializer)
     }
 }
 

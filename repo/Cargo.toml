@@ -8,7 +8,13 @@ kash = { path = "../lib" }
 kash_convert = { path = "../convert" }
 glob = { version = "0.3.0", optional = true }
 
+[dependencies.chrono]
+version = "0.4.20"
+default-features = false
+features = ["alloc", "std", "serde", "clock"]
+optional = true
+
 [features]
 default = ["fs", "mem"]
-fs = ["kash_convert/all-inputs", "dep:glob"]
+fs = ["kash_convert/all-inputs", "dep:glob", "dep:chrono"]
 mem = []

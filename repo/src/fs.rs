@@ -1,4 +1,5 @@
 use super::repo::{Error, RepoLike, Result};
+use chrono::Utc;
 use kash::{
     contexts,
     statements::{
@@ -60,8 +61,7 @@ impl FsRepo {
 
         Ok(include_str
             .lines()
-            .map(ToOwned::to_owned)
-            .chain(self.opts.include.to_owned())
+            .chain(self.opts.include.iter().map(String::as_str))
             .map(PathBuf::from)
             .flat_map(|ln| {
                 // TODO: replace unwrap with safe error handling
@@ -83,7 +83,7 @@ impl FsRepo {
             &statements,
             &mut [
                 Box::new(RuleContext::new()),
-                Box::new(SavingsContext::new()),
+                Box::new(SavingsContext::new(Utc::now().date_naive())),
             ],
         ))
     }
