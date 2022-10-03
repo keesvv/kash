@@ -33,7 +33,7 @@ impl ToTable<ValueTable> for TransactionsTable {
 
         for transaction in transactions.iter().take(10) {
             table.add_row(&[
-                Cell::Text(transaction.date.0.format("%Y/%m/%d").to_string()),
+                Cell::Text(transaction.date.format("%Y/%m/%d").to_string()),
                 Cell::Text(
                     transaction
                         .description

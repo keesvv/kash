@@ -1,10 +1,6 @@
 use super::{Input, InputError};
 use camt053::{CreditOrDebit, Document, Entry};
-use chrono::{DateTime, Utc};
-use kash::{
-    date::Date,
-    statements::{account::AccountId, transaction::Transaction, Statement},
-};
+use kash::statements::{account::AccountId, transaction::Transaction, Statement};
 use quick_xml::de;
 use std::io::BufReader;
 
@@ -40,10 +36,7 @@ impl Camt053Input {
             })
             .map(|entry: &Entry| {
                 Statement::Transaction(Transaction {
-                    date: Date(DateTime::from_utc(
-                        entry.value_date.date.and_hms(0, 0, 0),
-                        Utc,
-                    )),
+                    date: entry.value_date.date.and_hms(0, 0, 0),
                     description: Self::get_description(entry).unwrap_or_default(),
                     amount: entry.amount.value,
                     tag: None,
