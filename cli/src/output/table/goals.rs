@@ -5,14 +5,14 @@ use super::{
 use crate::output::OutputOptions;
 use kash::statements::goal::Goal;
 
-pub struct SavingsTable {
+pub struct GoalsTable {
     pub goals: Vec<Goal>,
 }
 
-impl ToTable<ValueTable> for SavingsTable {
+impl ToTable<ValueTable> for GoalsTable {
     fn to_table(&self, opts: OutputOptions) -> ValueTable {
         let mut table = ValueTable::new(
-            "Savings",
+            "Goals",
             &[
                 Col::Text("id".into()),
                 Col::Text("description".into()),
