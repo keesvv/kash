@@ -10,12 +10,9 @@ use accounts::AccountsTable;
 use expenses::ExpensesTable;
 use goals::GoalsTable;
 use income::IncomeTable;
-use kash::{
-    statements::{
-        account::Account, budget::Budget, fixed::FixedExpense, goal::Goal,
-        income::Income, savings::Savings, transaction::Transaction, Statement,
-    },
-    value::MonthValues,
+use kash::statements::{
+    account::Account, budget::Budget, fixed::FixedExpense, goal::Goal, income::Income,
+    savings::Savings, transaction::Transaction, Statement,
 };
 use kash_convert::output::Output;
 use std::{fmt::Display, io};

@@ -21,11 +21,12 @@ pub struct Args {
 #[derive(Subcommand, Debug)]
 pub enum Operation {
     /// Output all inputs from the repository
-    Show(ShowArgs),
-}
-
-#[derive(Parser, Debug)]
-pub struct ShowArgs {
-    #[clap(flatten)]
-    pub output: OutputArgs,
+    Show {
+        #[clap(flatten)]
+        output: OutputArgs,
+    },
+    New {
+        /// Path for the new repository
+        path: PathBuf,
+    },
 }
