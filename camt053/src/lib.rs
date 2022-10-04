@@ -131,7 +131,7 @@ pub enum DomainCode {
     #[serde(rename = "PMNT")]
     Payment,
     #[serde(rename = "XTND")]
-    Extended
+    Extended,
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq)]

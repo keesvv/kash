@@ -66,16 +66,16 @@ impl Output for TableOutput {
             }
         }
 
-        let gross_income: MonthValues = income.iter().map(|i| i.income).sum();
-        let total_expenses: MonthValues = expenses.iter().map(|e| e.expenses).sum();
-        let reserved_budget: MonthValues = budget
+        let gross_income = income.iter().map(|i| i.income).sum();
+        let total_expenses = expenses.iter().map(|e| e.expenses).sum();
+        let total_savings = savings.iter().map(Savings::to_month_values).sum();
+        let reserved_budget = budget
             .iter()
             .filter(|b| b.reserved)
             .map(|b| b.quota.get_month_values(gross_income))
             .sum();
 
-        let disc_income =
-            gross_income.get_discretionary(total_expenses + reserved_budget, &savings);
+        let disc_income = gross_income - total_expenses - total_savings - reserved_budget;
 
         write!(
             writer,

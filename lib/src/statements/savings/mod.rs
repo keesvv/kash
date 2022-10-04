@@ -1,5 +1,6 @@
 pub mod context;
 
+use crate::value::MonthValues;
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
@@ -29,6 +30,14 @@ impl Savings {
                         Ordering::Less => 0,
                     } / 4) as f32
             }
+        }
+    }
+
+    pub fn to_month_values(&self) -> MonthValues {
+        match self.model {
+            SavingsModel::Single => MonthValues::new([0.0; 12]),
+            // TODO: don't incur values if we're past end_date
+            SavingsModel::Recurring { .. } => MonthValues::new([self.amount; 12]),
         }
     }
 }
