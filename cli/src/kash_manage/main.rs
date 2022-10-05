@@ -31,22 +31,24 @@ fn main() {
         include: args.include,
     });
 
-    repo.reload_store().unwrap();
-
     match args.op {
-        Operation::Show { output } => output.output_format.to_stdout(
-            &repo.get_all().unwrap(),
-            OutputOptions {
-                discrete: output.discrete,
-                currency_symbol: output.currency_symbol.unwrap_or(
-                    config
-                        .output
-                        .unwrap_or_default()
-                        .currency
-                        .unwrap_or(OutputOptions::default().currency_symbol),
-                ),
-            },
-        ),
+        Operation::Show { output } => {
+            repo.reload_store().unwrap();
+
+            output.output_format.to_stdout(
+                &repo.get_all().unwrap(),
+                OutputOptions {
+                    discrete: output.discrete,
+                    currency_symbol: output.currency_symbol.unwrap_or(
+                        config
+                            .output
+                            .unwrap_or_default()
+                            .currency
+                            .unwrap_or(OutputOptions::default().currency_symbol),
+                    ),
+                },
+            );
+        }
         Operation::New { path } => {
             let data_dir = Path::new(".kash");
             let data_dir_path = path.join(data_dir);
