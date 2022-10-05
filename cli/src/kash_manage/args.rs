@@ -25,6 +25,7 @@ pub enum Operation {
         #[clap(flatten)]
         output: OutputArgs,
     },
+    /// Create and initialize a new repository
     New {
         /// Path for the new repository
         path: PathBuf,

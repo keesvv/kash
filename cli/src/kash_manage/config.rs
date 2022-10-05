@@ -28,8 +28,7 @@ impl Config {
             .join("config.toml");
 
         let mut buf = Vec::new();
-        let mut file = File::open(path)?;
-        file.read_to_end(&mut buf)?;
+        File::open(path)?.read_to_end(&mut buf)?;
 
         Ok(toml::from_slice(&buf)?)
     }

@@ -26,7 +26,7 @@ impl Savings {
                 self.amount
                     * (match (diff.num_weeks() % 4).cmp(&0) {
                         Ordering::Equal => diff.num_weeks(),
-                        Ordering::Greater => (diff.num_weeks() - diff.num_weeks() % 4),
+                        Ordering::Greater => diff.num_weeks() - diff.num_weeks() % 4,
                         Ordering::Less => 0,
                     } / 4) as f32
             }
