@@ -17,7 +17,7 @@ impl ToTable<ValueTable> for GoalsTable {
                 Col::Text("id".into()),
                 Col::Text("description".into()),
                 Col::Value("progress".into()),
-                Col::Value("total".into()),
+                Col::Value("goal".into()),
             ],
             opts,
         );
@@ -27,7 +27,7 @@ impl ToTable<ValueTable> for GoalsTable {
                 Cell::Text(goal.id.to_owned()),
                 Cell::Text(goal.description.to_owned()),
                 Cell::Value(goal.progress),
-                Cell::Value(goal.get_total()),
+                Cell::Value(goal.get_goal()),
             ]);
         }
 

@@ -1,5 +1,8 @@
 use super::Savings;
-use crate::{contexts::Context, statements::{Statement, self}};
+use crate::{
+    contexts::Context,
+    statements::{self, Statement},
+};
 use chrono::NaiveDate;
 
 #[derive(Clone)]
@@ -12,7 +15,7 @@ impl SavingsContext {
     pub fn new(now: NaiveDate) -> Self {
         Self {
             savings: Vec::new(),
-            now
+            now,
         }
     }
 }
@@ -34,14 +37,17 @@ impl Context for SavingsContext {
         match statement {
             #[cfg(feature = "goal")]
             Statement::Goal(goal) => {
-                let progress = self
+                let savings_progress: f32 = self
                     .savings
                     .iter()
                     .filter(|savings: &&Savings| savings.goal == goal.id)
                     .map(|savings: &Savings| savings.get_total_amount(self.now))
                     .sum();
 
-                Statement::Goal(statements::goal::Goal { progress, ..goal })
+                Statement::Goal(statements::goal::Goal {
+                    progress: goal.progress + savings_progress,
+                    ..goal
+                })
             }
             other => other,
         }

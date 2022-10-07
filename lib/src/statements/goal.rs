@@ -11,7 +11,7 @@ pub struct Goal {
 }
 
 impl Goal {
-    pub fn get_total(&self) -> f32 {
+    pub fn get_goal(&self) -> f32 {
         self.components.iter().map(|c| c.amount).sum()
     }
 }
