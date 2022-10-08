@@ -43,6 +43,7 @@ impl Camt053Input {
                     account_id: AccountId::Iban(
                         statement.account.id.value.as_str_id().into(),
                     ),
+                    items: Vec::new(),
                 })
             })
             .collect()

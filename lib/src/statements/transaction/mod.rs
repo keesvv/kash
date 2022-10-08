@@ -13,4 +13,12 @@ pub struct Transaction {
     pub date: NaiveDateTime,
     pub amount: f32,
     pub account_id: AccountId,
+    #[serde(default)]
+    pub items: Vec<TransactionItem>,
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
+pub struct TransactionItem {
+    pub description: String,
+    pub amount: f32,
 }
