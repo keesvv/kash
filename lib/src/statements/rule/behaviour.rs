@@ -8,7 +8,9 @@ use super::{
 impl Rule {
     pub fn match_apply<R: RuleBehaviour>(&self, mut rb: R) -> R {
         if rb.does_match(self.match_opts.field, &self.match_opts.pattern) {
-            rb.apply_action(&self.action_opts.action).unwrap();
+            for opt in &self.action_opts {
+                rb.apply_action(&opt.action).unwrap();
+            }
         }
 
         rb

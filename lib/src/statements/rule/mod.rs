@@ -18,8 +18,8 @@ pub struct Rule {
     pub active: bool,
     #[serde(rename = "match")]
     pub match_opts: MatchOpts,
-    #[serde(rename = "action")]
-    pub action_opts: ActionOpts,
+    #[serde(rename = "actions")]
+    pub action_opts: Vec<ActionOpts>,
 }
 
 impl Statement {
