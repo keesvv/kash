@@ -14,6 +14,18 @@ pub struct TransactionsTable {
     pub disc_income: MonthValues,
 }
 
+impl TransactionsTable {
+    fn fmt_description(&self, description: &String) -> String {
+        description
+            .chars()
+            .take(60)
+            .collect::<String>()
+            .split_whitespace()
+            .collect::<Vec<&str>>()
+            .join(" ")
+    }
+}
+
 impl ToTable<ValueTable> for TransactionsTable {
     fn to_table(&self, opts: OutputOptions) -> ValueTable {
         let mut table = ValueTable::new(
@@ -34,16 +46,7 @@ impl ToTable<ValueTable> for TransactionsTable {
         for transaction in transactions.iter().take(10) {
             table.add_row(&[
                 Cell::Text(transaction.date.format("%Y/%m/%d").to_string()),
-                Cell::Text(
-                    transaction
-                        .description
-                        .chars()
-                        .take(60)
-                        .collect::<String>()
-                        .split_whitespace()
-                        .collect::<Vec<&str>>()
-                        .join(" "),
-                ),
+                Cell::Text(self.fmt_description(&transaction.description)),
                 Cell::Value(transaction.amount * -1.0),
                 Cell::Text(transaction.tag.to_owned().unwrap_or_default()),
                 match self
@@ -58,6 +61,16 @@ impl ToTable<ValueTable> for TransactionsTable {
                     None => Cell::Text("".into()),
                 },
             ]);
+
+            for item in &transaction.items {
+                table.add_row(&[
+                    Cell::Text(Default::default()),
+                    Cell::Text(format!("-> {}", self.fmt_description(&item.description))),
+                    Cell::Value(item.amount * -1.0),
+                    Cell::Text(Default::default()),
+                    Cell::Text(Default::default()),
+                ])
+            }
         }
 
         table
