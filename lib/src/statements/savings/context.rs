@@ -40,7 +40,7 @@ impl Context for SavingsContext {
                 let savings_progress: f32 = self
                     .savings
                     .iter()
-                    .filter(|savings: &&Savings| savings.goal == goal.id)
+                    .filter(|savings: &&Savings| savings.goal == Some(goal.id.to_owned()))
                     .map(|savings: &Savings| savings.get_total_amount(self.now))
                     .sum();
 
