@@ -23,4 +23,8 @@ pub enum Action {
     ApplyTag {
         tag: String,
     },
+    #[cfg(feature = "transaction")]
+    AddItems {
+        items: Vec<crate::statements::transaction::TransactionItem>,
+    },
 }

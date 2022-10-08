@@ -14,6 +14,7 @@ impl RuleBehaviour for Transaction {
                 self.description =
                     replace.0.replace_all(&self.description, with).to_string();
             }),
+            Action::AddItems { items } => Ok(self.items.extend(items.to_owned())),
         }
     }
 
