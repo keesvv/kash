@@ -468,6 +468,7 @@ dependencies = [
 name = "kash_http"
 version = "0.1.0"
 dependencies = [
+ "clap",
  "kash",
  "kash_convert",
  "kash_repo",

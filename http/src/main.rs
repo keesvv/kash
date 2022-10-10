@@ -1,17 +1,21 @@
+mod args;
+
+use self::args::Args;
+use clap::Parser;
 use kash_repo::{
     fs::{FsOptions, FsRepo},
     repo::RepoLike,
 };
-use std::env;
 use std::net::Ipv4Addr;
-use std::path::PathBuf;
 use warp::{reply, Filter};
 
 #[tokio::main]
 async fn main() {
+    let args = Args::parse();
+
     let mut repo = FsRepo::new(FsOptions {
         include: Vec::new(),
-        path: PathBuf::from(env::args().nth(1).unwrap_or_default()),
+        path: args.repo.unwrap_or_default(),
     });
 
     repo.reload_store().unwrap();
@@ -20,6 +24,6 @@ async fn main() {
         warp::path!("statements").map(move || reply::json(&repo.get_all().unwrap()));
 
     warp::serve(get_statements)
-        .run((Ipv4Addr::LOCALHOST, 8080))
+        .run((Ipv4Addr::LOCALHOST, args.port))
         .await;
 }

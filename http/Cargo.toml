@@ -17,6 +17,11 @@ kash_repo = { path = "../repo" }
 version = "1.20.1"
 features = ["macros", "rt-multi-thread"]
 
+[dependencies.clap]
+version = "3.2.14"
+default-features = false
+features = ["std", "derive"]
+
 [dependencies.kash_convert]
 path = "../convert"
 features = ["output-json"]
