@@ -7,7 +7,7 @@ use kash::{
     },
 };
 use kash_convert::input::{
-    camt053::Camt053Input, json::JsonInput, toml::TomlInput, Input,
+    camt053::Camt053Input, json::JsonInput, ktf::KtfInput, toml::TomlInput, Input,
 };
 use std::{
     fs::{self, File},
@@ -40,6 +40,7 @@ impl FsRepo {
             Some("json") => Ok(JsonInput::new().from_read(input_file)),
             Some("toml") => Ok(TomlInput::new().from_read(input_file)),
             Some("xml") => Ok(Camt053Input::new().from_read(input_file)),
+            Some("ktf") => Ok(KtfInput::new().from_read(input_file)),
             Some(ext) => Err(Error::Message(format!("unknown format '{ext}'"))),
             None => Err(Error::Message("extension parse error".into())),
         }?

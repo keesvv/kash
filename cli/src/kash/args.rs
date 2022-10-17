@@ -7,6 +7,7 @@ pub enum InputFormat {
     Toml,
     Json,
     Camt053,
+    Ktf,
 }
 
 /// command-line interface to kash
